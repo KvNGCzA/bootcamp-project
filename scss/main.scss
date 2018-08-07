@@ -1,0 +1,135 @@
+$maincolor: #00bbff;
+$mainborder: 1px solid $maincolor;
+@import url("https://fonts.googleapis.com/css?family=Roboto|Muli|Dosis|Quicksand|Josefin+Sans");
+@mixin boxShadow($w, $x, $y, $z){
+  -moz-box-shadow: $w $x $y $z;
+  -webkit-box-shadow: $w $x $y $z;
+  -ms-box-shadow: $w $x $y $z;
+  box-shadow: $w $x $y $z; 
+};
+
+
+*{  
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Josefin Sans';
+}
+
+header{
+  padding: 1em 0;
+  background-color: $maincolor;
+  text-align: right;
+  color: white;
+  font-family: 'Muli';
+  .welcome{
+    float: left;
+    margin: 0 0.5em;
+  }//.welcome
+  form{
+    text-align: center;
+    display: inline;
+    input{
+      padding: 0.5em 0;
+      @include boxShadow (0, 0, 10px, #777777);
+      border: 0;
+    }//input
+    input[type="submit"]{
+      display: none;
+    }//input[type="submit"]
+  }//form
+  nav{
+    display:inline-block;
+    margin: 0 0.5em;
+    ul{
+      list-style: none;
+      li{
+       display: inline;
+        a{
+          text-decoration: none;
+          color: white;
+          padding: 0 0.5em;
+        }//a
+      }//li
+    }//ul
+  }//nav
+}//header
+
+.main{
+  width: 100%;
+  height: auto;
+}
+  #access-forms{
+    display: none;
+    position: absolute;
+    top: 2.5em;
+    right: 0;
+    width: 35%;
+    float: right;
+    text-align: center;
+    margin: 1em;
+    @include boxShadow(0, 0, 10px, #777777);
+    #login-form{
+      display: block;
+    }//#login-form
+    #signup-form{
+      display: none;
+    }//#signup-form
+    #signup-form, #login-form{
+      padding: 1em 0.5em;
+      border: $mainborder;
+      color: black;
+      span{
+        button{
+          background-color: transparent;
+          text-decoration: none;
+          border: none;
+          color: $maincolor;
+          &:hover{
+            color: grey;
+            cursor: pointer;
+          }//hover
+        }//a
+      }//span
+      form{
+        margin: 1em 0;
+      }
+    }//#signup-form, #login-form
+    input{
+      width: 100%;
+      padding: 1em;
+      margin: 0.5em 0;
+      border: $mainborder;
+      // @include boxShadow(0, 0, 10px, #777777);
+    }//input
+    input[type="button"]{
+      display: inline-block;
+      width: auto;
+      clear: both;
+      padding: 0.5em 2em;
+      color: white;
+      border: $mainborder;
+      background-color: $maincolor;
+      &:hover{
+        background-color: white;
+        color: $maincolor;
+        cursor: pointer;
+      }//hover
+    }//input[type=button]
+  }//.access-form
+
+footer{
+  width: 100%;
+  background-color: $maincolor;
+  color: white;
+  position: absolute; //replace with css grid
+  bottom: 0; //replace with css grid
+  text-align: center;
+  p{
+    padding: 1em 0;
+  }
+}
+
+@media screen and ( max-width: 768px ){
+
+}

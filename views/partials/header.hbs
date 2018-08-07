@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{pageTitle}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css"/>
+</head>
+<body>
+<header>
+
+    <h2 class="welcome">Welcome to {stackOverflowLite}</h2>
+
+    <form class="search" action="index.html" method="get">
+        <input type="text" name="search" placeholder="search">
+        <input type="submit" class="" >
+    </form>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Questions</a></li>
+            <li><a href="#" id="navLogin">Login</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+<div id="access-forms">
+
+    <div id="signup-form">
+        <h2>Sign Up</h2><span>Have an account? <button id="c-t-login" class="c-t-btn" onclick="checkWhichForm()">Login up</button> </span>
+        <form class="" action="index.html" method="post">
+            <input type="text" name="fname" placeholder="First Name">
+            <input type="text" name="lname" placeholder="Last Name">
+            <input type="text" name="username"  placeholder="Username">
+            <input type="password" name="pwd" placeholder="Password">
+            <input type="button" name="submit" value="Sign Up">
+        </form>
+    </div><!--signup form-->
+
+    <div id="login-form">
+        <h2>Login</h2><span>Don't have an account? <button id="c-t-signup" class="c-t-btn" onclick="checkWhichForm()">Sign up</button> </span>
+        <form class="" action="index.html" method="post">
+        <input type="text" name="username" placeholder="Username" value="">
+        <input type="password" name="pwd" value="" placeholder="Password">
+        <input type="button" name="submit" value="Login">
+        </form>
+    </div><!--Login form-->
+
+</div><!--access-forms-->

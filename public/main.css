@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto|Muli|Dosis|Quicksand|Josefin+Sans");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Josefin Sans';
+}
+
+header {
+  padding: 1em 0;
+  background-color: #00bbff;
+  text-align: right;
+  color: white;
+  font-family: 'Muli';
+}
+
+header .welcome {
+  float: left;
+  margin: 0 0.5em;
+}
+
+header form {
+  text-align: center;
+  display: inline;
+}
+
+header form input {
+  padding: 0.5em 0;
+  -moz-box-shadow: 0 0 10px #777777;
+  -webkit-box-shadow: 0 0 10px #777777;
+  -ms-box-shadow: 0 0 10px #777777;
+  box-shadow: 0 0 10px #777777;
+  border: 0;
+}
+
+header form input[type="submit"] {
+  display: none;
+}
+
+header nav {
+  display: inline-block;
+  margin: 0 0.5em;
+}
+
+header nav ul {
+  list-style: none;
+}
+
+header nav ul li {
+  display: inline;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 0 0.5em;
+}
+
+.main {
+  width: 100%;
+  height: auto;
+}
+
+#access-forms {
+  display: none;
+  position: absolute;
+  top: 2.5em;
+  right: 0;
+  width: 35%;
+  float: right;
+  text-align: center;
+  margin: 1em;
+  -moz-box-shadow: 0 0 10px #777777;
+  -webkit-box-shadow: 0 0 10px #777777;
+  -ms-box-shadow: 0 0 10px #777777;
+  box-shadow: 0 0 10px #777777;
+}
+
+#access-forms #login-form {
+  display: block;
+}
+
+#access-forms #signup-form {
+  display: none;
+}
+
+#access-forms #signup-form, #access-forms #login-form {
+  padding: 1em 0.5em;
+  border: 1px solid #00bbff;
+  color: black;
+}
+
+#access-forms #signup-form span button, #access-forms #login-form span button {
+  background-color: transparent;
+  text-decoration: none;
+  border: none;
+  color: #00bbff;
+}
+
+#access-forms #signup-form span button:hover, #access-forms #login-form span button:hover {
+  color: grey;
+  cursor: pointer;
+}
+
+#access-forms #signup-form form, #access-forms #login-form form {
+  margin: 1em 0;
+}
+
+#access-forms input {
+  width: 100%;
+  padding: 1em;
+  margin: 0.5em 0;
+  border: 1px solid #00bbff;
+}
+
+#access-forms input[type="button"] {
+  display: inline-block;
+  width: auto;
+  clear: both;
+  padding: 0.5em 2em;
+  color: white;
+  border: 1px solid #00bbff;
+  background-color: #00bbff;
+}
+
+#access-forms input[type="button"]:hover {
+  background-color: white;
+  color: #00bbff;
+  cursor: pointer;
+}
+
+footer {
+  width: 100%;
+  background-color: #00bbff;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+
+footer p {
+  padding: 1em 0;
+}
