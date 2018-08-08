@@ -1,17 +1,30 @@
-const showForm = () => {
-  let formCont = document.getElementById('access-forms');
-  if(formCont.style.display === "block" ){
-    formCont.style.display = "none";
-  }
-  else{
-    formCont.style.display = "block";
-  }
-};
-let navLogin = document.getElementById('navLogin');
-navLogin.addEventListener('click', () => {
-  showForm();
-}, false);
+//function to display form or search on click
+// const showForm = (item) => {
+//   if(item.style.display === "block" ){
+//     item.style.display = "none";
+//   }
+//   else{
+//     item.style.display = "block";
+//   }
+// };
 
+// const closeForm = (e, item) => {
+//   if( e.target.parentNode !== item && e.target !== item){
+//     item.style.display = "none"
+//   }
+// };
+
+// //display signup/login form when menu login button is clicked
+// let formCont = document.getElementById('access-forms');
+// let navLogin = document.getElementById('navLogin');
+// navLogin.addEventListener('mouseover',() => {
+//   showForm(formCont);
+// }, false);
+// window.addEventListener('click',(e)=>{
+//   closeForm(e, formCont);
+// },false);
+
+//function to change which for displays
 const checkWhichForm = () => {
   let loginCheck = document.getElementById('login-form');
   let signupCheck = document.getElementById('signup-form');
@@ -23,3 +36,4 @@ const checkWhichForm = () => {
   loginCheck.style.display = 'none';
   }
 };//checkWhichForm
+

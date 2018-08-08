@@ -6,27 +6,19 @@
     <title>{{pageTitle}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <header>
 
-    <h2 class="welcome">Welcome to {stackOverflowLite}</h2>
+    <h2 class="welcome"><a href="/">stackOverflowLite</a></h2>
 
-    <form class="search" action="index.html" method="get">
-        <input type="text" name="search" placeholder="search">
-        <input type="submit" class="" >
-    </form>
-
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Questions</a></li>
-            <li><a href="#" id="navLogin">Login</a></li>
-        </ul>
-    </nav>
+{{> navigation}}
 
 </header>
 
+<<<<<<< HEAD
 <div id="access-forms">
 
     <div id="signup-form">
@@ -50,3 +42,7 @@
     </div><!--Login form-->
 
 </div><!--access-forms-->
+=======
+{{> loginSignUp}}
+{{> quickOptions}}
+>>>>>>> UI
