@@ -71,7 +71,7 @@ $mobIcon.on('click', ()=>{
         $mobIcon.attr('class','fas fa-times');
     }
     else{
-        $mobIcon.next().animate({'right': '-592px'}, 300);
+        $mobIcon.next().animate({'right': '-768px'}, 300);
         $mobIcon.attr('class','fas fa-bars');
     }
 });
