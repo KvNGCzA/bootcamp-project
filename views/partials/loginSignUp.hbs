@@ -1,0 +1,31 @@
+
+{{!-- access-form --}}
+<div id="access-forms">
+
+    {{!-- signup-form --}}
+    <div id="signup-form" class="c-forms">
+        <h2>Sign Up</h2><span>Have an account? <button id="c-t-login" class="c-t-btn" onclick="checkWhichForm()">Login</button> </span>
+        <form action="index.html" method="post">
+            <input type="text" name="fname" placeholder="First Name">
+            <input type="text" name="lname" placeholder="Last Name">
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="username"  placeholder="Username">
+            <input type="password" name="pwd" placeholder="Password">
+            <input type="button" name="submit" value="Sign Up">
+        </form>
+    </div>
+    {{!-- signup-form --}}
+
+    {{!-- login-form --}}
+    <div id="login-form" class="c-forms">
+        <h2>Login</h2><span>Don't have an account? <button id="c-t-signup" class="c-t-btn" onclick="checkWhichForm()">Sign up</button> </span>
+        <form action="index.html" method="post">
+            <input type="text" name="username" placeholder="Username" value=""/>
+            <input type="password" name="pwd" value="" placeholder="Password"/>
+            <input type="button" name="submit" value="Login"/>
+        </form>
+    </div>
+    {{!-- login-form --}}
+
+</div>
+{{!-- access-forms --}}
