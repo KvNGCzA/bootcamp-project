@@ -1,6 +1,6 @@
 // $maincolor: #00ff37;
 // $hoverColor: #35ff5d;green
-$maincolor: #00bbff;
+$maincolor: #0090ff;
 $hoverColor: #00d8ff;
 // $maincolor: #ff4444;
 // $hoverColor: #ff6060; red
@@ -140,10 +140,6 @@ header{
   }//.mobile-navigation
 }//header
 
-.main{
-  width: 100%;
-  height: auto;
-}
 
 #access-forms{
   display: none;
@@ -157,15 +153,19 @@ header{
   z-index: 9;
   background-color: white;
   @include boxShadow(0, 0, 10px, $maincolor);
+
   h2{
     font-size:1em;
   }
+
   #login-form{
     display: block;
   }//#login-form
+
   #signup-form{
     display: none;
   }//#signup-form
+
   #signup-form, #login-form{
     padding: 1em 0.5em;
     border: $mainborder;
@@ -187,6 +187,7 @@ header{
       margin: 1em 0 0;
     }
   }//#signup-form, #login-form
+
   input{
     width: 100%;
     padding: 0.5em 1em;
@@ -195,6 +196,7 @@ header{
     // @include boxShadow(0, 0, 10px, #777777);
     @include placeholder ($maincolor);
   }//input
+
   input[type="button"]{
     display: inline-block;
     width: auto;
@@ -209,49 +211,47 @@ header{
       cursor: pointer;
     }//hover
   }//input[type=button]
+
 }//.access-form
+
+.opt-shadow{
+  @include boxShadow(0, 0, 10px, $maincolor);
+}
 
 .quick-options{
     position: fixed;
     top: 30%;
     right: 0;
-    .option{
-      margin: 0.5em 0;
-    }
-  .fa-times{
-    color: white;
-    padding: 1em;
-    border-top-left-radius: 1em;
-    position: absolute;
-    left: -2.8em;
-    background-color: $maincolor;
-    @include boxShadow(0, 0, 10px, $maincolor);
-    padding: 1em 1.1em;
-    top: 0;
-    &:hover, &:active{
-      cursor: pointer;
-    }//hover
-  }//fa-times
-  .quick-question{
-    width: 25em;
-    position: relative;
+    z-index: 2;
     right: -25em;
-    background-color: $maincolor;
-    padding: 1em;
-    @include boxShadow(0, 0, 10px, $maincolor);
-    .fa-pencil-alt{
+
+    .option{
+        background-color: $maincolor;
+        width: 25em;
+        position: relative;
+    }//.option
+
+    .fa-pencil-alt, .fa-search,.fa-times{
       background-color: $maincolor;
       position: absolute;
-      left: -2.8em;
-      padding: 1em;
-      top: 0;
+      left: -1.75em;
+      padding: 0.5em;
+      top: -0.05em;
       color: white;
       border-top-left-radius: 1em;
+      border-top: 1px solid $hoverColor;
+      border-left: 1px solid $hoverColor;
       @include boxShadow(0, 0, 10px, $maincolor);
       &:hover, &:active{
         cursor: pointer;
+        background-color: $hoverColor;
       }//hover
     }//.fa-pencil-alt
+
+  .quick-question{
+    top:-0.7em;
+    padding: 1em;
+    text-align: center;
     h2{
       color: white;
       font-size: 1em;
@@ -288,30 +288,14 @@ header{
   }//.quick-question
 
   .quick-search{
-    background-color: $maincolor;
-    width: 25em;
-    position: relative;
-    right: -25em;
     height: 3em;
-    @include boxShadow(0, 0, 10px, $maincolor);
-    .fa-search{
-      color: white;
-      padding: 1em;
-      border-top-left-radius: 1em;
-      position: absolute;
-      left: -2.8em;
-      background-color: $maincolor;
-      @include boxShadow(0, 0, 10px, $maincolor);
-      &:hover, &:active{
-        cursor: pointer;
-      }//hover
-    }//fa-search
     form{
       input{
         padding: 1.1em;
         border: 0;
         position: relative;
-        top: 0.2em;
+        top: 0.1em;
+        left: 0.2em;
         width: 25em;
       }//input
       input[type="submit"]{
@@ -319,15 +303,63 @@ header{
       }
     }//.form
   }//.quick-search
+
 }//.quick-options
+
+.main{
+  width: 100%;
+  height: auto;
+
+  .site-content{
+
+  }//.site-content
+
+  .side-bar{
+    width: 25%;
+    float: right;
+    border-left: 1px solid #e2e2e2;
+    margin: 0.3% 0;
+    .hot-questions{
+      padding: 1em;
+      h3{
+        font-family: 'Muli';
+        color: #6b6b6b;
+        text-align: center;
+        font-size: 1em;
+      }//h2
+      .fa-gripfire{
+        color: #f24d4d;
+      }//fa-gripfire
+      ul{
+        list-style: none;
+        font-size: 0.8em;
+        text-align: left;
+        li{
+          padding: 0.5em 0;
+          &:hover, &:active{
+              a{
+                  text-decoration: underline;
+                  color: #848484;
+              }//a
+          }//hover
+          a{
+              text-decoration: none;
+              color: $maincolor;
+          }//a
+        }//li
+      }//ul
+    }//hot-questions
+  }//.side-bar
+
+}//.main
+
 
 footer{
   width: 100%;
   background-color: $maincolor;
   color: white;
-  position: absolute; //replace with css grid
-  bottom: 0; //replace with css grid
   text-align: center;
+  clear: both;
   p{
     padding: 1em 0;
   }
@@ -348,7 +380,15 @@ footer{
       display: inline-block;
     }//.mob-search
   }//header
+
   .quick-options{
     display: none;
   }//quick-options
+
+  .main{
+    .side-bar{
+      display: none;
+    }//.side-bar
+  }//.main
+
 }//@media screen and (max-width: 768px)

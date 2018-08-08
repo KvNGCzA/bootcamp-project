@@ -12,7 +12,7 @@ body {
 
 header {
   padding: 1em 0;
-  background-color: #00bbff;
+  background-color: #0090ff;
   text-align: right;
   color: white;
   font-family: 'Muli';
@@ -84,30 +84,30 @@ header .mob-search form input {
   padding: 1em;
   width: 100%;
   border: 0;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
+  -moz-box-shadow: 0 0 10px #0090ff;
+  -webkit-box-shadow: 0 0 10px #0090ff;
+  -ms-box-shadow: 0 0 10px #0090ff;
+  box-shadow: 0 0 10px #0090ff;
 }
 
 header .mob-search form input::-webkit-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 header .mob-search form input::-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 header .mob-search form input:-ms-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 header .mob-search form input:-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 header .mob-search form input::placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 header .mob-search form input[type="button"] {
@@ -150,11 +150,6 @@ header .mobile-navigation ul li a {
   color: white;
 }
 
-.main {
-  width: 100%;
-  height: auto;
-}
-
 #access-forms {
   display: none;
   position: absolute;
@@ -166,10 +161,10 @@ header .mobile-navigation ul li a {
   margin: 1em;
   z-index: 9;
   background-color: white;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
+  -moz-box-shadow: 0 0 10px #0090ff;
+  -webkit-box-shadow: 0 0 10px #0090ff;
+  -ms-box-shadow: 0 0 10px #0090ff;
+  box-shadow: 0 0 10px #0090ff;
 }
 
 #access-forms h2 {
@@ -186,7 +181,7 @@ header .mobile-navigation ul li a {
 
 #access-forms #signup-form, #access-forms #login-form {
   padding: 1em 0.5em;
-  border: 1px solid #00bbff;
+  border: 1px solid #0090ff;
   color: black;
 }
 
@@ -198,7 +193,7 @@ header .mobile-navigation ul li a {
   background-color: transparent;
   text-decoration: none;
   border: none;
-  color: #00bbff;
+  color: #0090ff;
 }
 
 #access-forms #signup-form span button:hover, #access-forms #signup-form span button:active, #access-forms #login-form span button:hover, #access-forms #login-form span button:active {
@@ -214,27 +209,27 @@ header .mobile-navigation ul li a {
   width: 100%;
   padding: 0.5em 1em;
   margin: 0.5em 0;
-  border: 1px solid #00bbff;
+  border: 1px solid #0090ff;
 }
 
 #access-forms input::-webkit-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 #access-forms input::-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 #access-forms input:-ms-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 #access-forms input:-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 #access-forms input::placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 #access-forms input[type="button"] {
@@ -243,73 +238,62 @@ header .mobile-navigation ul li a {
   clear: both;
   padding: 0.5em 2em;
   color: white;
-  border: 1px solid #00bbff;
-  background-color: #00bbff;
+  border: 1px solid #0090ff;
+  background-color: #0090ff;
 }
 
 #access-forms input[type="button"]:hover, #access-forms input[type="button"]:active {
   background-color: white;
-  color: #00bbff;
+  color: #0090ff;
   cursor: pointer;
+}
+
+.opt-shadow {
+  -moz-box-shadow: 0 0 10px #0090ff;
+  -webkit-box-shadow: 0 0 10px #0090ff;
+  -ms-box-shadow: 0 0 10px #0090ff;
+  box-shadow: 0 0 10px #0090ff;
 }
 
 .quick-options {
   position: fixed;
   top: 30%;
   right: 0;
+  z-index: 2;
+  right: -25em;
 }
 
 .quick-options .option {
-  margin: 0.5em 0;
+  background-color: #0090ff;
+  width: 25em;
+  position: relative;
 }
 
-.quick-options .fa-times {
-  color: white;
-  padding: 1em;
-  border-top-left-radius: 1em;
+.quick-options .fa-pencil-alt, .quick-options .fa-search, .quick-options .fa-times {
+  background-color: #0090ff;
   position: absolute;
-  left: -2.8em;
-  background-color: #00bbff;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
-  padding: 1em 1.1em;
-  top: 0;
+  left: -1.75em;
+  padding: 0.5em;
+  top: -0.05em;
+  color: white;
+  border-top-left-radius: 1em;
+  border-top: 1px solid #00d8ff;
+  border-left: 1px solid #00d8ff;
+  -moz-box-shadow: 0 0 10px #0090ff;
+  -webkit-box-shadow: 0 0 10px #0090ff;
+  -ms-box-shadow: 0 0 10px #0090ff;
+  box-shadow: 0 0 10px #0090ff;
 }
 
-.quick-options .fa-times:hover, .quick-options .fa-times:active {
+.quick-options .fa-pencil-alt:hover, .quick-options .fa-pencil-alt:active, .quick-options .fa-search:hover, .quick-options .fa-search:active, .quick-options .fa-times:hover, .quick-options .fa-times:active {
   cursor: pointer;
+  background-color: #00d8ff;
 }
 
 .quick-options .quick-question {
-  width: 25em;
-  position: relative;
-  right: -25em;
-  background-color: #00bbff;
+  top: -0.7em;
   padding: 1em;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
-}
-
-.quick-options .quick-question .fa-pencil-alt {
-  background-color: #00bbff;
-  position: absolute;
-  left: -2.8em;
-  padding: 1em;
-  top: 0;
-  color: white;
-  border-top-left-radius: 1em;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
-}
-
-.quick-options .quick-question .fa-pencil-alt:hover, .quick-options .quick-question .fa-pencil-alt:active {
-  cursor: pointer;
+  text-align: center;
 }
 
 .quick-options .quick-question h2 {
@@ -324,23 +308,23 @@ header .mobile-navigation ul li a {
 }
 
 .quick-options .quick-question form input::-webkit-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form input::-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form input:-ms-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form input:-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form input::placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form input[type="text"] {
@@ -350,12 +334,12 @@ header .mobile-navigation ul li a {
 
 .quick-options .quick-question form input[type="button"] {
   padding: 0.5em 1em;
-  color: #00bbff;
+  color: #0090ff;
   border: 1px solid white;
 }
 
 .quick-options .quick-question form input[type="button"]:hover, .quick-options .quick-question form input[type="button"]:active {
-  background-color: #00bbff;
+  background-color: #0090ff;
   color: white;
   cursor: pointer;
 }
@@ -368,59 +352,35 @@ header .mobile-navigation ul li a {
 }
 
 .quick-options .quick-question form textarea::-webkit-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form textarea::-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form textarea:-ms-input-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form textarea:-moz-placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-question form textarea::placeholder {
-  color: #00bbff;
+  color: #0090ff;
 }
 
 .quick-options .quick-search {
-  background-color: #00bbff;
-  width: 25em;
-  position: relative;
-  right: -25em;
   height: 3em;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
-}
-
-.quick-options .quick-search .fa-search {
-  color: white;
-  padding: 1em;
-  border-top-left-radius: 1em;
-  position: absolute;
-  left: -2.8em;
-  background-color: #00bbff;
-  -moz-box-shadow: 0 0 10px #00bbff;
-  -webkit-box-shadow: 0 0 10px #00bbff;
-  -ms-box-shadow: 0 0 10px #00bbff;
-  box-shadow: 0 0 10px #00bbff;
-}
-
-.quick-options .quick-search .fa-search:hover, .quick-options .quick-search .fa-search:active {
-  cursor: pointer;
 }
 
 .quick-options .quick-search form input {
   padding: 1.1em;
   border: 0;
   position: relative;
-  top: 0.2em;
+  top: 0.1em;
+  left: 0.2em;
   width: 25em;
 }
 
@@ -428,13 +388,59 @@ header .mobile-navigation ul li a {
   display: none;
 }
 
+.main {
+  width: 100%;
+  height: auto;
+}
+
+.main .side-bar {
+  width: 25%;
+  float: right;
+  border-left: 1px solid #e2e2e2;
+  margin: 0.3% 0;
+}
+
+.main .side-bar .hot-questions {
+  padding: 1em;
+}
+
+.main .side-bar .hot-questions h3 {
+  font-family: 'Muli';
+  color: #6b6b6b;
+  text-align: center;
+  font-size: 1em;
+}
+
+.main .side-bar .hot-questions .fa-gripfire {
+  color: #f24d4d;
+}
+
+.main .side-bar .hot-questions ul {
+  list-style: none;
+  font-size: 0.8em;
+  text-align: left;
+}
+
+.main .side-bar .hot-questions ul li {
+  padding: 0.5em 0;
+}
+
+.main .side-bar .hot-questions ul li:hover a, .main .side-bar .hot-questions ul li:active a {
+  text-decoration: underline;
+  color: #848484;
+}
+
+.main .side-bar .hot-questions ul li a {
+  text-decoration: none;
+  color: #0090ff;
+}
+
 footer {
   width: 100%;
-  background-color: #00bbff;
+  background-color: #0090ff;
   color: white;
-  position: absolute;
-  bottom: 0;
   text-align: center;
+  clear: both;
 }
 
 footer p {
@@ -455,6 +461,9 @@ footer p {
     display: inline-block;
   }
   .quick-options {
+    display: none;
+  }
+  .main .side-bar {
     display: none;
   }
 }
