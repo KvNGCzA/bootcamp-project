@@ -1,4 +1,7 @@
 $(document).ready(function(){
+/** home questions tabs*/
+let homeQuestions = $('#hQuestions');
+homeQuestions.tabs();
 
 
 /** drop down login form config */
@@ -27,11 +30,11 @@ for(let x in $iconElement){
     let $icon = $($iconElement[x]);
     let $optionContainer = $($optionsClass[x]);
     $icon.on('click', ()=>{
-        if($icon.attr('class') !== 'fas fa-times'){
+        if($icon.attr('class') !== 'fas fa-times opt-shadow'){
             $optionContainer.animate( {'right': '400px'}, 250).addClass('opt-shadow');
             $optionContainer.find('input')[0].focus();
             console.log($optionContainer);
-            $icon.attr('class', 'fas fa-times');
+            $icon.attr('class', 'fas fa-times opt-shadow');
 
             let sibsP = $($optionsClass[x]).prevAll();
             let sibsN = $($optionsClass[x]).nextAll();
@@ -100,6 +103,33 @@ $searchFormInput.on('blur', ()=>{
   $mobSearchIcon.css('color', 'white');
 });
 
+/** colour for home page views, likes and answered if count is greater than 0*/
 
+//  answer count color
+const homeAnswered = $('.answer-count a:last-child');
+for( let x in homeAnswered){
+  let current = Number(homeAnswered[x].text);
+  if( current > 0){
+      $(homeAnswered[x]).addClass('answered');
+  }
+}
+// likes count color
+const homeLiked = $('.likes-count a:last-child');
+for( let x in homeLiked){
+  let current = Number(homeLiked[x].text);
+  if( current > 0){
+      $(homeLiked[x]).addClass('liked');
+      console.log(homeLiked[x]);
+  }
+}
+// views count color  
+const homeViews = $('.views-count a:last-child');
+for( let x in homeViews){
+  let current = Number(homeViews[x].text);
+  if( current > 0){
+      $(homeViews[x]).addClass('viewed');
+      console.log(homeViews[x]);
+  }
+}
 
 });

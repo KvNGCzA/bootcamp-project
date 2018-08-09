@@ -1,9 +1,12 @@
 // $maincolor: #00ff37;
 // $hoverColor: #35ff5d;green
-$maincolor: #0090ff;
-$hoverColor: #00d8ff;
+$maincolor: #006eff;
+$hoverColor: #0090ff;
+$tagColor: rgb(140, 209, 255);
 // $maincolor: #ff4444;
-// $hoverColor: #ff6060; red
+// $hoverColor: #ff6060;red
+$textGray : #6b6b6b;
+$borderGray: #e2e2e2;
 $mainborder: 1px solid $maincolor;
 @import url("https://fonts.googleapis.com/css?family=Roboto|Muli|Dosis|Quicksand|Josefin+Sans");
 @mixin boxShadow($w, $x, $y, $z){
@@ -48,6 +51,9 @@ header{
   text-align: right;
   color: white;
   font-family: 'Muli';
+  position: fixed;
+  top: 0;
+  width: 100%;
   .welcome{
     float: left;
     margin: 0 0.5em;
@@ -61,7 +67,7 @@ header{
   }//.welcome
   .main-navigation{
     display:inline-block;
-    margin: 0 0.5em;
+    margin: 0 0 0 0.5em;
     ul{
       list-style: none;
       position: relative;
@@ -96,6 +102,7 @@ header{
       top: 3.4em;
       width: 100%;
       display: none;
+      z-index: 99;
       input{
         padding: 1em;
         width: 100%;
@@ -125,11 +132,10 @@ header{
         text-align: center;
         top: 3.4em;
         width: 100%;
-        background-color: rgba(0,0,0,0.4);
         overflow: auto;
         li{
           width: 100%;
-          background-color: rgba(0, 187, 255, 0.5);
+          background-color: rgba(0, 91, 122, 0.9);
           padding: 0.5em;
           a{
             text-decoration: none;
@@ -214,10 +220,6 @@ header{
 
 }//.access-form
 
-.opt-shadow{
-  @include boxShadow(0, 0, 10px, $maincolor);
-}
-
 .quick-options{
     position: fixed;
     top: 30%;
@@ -225,8 +227,13 @@ header{
     z-index: 2;
     right: -25em;
 
+    .opt-shadow{
+      @include boxShadow(0, 0, 10px, $maincolor);
+    }//.opt-shadow
+
     .option{
         background-color: $maincolor;
+        border: 1px solid $hoverColor;
         width: 25em;
         position: relative;
     }//.option
@@ -241,7 +248,8 @@ header{
       border-top-left-radius: 1em;
       border-top: 1px solid $hoverColor;
       border-left: 1px solid $hoverColor;
-      @include boxShadow(0, 0, 10px, $maincolor);
+      border-bottom: 1px solid $hoverColor;
+      // @include boxShadow(0, 0, 10px, $maincolor);
       &:hover, &:active{
         cursor: pointer;
         background-color: $hoverColor;
@@ -309,9 +317,139 @@ header{
 .main{
   width: 100%;
   height: auto;
-
+  margin: 4em 0 0;
   .site-content{
-
+    width: 75%;
+    float: left;
+    padding: 2em 1em;
+    #hQuestions{
+      padding: 0.1em 0 0;
+      .tab-cont{
+        background-color: white;
+        text-align: right;
+        .ui-tabs-active{
+          background-color: white;
+          a{
+            color: $maincolor;
+            background-color: white;
+          }//a
+        }//.ui-tabs-active
+        li{
+          display: inline-block;
+          margin: 0 0 0 0.2em;
+          a{
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background-color: $maincolor;
+            padding: 0.2em 0.6em;
+            border: 1px solid $maincolor;
+            border-radius: 0.3em;
+          }//a
+        }//li
+      }//ul
+      .tab{
+        background-color: white;
+        padding: 1em 0;
+        color: $maincolor;
+        .single-question{
+          border-top: 1px solid $borderGray;
+          padding: 1em 0;
+          display: flex;
+          div{
+          }//div
+          .q-meta{
+            display:flex;
+            ul{
+              display:flex;
+              li{
+                display: inline-block;
+                text-align: center;
+                font-size: 1.2em;
+                a{
+                  display: block;
+                  color: $textGray;
+                  text-decoration: none;
+                  padding: 0.1em 0.3em;
+                  margin: 0 0.2em;
+                  font-size: 0.7em;
+                  // font-family: sans-serif;
+                  &:first-child{
+                    font-size: 0.6em;
+                  }//&:first-child
+                  &:last-child{
+                    border: 1px solid $borderGray;
+                  }
+                }//span
+              }//li
+              .liked{
+                  background-color: #ff2d2d;
+                  color: white;
+                  border: 1px solid #ff2d2d!important;
+              }
+              .answered{
+                background-color: #1dff00;
+                color: white;
+                border: 1px solid #1dff00!important;
+              }
+              .viewed{
+                background-color: $maincolor;
+                color: white;
+                border: 1px solid $maincolor!important;
+              }
+            }//ul
+          }
+          .q-details{
+            display: inline-block;
+            padding: 0 0.2em;
+            width: auto;
+            overflow: visible;
+            word-wrap: break-word;
+            .posted-on{
+              font-size: 0.7em;
+              float: right;
+              display: block;
+              width: 100%;
+              text-align: right;
+              margin: 0 1.4em 0 0;
+              a{
+                color: #c60000;
+              }//a
+            }//.posted-on
+            .question-title{
+              padding: 0 0 0 1em;
+              a{
+                text-decoration: none;
+                color: $maincolor;
+                font-size: 0.9em;
+                font-family: sans-serif;
+              }
+            }//.question-title
+            .tags{
+              float: right;
+              margin: 1em;
+              text-align: right;
+              li{
+                list-style: none;
+                display: inline-block;
+                margin: 0.4em 0;
+                a{
+                  color: white;
+                  text-decoration: none;
+                  font-family: sans-serif;
+                  font-size: 0.8em;
+                  padding: 0.3em;
+                  background-color: $tagColor;
+                }
+              }//li
+            }//.tags
+          }//.q-details
+          &:last-child{
+            border-bottom: 1px solid $borderGray;
+          }//last-child
+        }//.single-question
+      }//.tab
+    }//#hQuestions
   }//.site-content
 
   .side-bar{
@@ -323,7 +461,7 @@ header{
       padding: 1em;
       h3{
         font-family: 'Muli';
-        color: #6b6b6b;
+        color: $textGray;
         text-align: center;
         font-size: 1em;
       }//h2
@@ -386,6 +524,40 @@ footer{
   }//quick-options
 
   .main{
+    .site-content{
+      width:100%;
+      #hQuestions{
+        .tab{
+          .single-question{
+            display: block;
+            .q-meta{
+              ul{
+                display: block;
+                width: 100%;
+                text-align: center;
+              }//ul
+            }//.q-meta
+            .q-details{
+              .posted-on{
+                float: none;
+                text-align: center;
+                margin: 0;
+              }//.posted-on
+              .question-title{
+                margin: 1em 0 0;
+                padding: 0;
+              }
+              .tags{
+                float: none;
+                margin: 1em 0;
+                text-align: center;
+              }//.tags
+            }//.q-details
+          }//.single-question
+        }//.tab
+      }//#hQuestions
+
+    }//.site-content
     .side-bar{
       display: none;
     }//.side-bar
