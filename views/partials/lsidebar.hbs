@@ -1,3 +1,49 @@
 <div class="lsidebar">
-  {{> loginSignUp}}
+
+  <div id="side-access-forms">
+
+      {{!-- signup-form --}}
+      <div id="side-signup-form" class="c-forms">
+          <h2>Sign Up</h2><span>Have an account? <button id="s-t-login" class="c-t-btn" onclick="checkWhichFormSide()">Login</button> </span>
+          <form action="index.html" method="post">
+              <input type="text" name="fname" placeholder="First Name">
+              <input type="text" name="lname" placeholder="Last Name">
+              <input type="email" name="email" placeholder="Email">
+              <input type="text" name="username"  placeholder="Username">
+              <input type="password" name="pwd" placeholder="Password">
+              <input type="button" name="submit" value="Sign Up">
+          </form>
+      </div>
+      {{!-- signup-form --}}
+
+      {{!-- login-form --}}
+      <div id="side-login-form" class="c-forms">
+          <h2>Login</h2><span>Don't have an account? <button id="s-t-signup" class="c-t-btn" onclick="checkWhichFormSide()">Sign up</button> </span>
+          <form action="index.html" method="post">
+              <input type="text" name="username" placeholder="Username" value=""/>
+              <input type="password" name="pwd" value="" placeholder="Password"/>
+              <input type="button" name="submit" value="Login"/>
+          </form>
+      </div>
+      {{!-- login-form --}}
+
+  </div>
+
+  <div class="short-profile">
+      <div class="short-profile-picture">
+        <div class="profile-image">
+        </div>
+      </div>
+      <div class="profile-info">
+        <ul>
+          <li class="short-profile-full-name">Akanmu Christopher</li>
+          <li class="short-profile-username"><i class="far fa-user"></i> @chris</li>
+          <li class="short-profile-occupation"><i class="fas fa-suitcase"></i> Developer</li>
+          <li class="short-profile-msince"><i class="fas fa-users"></i><span> Joined:</span> 1 June 2018</li>
+          <li class="short-profile-num-ans"><i class="fas fa-check"></i><span> Replied:</span> 8</li>
+          <li class="short-profile-num-que"><i class="fas fa-question"></i><span> Asked:</span> 20</li>
+        </ul>
+      </div>
+  </div>
+
 </div>

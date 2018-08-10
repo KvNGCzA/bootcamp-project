@@ -54,6 +54,7 @@ header{
   position: fixed;
   top: 0;
   width: 100%;
+  height: 3.25em;
   .welcome{
     float: left;
     margin: 0 0.5em;
@@ -73,7 +74,7 @@ header{
       position: relative;
       top: -0.15em;
       li{
-       display: inline;
+         display: inline;
         a{
           text-decoration: none;
           color: white;
@@ -82,6 +83,9 @@ header{
             background-color: $hoverColor;
           }//hover
         }//a
+        &:last-child{
+          display: none;
+        }//last-child
       }//li
     }//ul
   }//.main-navigation
@@ -99,7 +103,7 @@ header{
     form{
       position: absolute;
       left: 0;
-      top: 3.4em;
+      top: 3.2em;
       width: 100%;
       display: none;
       z-index: 99;
@@ -125,12 +129,15 @@ header{
           cursor: pointer;
         }//hover
       }//i
+      .fa-times{
+        color: #f24d4d;
+      }//fa-times
       ul{
         list-style: none;
         position: absolute;
         right: -48em;
         text-align: center;
-        top: 3.4em;
+        top: 3.2em;
         width: 100%;
         overflow: auto;
         li{
@@ -144,81 +151,79 @@ header{
         }//li
       }//ul
   }//.mobile-navigation
-}//header
-
-
-#access-forms{
-  display: none;
-  position: absolute;
-  top: 2.5em;
-  right: 0;
-  width: 15em;
-  float: right;
-  text-align: center;
-  margin: 1em;
-  z-index: 9;
-  background-color: white;
-  @include boxShadow(0, 0, 10px, $maincolor);
-
-  h2{
-    font-size:1em;
-  }
-
-  #login-form{
-    display: block;
-  }//#login-form
-
-  #signup-form{
+  #access-forms{
     display: none;
-  }//#signup-form
+    position: absolute;
+    top: 2.5em;
+    right: 0;
+    width: 15em;
+    float: right;
+    text-align: center;
+    margin: 1em;
+    z-index: 9;
+    background-color: white;
+    @include boxShadow(0, 0, 10px, $maincolor);
 
-  #signup-form, #login-form{
-    padding: 1em 0.5em;
-    border: $mainborder;
-    color: black;
-    span{
-      font-size: 0.7em;
-      button{
-        background-color: transparent;
-        text-decoration: none;
-        border: none;
-        color: $maincolor;
-        &:hover, &:active{
-          color: grey;
-          cursor: pointer;
-        }//hover
-      }//a
-    }//span
-    form{
-      margin: 1em 0 0;
+    h2{
+      font-size:1em;
     }
-  }//#signup-form, #login-form
 
-  input{
-    width: 100%;
-    padding: 0.5em 1em;
-    margin: 0.5em 0;
-    border: $mainborder;
-    // @include boxShadow(0, 0, 10px, #777777);
-    @include placeholder ($maincolor);
-  }//input
+    #login-form{
+      display: block;
+    }//#login-form
 
-  input[type="button"]{
-    display: inline-block;
-    width: auto;
-    clear: both;
-    padding: 0.5em 2em;
-    color: white;
-    border: $mainborder;
-    background-color: $maincolor;
-    &:hover, &:active{
-      background-color: white;
-      color: $maincolor;
-      cursor: pointer;
-    }//hover
-  }//input[type=button]
+    #signup-form{
+      display: none;
+    }//#signup-form
 
-}//.access-form
+    #signup-form, #login-form{
+      padding: 1em 0.5em;
+      border: $mainborder;
+      color: black;
+      span{
+        font-size: 0.7em;
+        button{
+          background-color: transparent;
+          text-decoration: none;
+          border: none;
+          color: $maincolor;
+          &:hover, &:active{
+            color: grey;
+            cursor: pointer;
+          }//hover
+        }//a
+      }//span
+      form{
+        margin: 1em 0 0;
+      }
+    }//#signup-form, #login-form
+
+    input{
+      width: 100%;
+      padding: 0.5em 1em;
+      margin: 0.5em 0;
+      border: $mainborder;
+      // @include boxShadow(0, 0, 10px, #777777);
+      @include placeholder ($maincolor);
+    }//input
+
+    input[type="button"]{
+      display: inline-block;
+      width: auto;
+      clear: both;
+      padding: 0.5em 2em;
+      color: white;
+      border: $mainborder;
+      background-color: $maincolor;
+      &:hover, &:active{
+        background-color: white;
+        color: $maincolor;
+        cursor: pointer;
+      }//hover
+    }//input[type=button]
+
+  }//.access-form
+}//header
 
 .quick-options{
     position: fixed;
@@ -319,7 +324,7 @@ header{
   height: auto;
   margin: 4em 0 0;
   .site-content{
-    width: 75%;
+    width: 55%;
     float: left;
     padding: 2em 1em;
     #hQuestions{
@@ -383,19 +388,19 @@ header{
                 }//span
               }//li
               .liked{
-                  background-color: #ff2d2d;
+                  background-color: #f24d4d;
                   color: white;
-                  border: 1px solid #ff2d2d!important;
+                  border: 1px solid #f24d4d!important;
               }
               .answered{
-                background-color: #1dff00;
+                background-color: #49ff68;
                 color: white;
-                border: 1px solid #1dff00!important;
+                border: 1px solid #49ff68!important;
               }
               .viewed{
-                background-color: $maincolor;
+                background-color: $hoverColor;
                 color: white;
-                border: 1px solid $maincolor!important;
+                border: 1px solid $hoverColor!important;
               }
             }//ul
           }
@@ -413,7 +418,7 @@ header{
               text-align: right;
               margin: 0 1.4em 0 0;
               a{
-                color: #c60000;
+                color: #f24d4d;
               }//a
             }//.posted-on
             .question-title{
@@ -451,6 +456,151 @@ header{
       }//.tab
     }//#hQuestions
   }//.site-content
+
+  .lsidebar{
+    width: 20%;
+    float: left;
+
+    #side-access-forms{
+      width: 100%;
+      text-align: center;
+      margin: 40% 0 0;
+      background-color: white;
+      h2{
+        font-size:1em;
+      }
+
+      #side-login-form{
+        display: block;
+      }//#side-login-form
+
+      #side-signup-form{
+        display: none;
+      }//#side-signup-form
+
+      #side-signup-form, #side-login-form{
+        padding: 1em 0.5em;
+        border-top: $mainborder;
+        border-bottom: $mainborder;
+        border-right: $mainborder;
+        color: black;
+        position: fixed;
+        width:20%;
+        span{
+          font-size: 0.7em;
+          button{
+            background-color: transparent;
+            text-decoration: none;
+            border: none;
+            color: $maincolor;
+            &:hover, &:active{
+              color: grey;
+              cursor: pointer;
+            }//hover
+          }//a
+        }//span
+        form{
+          margin: 1em 0 0;
+        }
+      }//#side-signup-form, #login-form
+
+      input{
+        width: 100%;
+        padding: 0.5em 1em;
+        margin: 0.5em 0;
+        border: $mainborder;
+        // @include boxShadow(0, 0, 10px, #777777);
+        @include placeholder ($maincolor);
+      }//input
+
+      input[type="button"]{
+        display: inline-block;
+        width: auto;
+        clear: both;
+        padding: 0.5em 2em;
+        color: white;
+        border: $mainborder;
+        background-color: $maincolor;
+        &:hover, &:active{
+          background-color: white;
+          color: $maincolor;
+          cursor: pointer;
+        }//hover
+      }//input[type=button]
+
+    }//.access-form
+
+    .short-profile{
+      z-index: 999;
+      width: 20%;
+      position: fixed;
+      background-color: white;
+      border-top: 1px solid $hoverColor;
+      border-bottom: 1px solid $hoverColor;
+      border-right: 1px solid $hoverColor;
+
+      .short-profile-picture{
+        width: 7em;
+        height: 7em;
+        padding: 0.4em;
+        margin: 0.5em auto;
+        border: 1px solid $hoverColor;
+        border-radius: 100em;
+        .profile-image{
+          background-image: url('/images/rubix.png');
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: contain;
+          height: 100%;
+          width: 100%;
+        }//.profile-image
+      }
+
+      .profile-info{
+        ul{
+          text-align: center;
+          list-style: none;
+          li{
+            color: $textGray;
+            margin: 0.7em 0;
+            i{
+            }
+            &:nth-child(2){
+                i{
+                  color: $maincolor;
+                }
+            }
+            &:nth-child(3){
+                i{
+                  color: #ffb23f;
+                }
+            }
+            &:nth-child(4){
+                i{
+                  color: #a954ff;
+                }
+            }
+            &:nth-child(5){
+                i{
+                  color: #49ff68;
+                }
+            }
+            &:nth-child(6){
+                i{
+                  color: #f24d4d;
+                }
+            }
+            span{
+              color: $textGray;
+              font-size: 0.8em;
+            }//span
+          }//li
+        }//ul
+      }//.profile-info
+
+    }//.short-profile
+
+  }//.lsidebar
 
   .side-bar{
     width: 25%;
@@ -502,6 +652,31 @@ footer{
     padding: 1em 0;
   }
 }
+
+@media screen and ( max-width: 935px ){
+  header{
+    .main-navigation{
+      ul{
+        li{
+          &:last-child{
+            display: inline;
+          }
+        }
+      }
+    }//.main-navigation
+  }//header
+
+  .main{
+    .site-content{
+      width: 75%;
+    }//site-content
+
+    .lsidebar{
+      display: none;
+    }
+  }//main
+
+}//@media screen and ( max-width: 935px )
 
 @media screen and ( max-width: 768px ){
   header{
@@ -558,7 +733,7 @@ footer{
       }//#hQuestions
 
     }//.site-content
-    .side-bar{
+    .side-bar, .lsidebar{
       display: none;
     }//.side-bar
   }//.main

@@ -1,7 +1,8 @@
 $(document).ready(function(){
-/** home questions tabs*/
+/** home questions tabs JQueryUI*/
 let homeQuestions = $('#hQuestions');
 homeQuestions.tabs();
+
 
 
 /** drop down login form config */
@@ -89,7 +90,7 @@ const $searchForm = $('.mob-search form');
 const $searchFormInput = $searchForm.find('input[type="text"]');
 $mobSearchIcon.on('click', () => {
   if( $searchForm.css('display') !== 'block'){
-    $mobSearchIcon.css('color', 'red');
+    $mobSearchIcon.css('color', '#f24d4d');
     $searchForm.slideDown();
     $searchFormInput.focus();
   }
@@ -119,16 +120,14 @@ for( let x in homeLiked){
   let current = Number(homeLiked[x].text);
   if( current > 0){
       $(homeLiked[x]).addClass('liked');
-      console.log(homeLiked[x]);
   }
 }
-// views count color  
+// views count color
 const homeViews = $('.views-count a:last-child');
 for( let x in homeViews){
   let current = Number(homeViews[x].text);
   if( current > 0){
       $(homeViews[x]).addClass('viewed');
-      console.log(homeViews[x]);
   }
 }
 
