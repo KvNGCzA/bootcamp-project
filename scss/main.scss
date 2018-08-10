@@ -43,7 +43,23 @@ $mainborder: 1px solid $maincolor;
 
 body{
   font-size: 16px;
-}
+}//body
+
+body.page-profile{
+  .main{
+    .site-content{
+      width: 75%;
+    }//.site-content
+
+    .lsidebar{
+      display: none;
+    }//.lsidebar
+
+    .sidebar{
+
+    }//.sidebar
+  }//.main
+}//body.page-profile
 
 header{
   padding: 1em 0;
@@ -327,6 +343,128 @@ header{
     width: 55%;
     float: left;
     padding: 2em 1em;
+
+    .hPostQues{
+      display: inline-block;
+      text-align: left;
+      position: relative;
+      top: 1.5em;
+      a{
+        background-color: $maincolor;
+        border: $mainborder;
+        color: white;
+        text-decoration: none;
+        padding: 0.5em 0.9em;
+        border-radius: 0.2em;
+        &:hover, &:active{
+          background-color: white;
+          color: $maincolor;
+          @include boxShadow(0, 0, 10px, $maincolor);
+        }//&:hover, &:active
+      }//a
+    }//.hPostQues
+
+    .pageTitle{
+      color: $textGray;
+      margin: 0 0 1em 0;
+      font-size: 1.3em;
+    }
+
+    .single-question{
+      border-top: 1px solid $borderGray;
+      padding: 1em 0;
+      display: flex;
+      .q-meta{
+        display:flex;
+        ul{
+          display:flex;
+          li{
+            display: inline-block;
+            text-align: center;
+            font-size: 1.2em;
+            a{
+              display: block;
+              color: $textGray;
+              text-decoration: none;
+              padding: 0.1em 0.3em;
+              margin: 0 0.2em;
+              font-size: 0.7em;
+              // font-family: sans-serif;
+              &:first-child{
+                font-size: 0.6em;
+              }//&:first-child
+              &:last-child{
+                border: 1px solid $borderGray;
+              }
+            }//span
+          }//li
+          .liked{
+              background-color: #f24d4d;
+              color: white;
+              border: 1px solid #f24d4d!important;
+          }
+          .answered{
+            background-color: #49ff68;
+            color: white;
+            border: 1px solid #49ff68!important;
+          }
+          .viewed{
+            background-color: $hoverColor;
+            color: white;
+            border: 1px solid $hoverColor!important;
+          }
+        }//ul
+      }
+      .q-details{
+        display: inline-block;
+        padding: 0 0.2em;
+        width: auto;
+        overflow: visible;
+        word-wrap: break-word;
+        .posted-on{
+          font-size: 0.7em;
+          float: right;
+          display: block;
+          width: 100%;
+          text-align: right;
+          margin: 0 1.4em 0 0;
+          a{
+            color: #f24d4d;
+          }//a
+        }//.posted-on
+        .question-title{
+          padding: 0 0 0 1em;
+          a{
+            text-decoration: none;
+            color: $maincolor;
+            font-size: 0.9em;
+            font-family: sans-serif;
+          }
+        }//.question-title
+        .tags{
+          float: right;
+          margin: 1em;
+          text-align: right;
+          li{
+            list-style: none;
+            display: inline-block;
+            margin: 0.4em 0;
+            a{
+              color: white;
+              text-decoration: none;
+              font-family: sans-serif;
+              font-size: 0.8em;
+              padding: 0.3em;
+              background-color: $tagColor;
+            }
+          }//li
+        }//.tags
+      }//.q-details
+      &:last-child{
+        border-bottom: 1px solid $borderGray;
+      }//last-child
+    }//.single-question
+
     #hQuestions{
       padding: 0.1em 0 0;
       .tab-cont{
@@ -357,102 +495,6 @@ header{
         background-color: white;
         padding: 1em 0;
         color: $maincolor;
-        .single-question{
-          border-top: 1px solid $borderGray;
-          padding: 1em 0;
-          display: flex;
-          div{
-          }//div
-          .q-meta{
-            display:flex;
-            ul{
-              display:flex;
-              li{
-                display: inline-block;
-                text-align: center;
-                font-size: 1.2em;
-                a{
-                  display: block;
-                  color: $textGray;
-                  text-decoration: none;
-                  padding: 0.1em 0.3em;
-                  margin: 0 0.2em;
-                  font-size: 0.7em;
-                  // font-family: sans-serif;
-                  &:first-child{
-                    font-size: 0.6em;
-                  }//&:first-child
-                  &:last-child{
-                    border: 1px solid $borderGray;
-                  }
-                }//span
-              }//li
-              .liked{
-                  background-color: #f24d4d;
-                  color: white;
-                  border: 1px solid #f24d4d!important;
-              }
-              .answered{
-                background-color: #49ff68;
-                color: white;
-                border: 1px solid #49ff68!important;
-              }
-              .viewed{
-                background-color: $hoverColor;
-                color: white;
-                border: 1px solid $hoverColor!important;
-              }
-            }//ul
-          }
-          .q-details{
-            display: inline-block;
-            padding: 0 0.2em;
-            width: auto;
-            overflow: visible;
-            word-wrap: break-word;
-            .posted-on{
-              font-size: 0.7em;
-              float: right;
-              display: block;
-              width: 100%;
-              text-align: right;
-              margin: 0 1.4em 0 0;
-              a{
-                color: #f24d4d;
-              }//a
-            }//.posted-on
-            .question-title{
-              padding: 0 0 0 1em;
-              a{
-                text-decoration: none;
-                color: $maincolor;
-                font-size: 0.9em;
-                font-family: sans-serif;
-              }
-            }//.question-title
-            .tags{
-              float: right;
-              margin: 1em;
-              text-align: right;
-              li{
-                list-style: none;
-                display: inline-block;
-                margin: 0.4em 0;
-                a{
-                  color: white;
-                  text-decoration: none;
-                  font-family: sans-serif;
-                  font-size: 0.8em;
-                  padding: 0.3em;
-                  background-color: $tagColor;
-                }
-              }//li
-            }//.tags
-          }//.q-details
-          &:last-child{
-            border-bottom: 1px solid $borderGray;
-          }//last-child
-        }//.single-question
       }//.tab
     }//#hQuestions
   }//.site-content
@@ -563,6 +605,13 @@ header{
           li{
             color: $textGray;
             margin: 0.7em 0;
+            a{
+              color: $maincolor;
+              text-decoration: none;
+              &:hover, &:active{
+                text-decoration: underline;
+              }//&:hover, &:active
+            }//a
             i{
             }
             &:nth-child(2){
@@ -639,6 +688,38 @@ header{
     }//hot-questions
   }//.side-bar
 
+  .question-form{
+    form{
+      label{
+        color: $textGray;
+        // font-size: 1.3em;
+      }//label
+      input[type="button"]{
+        display: inline-block;
+        width: auto;
+        background-color: $maincolor;
+        color: white;
+        padding: 0.5em 1em;
+        float:right;
+        &:hover, &:active{
+          color: $maincolor;
+          background-color: white;
+          cursor: pointer;
+        }//&:hover, &:active
+      }//type:button
+      input, textarea{
+        @include placeholder($maincolor);
+        border: $mainborder;
+        padding: 1em 0.2em;
+        margin: 0 0 1em 0;
+        width: 100%;
+      }//input, textarea
+    }//form
+  }//.question-form
+
+  .profile-page-cont{
+  }//.profile-page-cont
+
 }//.main
 
 
@@ -679,6 +760,23 @@ footer{
 }//@media screen and ( max-width: 935px )
 
 @media screen and ( max-width: 768px ){
+
+  body.page-profile{
+    .main{
+      .site-content{
+        width: 100%;
+      }//.site-content
+
+      .lsidebar{
+        display: none;
+      }//.lsidebar
+
+      .sidebar{
+
+      }//.sidebar
+    }//.main
+  }//body.page-profile
+
   header{
     .welcome{
       font-size: 1.4em;
@@ -701,6 +799,17 @@ footer{
   .main{
     .site-content{
       width:100%;
+
+      .hPostQues{
+        display: block;
+        float: none;
+        top: 0;
+        text-align: right;
+        margin: 1em 0;
+        a{
+        }//a
+      }//.hPostQues
+
       #hQuestions{
         .tab{
           .single-question{

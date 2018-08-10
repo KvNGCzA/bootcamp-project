@@ -4,7 +4,6 @@ let homeQuestions = $('#hQuestions');
 homeQuestions.tabs();
 
 
-
 /** drop down login form config */
 //show and hide login/signup form
 const $formCont = $('#access-forms');
@@ -132,3 +131,7 @@ for( let x in homeViews){
 }
 
 });
+
+let lsidebar = $('.lsidebar');
+let siteContent = $('.site-content');
+let rSidebar  = $('.side-bar');

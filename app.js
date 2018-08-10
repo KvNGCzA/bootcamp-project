@@ -14,25 +14,34 @@ hbs.registerHelper('getCurrentYear',() => {
 
 app.set('view engine', 'hbs');
 
+let pagesArr = ['Home', 'Profile', 'Questions', 'Post A Question'];
+
 app.get('/', (req, res) => {
     res.render('index.hbs',{
-        pageTitle: 'Home'
+        pageTitle: pagesArr[0]
     });
 });
 
 app.get('/profile', (req, res) => {
     res.render('profile.hbs',{
-        pageTitle: 'Profile'
+        pageTitle: pagesArr[1]
     });
 });
 
 app.get('/questions', (req, res) => {
     res.render('questions.hbs',{
-        pageTitle: 'Questions'
+        pageTitle: pagesArr[2]
+    });
+});
+
+
+app.get('/post-question/', (req, res) => {
+    res.render('post-question.hbs',{
+        pageTitle: pagesArr[3]
     });
 });
 
 app.listen(port, () => {
     console.log(`server is up on port ${port}`);
-    
+
 });
