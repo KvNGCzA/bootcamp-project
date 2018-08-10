@@ -47,17 +47,6 @@ body{
 
 body.page-profile{
   .main{
-    .site-content{
-      width: 75%;
-    }//.site-content
-
-    .lsidebar{
-      display: none;
-    }//.lsidebar
-
-    .sidebar{
-
-    }//.sidebar
   }//.main
 }//body.page-profile
 
@@ -764,11 +753,9 @@ footer{
   body.page-profile{
     .main{
       .site-content{
-        width: 100%;
       }//.site-content
 
       .lsidebar{
-        display: none;
       }//.lsidebar
 
       .sidebar{
