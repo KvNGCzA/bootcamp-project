@@ -33,7 +33,6 @@ for(let x in $iconElement){
         if($icon.attr('class') !== 'fas fa-times opt-shadow'){
             $optionContainer.animate( {'right': '400px'}, 250).addClass('opt-shadow');
             $optionContainer.find('input')[0].focus();
-            console.log($optionContainer);
             $icon.attr('class', 'fas fa-times opt-shadow');
 
             let sibsP = $($optionsClass[x]).prevAll();
@@ -70,22 +69,22 @@ for(let x in $iconElement){
 };
 
 /** mobile navigation configuration */
-const $mobIcon = $('.mobile-navigation i');
-const $mobileNav = $('.mobile-navigation');
+const $mobIcon = $('.mobile-navigation .dropdown-menu i');
+const $dropDownMenuItems = $('.dropdown-menu-items');
 $mobIcon.on('click', ()=>{
     if($mobIcon.attr('class') !== 'fas fa-times' ){
-        $mobIcon.next().animate({'right': 0}, 250);
+        $dropDownMenuItems.animate({'right': 0}, 250);
         $mobIcon.attr('class','fas fa-times');
     }
     else{
-        $mobIcon.next().animate({'right': '-768px'}, 300);
+        $dropDownMenuItems.animate({'right': '-768px'}, 300);
         $mobIcon.attr('class','fas fa-bars');
     }
 });
 
 /** mobile search configuration*/
 const $mobSearchIcon =$('.mob-search .fa-search');
-const $searchForm = $('.mob-search form');
+const $searchForm = $('.mob-search-form');
 const $searchFormInput = $searchForm.find('input[type="text"]');
 $mobSearchIcon.on('click', () => {
   if( $searchForm.css('display') !== 'block'){
@@ -106,32 +105,25 @@ $searchFormInput.on('blur', ()=>{
 /** colour for home page views, likes and answered if count is greater than 0*/
 
 //  answer count color
-const homeAnswered = $('.answer-count a:last-child');
-for( let x in homeAnswered){
-  let current = Number(homeAnswered[x].text);
-  if( current > 0){
-      $(homeAnswered[x]).addClass('answered');
-  }
-}
-// likes count color
-const homeLiked = $('.likes-count a:last-child');
-for( let x in homeLiked){
-  let current = Number(homeLiked[x].text);
-  if( current > 0){
-      $(homeLiked[x]).addClass('liked');
-  }
-}
-// views count color
-const homeViews = $('.views-count a:last-child');
-for( let x in homeViews){
-  let current = Number(homeViews[x].text);
-  if( current > 0){
-      $(homeViews[x]).addClass('viewed');
-  }
-}
+const $homeAnswered = $('.answer-count a:last-child');
+const $homeLiked = $('.likes-count a:last-child');
+const $homeViews = $('.views-count a:last-child');
 
+let countArr = [ $homeAnswered,  $homeLiked, $homeViews];
+const classCountArr = ['answered', 'liked', 'viewed'];
+for( let y in countArr){
+  for( let x in countArr[y]){
+    let current = Number(countArr[y][x].text);
+    if( current > 0){
+        $(countArr[y][x]).addClass(classCountArr[y]);
+    }//if
+  }//for x
+}//for y
+
+/** edit question dropdown settings */
+let $editOption = $('.edit-option');
+$editOption.click( function(){
+   $(this).next().slideToggle();
 });
 
-let lsidebar = $('.lsidebar');
-let siteContent = $('.site-content');
-let rSidebar  = $('.side-bar');
+});

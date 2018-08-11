@@ -7,28 +7,43 @@
 
     </ul>
 </nav>
-<div class="mob-search">
-    <i class="fas fa-search" id="fa-search"></i>
-    <form class="search" action="index.html" method="get">
-        <input type="text" name="search" placeholder="search">
-        <input type="button" name="submit" class="" >
-    </form>
-</div>
+
+
+
   {{!-- main navigation --}}
 
     {{!-- mobile navigation --}}
 <nav class="mobile-navigation">
- <i class="fas fa-bars"></i>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="#">Questions</a></li>
-        <li><a id="" href="#">Login</a></li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Questions</a></li>
-        <li><a id="" href="#">Login</a></li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Questions</a></li>
-        <li><a id="" href="#">Login</a></li>
-    </ul>
+
+  <div class="profile nav-icon">
+    <a href="/profile">
+      <div class="profile-picture">
+        <div class="profile-image">
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="mob-search nav-icon">
+      <i class="fas fa-search" id="fa-search"></i>
+  </div>
+
+
+  <div class="dropdown-menu nav-icon">
+    <i class="fas fa-bars"></i>
+  </div>
+
 </nav>
+
+<form class="mob-search-form" action="index.html" method="get">
+    <input type="text" name="search" placeholder="search">
+    <input type="button" name="submit" class="" >
+</form>
+
+<ul class="dropdown-menu-items">
+    <li><a href="/">Home</a></li>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="/post-question">Post A Question</a></li>
+</ul>
 {{!-- mobile navigation --}}

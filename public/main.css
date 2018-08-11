@@ -10,6 +10,11 @@ body {
   font-size: 16px;
 }
 
+/** profile page specific css*/
+body.page-profile .main .lsidebar .profile .profile-info ul li:last-child {
+  display: none;
+}
+
 header {
   padding: 1em 0;
   background-color: #006eff;
@@ -20,6 +25,7 @@ header {
   top: 0;
   width: 100%;
   height: 3.25em;
+  z-index: 99999;
 }
 
 header .welcome {
@@ -65,31 +71,73 @@ header .main-navigation ul li:last-child {
   display: none;
 }
 
-header .mob-search {
+header .mobile-navigation {
   display: none;
+  position: relative;
+  top: -1em;
+  margin: 0 1em;
 }
 
-header .mob-search i {
-  right: 1em;
+header .mobile-navigation .nav-icon {
+  display: inline-block;
+  width: auto;
+  margin: 0 0.2em;
   position: relative;
+}
+
+header .mobile-navigation .profile {
+  top: 0.5em;
+}
+
+header .mobile-navigation .profile .profile-picture {
+  width: 2em;
+  height: 2em;
+  padding: 0.1em;
+  border-radius: 100em;
+  border: 1px solid white;
+  margin: 0;
+}
+
+header .mobile-navigation .profile .profile-picture .profile-image {
+  background-image: url("images/rubix.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
+header .mobile-navigation .mob-search i {
   font-size: 1.3em;
   color: white;
 }
 
-header .mob-search i:hover {
+header .mobile-navigation .mob-search i:hover {
   cursor: pointer;
 }
 
-header .mob-search form {
+header .mobile-navigation .dropdown-menu i {
+  font-size: 1.3em;
+}
+
+header .mobile-navigation .dropdown-menu i:hover {
+  cursor: pointer;
+}
+
+header .mobile-navigation .dropdown-menu .fa-times {
+  color: #f24d4d;
+}
+
+header .mob-search-form {
   position: absolute;
   left: 0;
-  top: 3.2em;
+  top: 3.3em;
   width: 100%;
   display: none;
   z-index: 99;
 }
 
-header .mob-search form input {
+header .mob-search-form input {
   padding: 1em;
   width: 100%;
   border: 0;
@@ -99,49 +147,32 @@ header .mob-search form input {
   box-shadow: 0 0 10px #006eff;
 }
 
-header .mob-search form input::-webkit-input-placeholder {
+header .mob-search-form input::-webkit-input-placeholder {
   color: #006eff;
 }
 
-header .mob-search form input::-moz-placeholder {
+header .mob-search-form input::-moz-placeholder {
   color: #006eff;
 }
 
-header .mob-search form input:-ms-input-placeholder {
+header .mob-search-form input:-ms-input-placeholder {
   color: #006eff;
 }
 
-header .mob-search form input:-moz-placeholder {
+header .mob-search-form input:-moz-placeholder {
   color: #006eff;
 }
 
-header .mob-search form input::placeholder {
+header .mob-search-form input::placeholder {
   color: #006eff;
 }
 
-header .mob-search form input[type="button"] {
+header .mob-search-form input[type="button"] {
   display: none;
 }
 
-header .mobile-navigation {
+header .dropdown-menu-items {
   display: none;
-}
-
-header .mobile-navigation i {
-  right: 0.5em;
-  position: relative;
-  font-size: 1.3em;
-}
-
-header .mobile-navigation i:hover {
-  cursor: pointer;
-}
-
-header .mobile-navigation .fa-times {
-  color: #f24d4d;
-}
-
-header .mobile-navigation ul {
   list-style: none;
   position: absolute;
   right: -48em;
@@ -151,13 +182,13 @@ header .mobile-navigation ul {
   overflow: auto;
 }
 
-header .mobile-navigation ul li {
+header .dropdown-menu-items li {
   width: 100%;
   background-color: rgba(0, 91, 122, 0.9);
   padding: 0.5em;
 }
 
-header .mobile-navigation ul li a {
+header .dropdown-menu-items li a {
   text-decoration: none;
   color: white;
 }
@@ -260,6 +291,55 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   cursor: pointer;
 }
 
+/**profile information display information */
+.profile .profile-picture {
+  width: 7em;
+  height: 7em;
+  padding: 0.4em;
+  margin: 0.5em auto;
+  border: 1px solid #0090ff;
+  border-radius: 100em;
+}
+
+.profile .profile-picture .profile-image {
+  background-image: url("images/rubix.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
+.profile .profile-info ul {
+  text-align: center;
+  list-style: none;
+}
+
+.profile .profile-info ul li {
+  color: #6b6b6b;
+}
+
+.profile .profile-info ul li:nth-child(2) i {
+  color: #006eff;
+}
+
+.profile .profile-info ul li:nth-child(3) i {
+  color: #ffb23f;
+}
+
+.profile .profile-info ul li:nth-child(4) i {
+  color: #a954ff;
+}
+
+.profile .profile-info ul li:nth-child(5) i {
+  color: #49ff68;
+}
+
+.profile .profile-info ul li:nth-child(6) i {
+  color: #f24d4d;
+}
+
+/**quick options on right side of page eg search and post a question */
 .quick-options {
   position: fixed;
   top: 30%;
@@ -298,6 +378,23 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
 .quick-options .fa-pencil-alt:hover, .quick-options .fa-pencil-alt:active, .quick-options .fa-search:hover, .quick-options .fa-search:active, .quick-options .fa-times:hover, .quick-options .fa-times:active {
   cursor: pointer;
   background-color: #0090ff;
+}
+
+.quick-options .quick-search {
+  height: 3em;
+}
+
+.quick-options .quick-search form input {
+  padding: 1.1em;
+  border: 0;
+  position: relative;
+  top: 0.1em;
+  left: 0.2em;
+  width: 25em;
+}
+
+.quick-options .quick-search form input[type="submit"] {
+  display: none;
 }
 
 .quick-options .quick-question {
@@ -348,10 +445,20 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   border: 1px solid white;
 }
 
-.quick-options .quick-question form input[type="button"]:hover, .quick-options .quick-question form input[type="button"]:active {
+.quick-options .quick-question form input[type="button"]:hover {
   background-color: #006eff;
   color: white;
   cursor: pointer;
+}
+
+.quick-options .quick-question form input[type="button"]:active {
+  background-color: #006eff;
+  color: white;
+  cursor: pointer;
+  -moz-box-shadow: inset 0 0 4px white;
+  -webkit-box-shadow: inset 0 0 4px white;
+  -ms-box-shadow: inset 0 0 4px white;
+  box-shadow: inset 0 0 4px white;
 }
 
 .quick-options .quick-question form textarea {
@@ -381,40 +488,30 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   color: #006eff;
 }
 
-.quick-options .quick-search {
-  height: 3em;
-}
-
-.quick-options .quick-search form input {
-  padding: 1.1em;
-  border: 0;
-  position: relative;
-  top: 0.1em;
-  left: 0.2em;
-  width: 25em;
-}
-
-.quick-options .quick-search form input[type="submit"] {
-  display: none;
-}
-
+/**main DIV, center of page */
 .main {
   width: 100%;
   height: auto;
   margin: 4em 0 0;
+  /**left side bar */
+  /**right side bar */
+  /**post -a-quetsion page form */
+  /**profile page container */
 }
 
 .main .site-content {
   width: 55%;
   float: left;
   padding: 2em 1em;
+  /**Post a question button on homepage can be used on other pages, copy html */
+  /**page title  */
+  /**signle question template design */
+  /**home page questions display */
 }
 
 .main .site-content .hPostQues {
   display: inline-block;
   text-align: left;
-  position: relative;
-  top: 1.5em;
 }
 
 .main .site-content .hPostQues a {
@@ -426,19 +523,46 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   border-radius: 0.2em;
 }
 
-.main .site-content .hPostQues a:hover, .main .site-content .hPostQues a:active {
+.main .site-content .hPostQues a:hover {
   background-color: white;
   color: #006eff;
-  -moz-box-shadow: 0 0 10px #006eff;
-  -webkit-box-shadow: 0 0 10px #006eff;
-  -ms-box-shadow: 0 0 10px #006eff;
-  box-shadow: 0 0 10px #006eff;
+  -moz-box-shadow: 0 0 5px #006eff;
+  -webkit-box-shadow: 0 0 5px #006eff;
+  -ms-box-shadow: 0 0 5px #006eff;
+  box-shadow: 0 0 5px #006eff;
+}
+
+.main .site-content .hPostQues a:active {
+  background-color: white;
+  color: #006eff;
+  -moz-box-shadow: inset 0 0 4px #006eff;
+  -webkit-box-shadow: inset 0 0 4px #006eff;
+  -ms-box-shadow: inset 0 0 4px #006eff;
+  box-shadow: inset 0 0 4px #006eff;
 }
 
 .main .site-content .pageTitle {
   color: #6b6b6b;
   margin: 0 0 1em 0;
   font-size: 1.3em;
+}
+
+.main .site-content .liked {
+  background-color: #f24d4d;
+  color: white;
+  border: 1px solid #f24d4d !important;
+}
+
+.main .site-content .answered {
+  background-color: #49ff68;
+  color: white;
+  border: 1px solid #49ff68 !important;
+}
+
+.main .site-content .viewed {
+  background-color: #0090ff;
+  color: white;
+  border: 1px solid #0090ff !important;
 }
 
 .main .site-content .single-question {
@@ -478,24 +602,6 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   border: 1px solid #e2e2e2;
 }
 
-.main .site-content .single-question .q-meta ul .liked {
-  background-color: #f24d4d;
-  color: white;
-  border: 1px solid #f24d4d !important;
-}
-
-.main .site-content .single-question .q-meta ul .answered {
-  background-color: #49ff68;
-  color: white;
-  border: 1px solid #49ff68 !important;
-}
-
-.main .site-content .single-question .q-meta ul .viewed {
-  background-color: #0090ff;
-  color: white;
-  border: 1px solid #0090ff !important;
-}
-
 .main .site-content .single-question .q-details {
   display: inline-block;
   padding: 0 0.2em;
@@ -504,13 +610,78 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   word-wrap: break-word;
 }
 
+.main .site-content .single-question .q-details .edit-option-container {
+  position: relative;
+  float: right;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .edit-option {
+  background-color: white;
+  border: 1px solid #6b6b6b;
+  padding: 0.1em 0.4em 0;
+  position: relative;
+  top: -0.8em;
+  border-radius: 0.3em;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .edit-option i {
+  color: #6b6b6b;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .edit-option:hover {
+  -moz-box-shadow: 0 0 4px #777777;
+  -webkit-box-shadow: 0 0 4px #777777;
+  -ms-box-shadow: 0 0 4px #777777;
+  box-shadow: 0 0 4px #777777;
+  cursor: pointer;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .edit-option:active {
+  -moz-box-shadow: inset 0 0 3px #777777;
+  -webkit-box-shadow: inset 0 0 3px #777777;
+  -ms-box-shadow: inset 0 0 3px #777777;
+  box-shadow: inset 0 0 3px #777777;
+  cursor: pointer;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .drop-settings {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #e2e2e2;
+  width: 10em;
+  text-align: center;
+  list-style: none;
+  left: -8em;
+  top: 0.5em;
+  -moz-box-shadow: 0 0 8px #e2e2e2;
+  -webkit-box-shadow: 0 0 8px #e2e2e2;
+  -ms-box-shadow: 0 0 8px #e2e2e2;
+  box-shadow: 0 0 8px #e2e2e2;
+  display: none;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .drop-settings li {
+  padding: 0.5em 0;
+  font-size: 0.8em;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .drop-settings li:last-child {
+  border-bottom: none;
+}
+
+.main .site-content .single-question .q-details .edit-option-container .drop-settings li:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
+
 .main .site-content .single-question .q-details .posted-on {
   font-size: 0.7em;
   float: right;
-  display: block;
-  width: 100%;
+  display: inline-block;
   text-align: right;
   margin: 0 1.4em 0 0;
+  width: 100%;
 }
 
 .main .site-content .single-question .q-details .posted-on a {
@@ -689,7 +860,7 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   cursor: pointer;
 }
 
-.main .lsidebar .short-profile {
+.main .lsidebar .profile {
   z-index: 999;
   width: 20%;
   position: fixed;
@@ -699,64 +870,40 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   border-right: 1px solid #0090ff;
 }
 
-.main .lsidebar .short-profile .short-profile-picture {
-  width: 7em;
-  height: 7em;
-  padding: 0.4em;
-  margin: 0.5em auto;
-  border: 1px solid #0090ff;
-  border-radius: 100em;
+.main .lsidebar .profile .l-settings {
+  float: right;
+  background-color: #006eff;
+  border-bottom-left-radius: 1em;
 }
 
-.main .lsidebar .short-profile .short-profile-picture .profile-image {
-  background-image: url("/images/rubix.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 100%;
-  width: 100%;
+.main .lsidebar .profile .l-settings span {
+  display: none;
 }
 
-.main .lsidebar .short-profile .profile-info ul {
-  text-align: center;
-  list-style: none;
+.main .lsidebar .profile .l-settings i {
+  color: white;
+  padding: 0.5em;
 }
 
-.main .lsidebar .short-profile .profile-info ul li {
-  color: #6b6b6b;
+.main .lsidebar .profile .l-settings:hover, .main .lsidebar .profile .l-settings:active {
+  background-color: #0090ff;
+  cursor: pointer;
+}
+
+.main .lsidebar .profile .profile-info ul li {
   margin: 0.7em 0;
 }
 
-.main .lsidebar .short-profile .profile-info ul li a {
+.main .lsidebar .profile .profile-info ul li a {
   color: #006eff;
   text-decoration: none;
 }
 
-.main .lsidebar .short-profile .profile-info ul li a:hover, .main .lsidebar .short-profile .profile-info ul li a:active {
+.main .lsidebar .profile .profile-info ul li a:hover, .main .lsidebar .profile .profile-info ul li a:active {
   text-decoration: underline;
 }
 
-.main .lsidebar .short-profile .profile-info ul li:nth-child(2) i {
-  color: #006eff;
-}
-
-.main .lsidebar .short-profile .profile-info ul li:nth-child(3) i {
-  color: #ffb23f;
-}
-
-.main .lsidebar .short-profile .profile-info ul li:nth-child(4) i {
-  color: #a954ff;
-}
-
-.main .lsidebar .short-profile .profile-info ul li:nth-child(5) i {
-  color: #49ff68;
-}
-
-.main .lsidebar .short-profile .profile-info ul li:nth-child(6) i {
-  color: #f24d4d;
-}
-
-.main .lsidebar .short-profile .profile-info ul li span {
+.main .lsidebar .profile .profile-info ul li span {
   color: #6b6b6b;
   font-size: 0.8em;
 }
@@ -849,6 +996,57 @@ header #access-forms input[type="button"]:hover, header #access-forms input[type
   color: #006eff;
 }
 
+.main .profile-page-cont .profile {
+  display: none;
+  margin: 0 0 2em 0;
+  text-align: right;
+}
+
+.main .profile-page-cont .profile .l-settings {
+  background-color: white;
+  border: 1px solid #0090ff;
+  border-radius: 0.3em;
+  color: #0090ff;
+  padding: 0.3em 0.6em;
+  text-decoration: none;
+}
+
+.main .profile-page-cont .profile .l-settings:hover {
+  background-color: #006eff;
+  color: white;
+  -moz-box-shadow: 0 0 4px #6b6b6b;
+  -webkit-box-shadow: 0 0 4px #6b6b6b;
+  -ms-box-shadow: 0 0 4px #6b6b6b;
+  box-shadow: 0 0 4px #6b6b6b;
+}
+
+.main .profile-page-cont .profile .l-settings:active {
+  -moz-box-shadow: inset 0 0 4px #6b6b6b;
+  -webkit-box-shadow: inset 0 0 4px #6b6b6b;
+  -ms-box-shadow: inset 0 0 4px #6b6b6b;
+  box-shadow: inset 0 0 4px #6b6b6b;
+}
+
+.main .profile-page-cont .profile .profile-info ul li {
+  display: inline-block;
+  margin: 0.5em;
+}
+
+.main .profile-page-cont .profile .profile-info ul li:first-child {
+  display: block;
+}
+
+.main .profile-page-cont .profile .profile-info ul li:last-child {
+  display: none;
+}
+
+.main .profile-page-cont h2 {
+  text-align: center;
+  color: #6b6b6b;
+  border-top: 1px solid #e2e2e2;
+  padding: 0.25em 0 0;
+}
+
 footer {
   width: 100%;
   background-color: #006eff;
@@ -871,11 +1069,14 @@ footer p {
   .main .lsidebar {
     display: none;
   }
+  .main .profile-page-cont .profile {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 768px) {
   header .welcome {
-    font-size: 1.4em;
+    font-size: 1em;
   }
   header .main-navigation {
     display: none;
@@ -883,40 +1084,40 @@ footer p {
   header .mobile-navigation {
     display: inline-block;
   }
-  header .mob-search {
-    display: inline-block;
+  header .dropdown-menu-items {
+    display: block;
   }
   .quick-options {
     display: none;
   }
   .main .site-content {
     width: 100%;
+    /**signle question template design */
   }
   .main .site-content .hPostQues {
     display: block;
     float: none;
-    top: 0;
     text-align: right;
     margin: 1em 0;
   }
-  .main .site-content #hQuestions .tab .single-question {
+  .main .site-content .single-question {
     display: block;
   }
-  .main .site-content #hQuestions .tab .single-question .q-meta ul {
+  .main .site-content .single-question .q-meta ul {
     display: block;
     width: 100%;
     text-align: center;
   }
-  .main .site-content #hQuestions .tab .single-question .q-details .posted-on {
+  .main .site-content .single-question .q-details .posted-on {
     float: none;
     text-align: center;
     margin: 0;
   }
-  .main .site-content #hQuestions .tab .single-question .q-details .question-title {
+  .main .site-content .single-question .q-details .question-title {
     margin: 1em 0 0;
     padding: 0;
   }
-  .main .site-content #hQuestions .tab .single-question .q-details .tags {
+  .main .site-content .single-question .q-details .tags {
     float: none;
     margin: 1em 0;
     text-align: center;

@@ -8,12 +8,19 @@ $tagColor: rgb(140, 209, 255);
 $textGray : #6b6b6b;
 $borderGray: #e2e2e2;
 $mainborder: 1px solid $maincolor;
+$whiteBorder: 1px solid white;
 @import url("https://fonts.googleapis.com/css?family=Roboto|Muli|Dosis|Quicksand|Josefin+Sans");
-@mixin boxShadow($w, $x, $y, $z){
+@mixin outerBoxShadow($w, $x, $y, $z){
   -moz-box-shadow: $w $x $y $z;
   -webkit-box-shadow: $w $x $y $z;
   -ms-box-shadow: $w $x $y $z;
   box-shadow: $w $x $y $z;
+};
+@mixin innerBoxShadow($w, $x, $y, $z){
+  -moz-box-shadow: inset $w $x $y $z;
+  -webkit-box-shadow: inset $w $x $y $z;
+  -ms-box-shadow: inset $w $x $y $z;
+  box-shadow: inset $w $x $y $z;
 };
 @mixin placeholder($color){
   &::-webkit-input-placeholder{
@@ -45,8 +52,22 @@ body{
   font-size: 16px;
 }//body
 
+/** profile page specific css*/
 body.page-profile{
   .main{
+    .lsidebar{
+      .profile{
+        .profile-info{
+          ul{
+            li{
+              &:last-child{
+                display: none;
+              }//last-child
+            }//li
+          }//ul
+        }//profile-info
+      }//.profile
+    }//.lsidebar
   }//.main
 }//body.page-profile
 
@@ -60,6 +81,7 @@ header{
   top: 0;
   width: 100%;
   height: 3.25em;
+  z-index: 99999;
   .welcome{
     float: left;
     margin: 0 0.5em;
@@ -94,68 +116,100 @@ header{
       }//li
     }//ul
   }//.main-navigation
-  .mob-search{
-    display: none;
-    i{
-      right: 1em;
-      position: relative;
-      font-size: 1.3em;
-      color: white;
-      &:hover{
-        cursor: pointer;
-      }//hover
-    }//i
-    form{
-      position: absolute;
-      left: 0;
-      top: 3.2em;
-      width: 100%;
-      display: none;
-      z-index: 99;
-      input{
-        padding: 1em;
-        width: 100%;
-        border: 0;
-        @include boxShadow(0, 0, 10px,$maincolor);
-        @include placeholder($maincolor);
-      }
-      input[type="button"]{
-        display:none;
-      }//input
-    }//form
-  }//.mob-search
+
+
   .mobile-navigation{
     display: none;
-      i{
-        right: 0.5em;
-        position: relative;
-        font-size: 1.3em;
-        &:hover{
-          cursor: pointer;
-        }//hover
-      }//i
-      .fa-times{
-        color: #f24d4d;
-      }//fa-times
-      ul{
-        list-style: none;
-        position: absolute;
-        right: -48em;
-        text-align: center;
-        top: 3.2em;
-        width: 100%;
-        overflow: auto;
-        li{
-          width: 100%;
-          background-color: rgba(0, 91, 122, 0.9);
-          padding: 0.5em;
-          a{
-            text-decoration: none;
-            color: white;
-          }//a
-        }//li
-      }//ul
+    position: relative;
+    top: -1em;
+    margin: 0 1em;
+    .nav-icon{
+      display: inline-block;
+      width: auto;
+      margin: 0 0.2em;
+      position: relative;
+    }//nav-icon
+      .profile{
+        top:0.5em;
+        .profile-picture{
+          width: 2em;
+          height: 2em;
+          padding: 0.1em;
+          border-radius: 100em;
+          border: $whiteBorder;
+          margin: 0;
+          .profile-image{
+              background-image: url('images/rubix.png');
+              background-size: contain;
+              background-position: center;
+              background-repeat: no-repeat;
+              height: 100%;
+              width: 100%;
+          }//.profile-image
+        }//.profile-picture
+      }//profile
+      .mob-search{
+        i{
+          font-size: 1.3em;
+          color: white;
+          &:hover{
+            cursor: pointer;
+          }//hover
+        }//i
+
+      }//.mob-search
+      .dropdown-menu{
+        i{
+          font-size: 1.3em;
+          &:hover{
+            cursor: pointer;
+          }//hover
+        }//i
+        .fa-times{
+          color: #f24d4d;
+        }//fa-times
+      }
   }//.mobile-navigation
+
+  .mob-search-form{
+    position: absolute;
+    left: 0;
+    top: 3.3em;
+    width: 100%;
+    display: none;
+    z-index: 99;
+    input{
+      padding: 1em;
+      width: 100%;
+      border: 0;
+      @include outerBoxShadow(0, 0, 10px,$maincolor);
+      @include placeholder($maincolor);
+    }
+    input[type="button"]{
+      display:none;
+    }//input
+  }//form
+
+  .dropdown-menu-items{
+    display: none;
+    list-style: none;
+    position: absolute;
+    right: -48em;
+    text-align: center;
+    top: 3.2em;
+    width: 100%;
+    overflow: auto;
+    li{
+      width: 100%;
+      background-color: rgba(0, 91, 122, 0.9);
+      padding: 0.5em;
+      a{
+        text-decoration: none;
+        color: white;
+      }//a
+    }//li
+  }//ul
+
   #access-forms{
     display: none;
     position: absolute;
@@ -167,7 +221,7 @@ header{
     margin: 1em;
     z-index: 9;
     background-color: white;
-    @include boxShadow(0, 0, 10px, $maincolor);
+    @include outerBoxShadow(0, 0, 10px, $maincolor);
 
     h2{
       font-size:1em;
@@ -208,7 +262,7 @@ header{
       padding: 0.5em 1em;
       margin: 0.5em 0;
       border: $mainborder;
-      // @include boxShadow(0, 0, 10px, #777777);
+      // @include outerBoxShadow(0, 0, 10px, #777777);
       @include placeholder ($maincolor);
     }//input
 
@@ -228,8 +282,66 @@ header{
     }//input[type=button]
 
   }//.access-form
+
 }//header
 
+
+/**profile information display information */
+.profile{
+  .profile-picture{
+    width: 7em;
+    height: 7em;
+    padding: 0.4em;
+    margin: 0.5em auto;
+    border: 1px solid $hoverColor;
+    border-radius: 100em;
+    .profile-image{
+        background-image: url('images/rubix.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100%;
+        width: 100%;
+    }//.profile-image
+  }//.profile-picture
+  .profile-info{
+    ul{
+        text-align: center;
+        list-style: none;
+        li{
+          color:$textGray;
+          &:nth-child(2){
+              i{
+                color: $maincolor;
+              }
+          }
+          &:nth-child(3){
+              i{
+                color: #ffb23f;
+              }
+          }
+          &:nth-child(4){
+              i{
+                color: #a954ff;
+              }
+          }
+          &:nth-child(5){
+              i{
+                color: #49ff68;
+              }
+          }
+          &:nth-child(6){
+              i{
+                color: #f24d4d;
+              }
+          }
+        }
+    }//ul
+  }//.profile-info
+}//profle
+
+
+/**quick options on right side of page eg search and post a question */
 .quick-options{
     position: fixed;
     top: 30%;
@@ -238,7 +350,7 @@ header{
     right: -25em;
 
     .opt-shadow{
-      @include boxShadow(0, 0, 10px, $maincolor);
+      @include outerBoxShadow(0, 0, 10px, $maincolor);
     }//.opt-shadow
 
     .option{
@@ -259,14 +371,31 @@ header{
       border-top: 1px solid $hoverColor;
       border-left: 1px solid $hoverColor;
       border-bottom: 1px solid $hoverColor;
-      // @include boxShadow(0, 0, 10px, $maincolor);
+      // @include outerBoxShadow(0, 0, 10px, $maincolor);
       &:hover, &:active{
         cursor: pointer;
         background-color: $hoverColor;
       }//hover
     }//.fa-pencil-alt
 
-  .quick-question{
+    .quick-search{
+      height: 3em;
+      form{
+        input{
+          padding: 1.1em;
+          border: 0;
+          position: relative;
+          top: 0.1em;
+          left: 0.2em;
+          width: 25em;
+        }//input
+        input[type="submit"]{
+          display: none;
+        }
+      }//.form
+    }//.quick-search
+
+    .quick-question{
     top:-0.7em;
     padding: 1em;
     text-align: center;
@@ -288,11 +417,17 @@ header{
       input[type="button"]{
         padding: 0.5em 1em;
         color: $maincolor;
-        border: 1px solid white;
-        &:hover, &:active{
+        border: $whiteBorder;
+        &:hover{
           background-color: $maincolor;
           color: white;
           cursor: pointer;
+        }//hover
+        &:active{
+          background-color: $maincolor;
+          color: white;
+          cursor: pointer;
+          @include innerBoxShadow(0, 0, 4px, white);
         }//hover
       }
       textarea{
@@ -305,25 +440,9 @@ header{
     }//form
   }//.quick-question
 
-  .quick-search{
-    height: 3em;
-    form{
-      input{
-        padding: 1.1em;
-        border: 0;
-        position: relative;
-        top: 0.1em;
-        left: 0.2em;
-        width: 25em;
-      }//input
-      input[type="submit"]{
-        display: none;
-      }
-    }//.form
-  }//.quick-search
-
 }//.quick-options
 
+/**main DIV, center of page */
 .main{
   width: 100%;
   height: auto;
@@ -333,11 +452,10 @@ header{
     float: left;
     padding: 2em 1em;
 
+    /**Post a question button on homepage can be used on other pages, copy html */
     .hPostQues{
       display: inline-block;
       text-align: left;
-      position: relative;
-      top: 1.5em;
       a{
         background-color: $maincolor;
         border: $mainborder;
@@ -345,20 +463,43 @@ header{
         text-decoration: none;
         padding: 0.5em 0.9em;
         border-radius: 0.2em;
-        &:hover, &:active{
+        &:hover{
           background-color: white;
           color: $maincolor;
-          @include boxShadow(0, 0, 10px, $maincolor);
+          @include outerBoxShadow(0, 0, 5px, $maincolor);
         }//&:hover, &:active
+         &:active{
+             background-color: white;
+             color: $maincolor;
+             @include innerBoxShadow(0, 0, 4px, $maincolor);
+         }
       }//a
     }//.hPostQues
 
+    /**page title  */
     .pageTitle{
       color: $textGray;
       margin: 0 0 1em 0;
       font-size: 1.3em;
     }
 
+    .liked{
+        background-color: #f24d4d;
+        color: white;
+        border: 1px solid #f24d4d!important;
+    }
+    .answered{
+      background-color: #49ff68;
+      color: white;
+      border: 1px solid #49ff68!important;
+    }
+    .viewed{
+      background-color: $hoverColor;
+      color: white;
+      border: 1px solid $hoverColor!important;
+    }
+    
+    /**signle question template design */
     .single-question{
       border-top: 1px solid $borderGray;
       padding: 1em 0;
@@ -387,21 +528,6 @@ header{
               }
             }//span
           }//li
-          .liked{
-              background-color: #f24d4d;
-              color: white;
-              border: 1px solid #f24d4d!important;
-          }
-          .answered{
-            background-color: #49ff68;
-            color: white;
-            border: 1px solid #49ff68!important;
-          }
-          .viewed{
-            background-color: $hoverColor;
-            color: white;
-            border: 1px solid $hoverColor!important;
-          }
         }//ul
       }
       .q-details{
@@ -410,13 +536,60 @@ header{
         width: auto;
         overflow: visible;
         word-wrap: break-word;
+        .edit-option-container{
+          position: relative;
+          float:right;
+          .edit-option{
+            background-color: white;
+            border: 1px solid $textGray;
+            padding: 0.1em 0.4em 0;
+            position: relative;
+            top: -0.8em;
+            border-radius: 0.3em;
+            i{
+              color: $textGray;
+            }
+            &:hover{
+              @include outerBoxShadow(0, 0, 4px, #777777);
+              cursor: pointer;
+            }//&:hover
+            &:active{
+              @include innerBoxShadow(0, 0, 3px, #777777);
+              cursor: pointer;
+            }//&:active
+          }//.edit-option
+          .drop-settings{
+              position: absolute;
+              background-color: white;
+              border: 1px solid $borderGray;
+              width:10em;
+              text-align: center;
+              list-style: none;
+              left: -8em;
+              top: 0.5em;
+              @include outerBoxShadow(0 ,0 , 8px, $borderGray);
+              display: none;
+              li{
+                padding: 0.5em 0;
+                font-size: 0.8em;
+                border-bottom: 1px solid $borderGray;
+                &:last-child{
+                  border-bottom: none;
+                }//&:last-child
+                &:hover{
+                  background-color: $borderGray;
+                  cursor: pointer;
+                }
+              }//li
+          }//.drop-settings
+        }//.edit-option-container
         .posted-on{
           font-size: 0.7em;
           float: right;
-          display: block;
-          width: 100%;
+          display: inline-block;
           text-align: right;
           margin: 0 1.4em 0 0;
+          width:100%;
           a{
             color: #f24d4d;
           }//a
@@ -454,6 +627,7 @@ header{
       }//last-child
     }//.single-question
 
+    /**home page questions display */
     #hQuestions{
       padding: 0.1em 0 0;
       .tab-cont{
@@ -488,6 +662,7 @@ header{
     }//#hQuestions
   }//.site-content
 
+  /**left side bar */
   .lsidebar{
     width: 20%;
     float: left;
@@ -540,7 +715,7 @@ header{
         padding: 0.5em 1em;
         margin: 0.5em 0;
         border: $mainborder;
-        // @include boxShadow(0, 0, 10px, #777777);
+        // @include outerBoxShadow(0, 0, 10px, #777777);
         @include placeholder ($maincolor);
       }//input
 
@@ -561,7 +736,7 @@ header{
 
     }//.access-form
 
-    .short-profile{
+    .profile{
       z-index: 999;
       width: 20%;
       position: fixed;
@@ -570,29 +745,26 @@ header{
       border-bottom: 1px solid $hoverColor;
       border-right: 1px solid $hoverColor;
 
-      .short-profile-picture{
-        width: 7em;
-        height: 7em;
-        padding: 0.4em;
-        margin: 0.5em auto;
-        border: 1px solid $hoverColor;
-        border-radius: 100em;
-        .profile-image{
-          background-image: url('/images/rubix.png');
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: contain;
-          height: 100%;
-          width: 100%;
-        }//.profile-image
-      }
+      .l-settings{
+        float:right;
+        background-color: $maincolor;
+        border-bottom-left-radius: 1em;
+        span{
+          display: none;
+        }
+        i{
+          color: white;
+          padding: 0.5em;
+        }//i
+        &:hover, &:active{
+          background-color: $hoverColor;
+          cursor: pointer;
+        }//&:hover, &:active
+      }//.l-settings
 
       .profile-info{
         ul{
-          text-align: center;
-          list-style: none;
           li{
-            color: $textGray;
             margin: 0.7em 0;
             a{
               color: $maincolor;
@@ -603,31 +775,7 @@ header{
             }//a
             i{
             }
-            &:nth-child(2){
-                i{
-                  color: $maincolor;
-                }
-            }
-            &:nth-child(3){
-                i{
-                  color: #ffb23f;
-                }
-            }
-            &:nth-child(4){
-                i{
-                  color: #a954ff;
-                }
-            }
-            &:nth-child(5){
-                i{
-                  color: #49ff68;
-                }
-            }
-            &:nth-child(6){
-                i{
-                  color: #f24d4d;
-                }
-            }
+
             span{
               color: $textGray;
               font-size: 0.8em;
@@ -636,10 +784,11 @@ header{
         }//ul
       }//.profile-info
 
-    }//.short-profile
+    }//.profile
 
   }//.lsidebar
 
+  /**right side bar */
   .side-bar{
     width: 25%;
     float: right;
@@ -677,6 +826,8 @@ header{
     }//hot-questions
   }//.side-bar
 
+
+  /**post -a-quetsion page form */
   .question-form{
     form{
       label{
@@ -706,7 +857,53 @@ header{
     }//form
   }//.question-form
 
+  /**profile page container */
   .profile-page-cont{
+    .profile{
+      display: none;
+      margin: 0 0 2em 0;
+      text-align: right;
+      .l-settings{
+        background-color:white;
+        border: 1px solid $hoverColor;
+        border-radius: 0.3em;
+        color: $hoverColor;
+        padding: 0.3em 0.6em;
+        text-decoration: none;
+        span{
+        }//span
+        i{
+        }//i
+        &:hover{
+          background-color: $maincolor;
+          color: white;
+          @include outerBoxShadow(0 , 0, 4px, $textGray);
+        }//hover
+        &:active{
+          @include innerBoxShadow(0 , 0, 4px, $textGray);
+        }//active
+      }//l-settings
+      .profile-info{
+        ul{
+          li{
+            display: inline-block;
+            margin: 0.5em;
+            &:first-child{
+              display: block;
+            }
+            &:last-child{
+              display: none;
+            }//last-child
+          }//li
+        }//ul
+      }//.profile-info
+    }//.profile
+    h2{
+      text-align: center;
+      color: $textGray;
+      border-top: 1px solid $borderGray;
+      padding: 0.25em 0 0;
+    }
   }//.profile-page-cont
 
 }//.main
@@ -744,29 +941,22 @@ footer{
     .lsidebar{
       display: none;
     }
+
+  .profile-page-cont{
+    .profile{
+        display: block
+    } //.page-profile
+  }//.profile-page-cont
+
   }//main
 
 }//@media screen and ( max-width: 935px )
 
 @media screen and ( max-width: 768px ){
 
-  body.page-profile{
-    .main{
-      .site-content{
-      }//.site-content
-
-      .lsidebar{
-      }//.lsidebar
-
-      .sidebar{
-
-      }//.sidebar
-    }//.main
-  }//body.page-profile
-
   header{
     .welcome{
-      font-size: 1.4em;
+      font-size: 1em;
     }
     .main-navigation{
       display: none;
@@ -774,8 +964,8 @@ footer{
     .mobile-navigation{
       display: inline-block;
     }//.mobile-navigation
-    .mob-search{
-      display: inline-block;
+    .dropdown-menu-items{
+      display: block;
     }//.mob-search
   }//header
 
@@ -790,41 +980,42 @@ footer{
       .hPostQues{
         display: block;
         float: none;
-        top: 0;
         text-align: right;
         margin: 1em 0;
         a{
         }//a
       }//.hPostQues
 
+      /**signle question template design */
+      .single-question{
+        display: block;
+        .q-meta{
+          ul{
+            display: block;
+            width: 100%;
+            text-align: center;
+          }//ul
+        }//.q-meta
+        .q-details{
+          .posted-on{
+            float: none;
+            text-align: center;
+            margin: 0;
+          }//.posted-on
+          .question-title{
+            margin: 1em 0 0;
+            padding: 0;
+          }
+          .tags{
+            float: none;
+            margin: 1em 0;
+            text-align: center;
+          }//.tags
+        }//.q-details
+      }//.single-question
+
       #hQuestions{
         .tab{
-          .single-question{
-            display: block;
-            .q-meta{
-              ul{
-                display: block;
-                width: 100%;
-                text-align: center;
-              }//ul
-            }//.q-meta
-            .q-details{
-              .posted-on{
-                float: none;
-                text-align: center;
-                margin: 0;
-              }//.posted-on
-              .question-title{
-                margin: 1em 0 0;
-                padding: 0;
-              }
-              .tags{
-                float: none;
-                margin: 1em 0;
-                text-align: center;
-              }//.tags
-            }//.q-details
-          }//.single-question
         }//.tab
       }//#hQuestions
 
