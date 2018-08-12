@@ -54,7 +54,7 @@ body{
 }//body
 
 /** profile page specific css*/
-body.page-profile-page{
+body.page-profile{
   .main{
     .lsidebar{
       .profile{
@@ -72,6 +72,17 @@ body.page-profile-page{
     }//.lsidebar
   }//.main
 }//body.page-profile
+
+body.page-login-signup{
+  .main{
+    .lsidebar{
+      display: none;
+    }
+    .site-content{
+      width: 75%;
+    }
+  }//.main
+}//.page-login-signup
 
 header{
   padding: 1em 0;
@@ -94,6 +105,7 @@ header{
       }//hover
     }//a
   }//.welcome
+
   .main-navigation{
     display:inline-block;
     margin: 0 0 0 0.5em;
@@ -111,9 +123,6 @@ header{
             background-color: $hoverColor;
           }//hover
         }//a
-        &:last-child{
-          display: none;
-        }//last-child
       }//li
     }//ul
   }//.main-navigation
@@ -209,76 +218,6 @@ header{
     }//li
   }//ul
 
-  #access-forms{
-    display: none;
-    position: absolute;
-    top: 2.5em;
-    right: 0;
-    width: 15em;
-    float: right;
-    text-align: center;
-    margin: 1em;
-    z-index: 9;
-    background-color: white;
-    @include outerBoxShadow(0, 0, 10px, $maincolor);
-
-    h2{
-      font-size:1em;
-    }
-
-    #login-form{
-      display: block;
-    }//#login-form
-
-    #signup-form{
-      display: none;
-    }//#signup-form
-
-    #signup-form, #login-form{
-      padding: 1em 0.5em;
-      border: $mainborder;
-      color: black;
-      span{
-        font-size: 0.7em;
-        button{
-          background-color: transparent;
-          text-decoration: none;
-          border: none;
-          color: $maincolor;
-          &:hover, &:active{
-            color: grey;
-          }//hover
-        }//a
-      }//span
-      form{
-        margin: 1em 0 0;
-      }
-    }//#signup-form, #login-form
-
-    input{
-      width: 100%;
-      padding: 0.5em 1em;
-      margin: 0.5em 0;
-      border: $mainborder;
-      // @include outerBoxShadow(0, 0, 10px, #777777);
-      @include placeholder ($maincolor);
-    }//input
-
-    input[type="button"]{
-      display: inline-block;
-      width: auto;
-      clear: both;
-      padding: 0.5em 2em;
-      color: white;
-      border: $mainborder;
-      background-color: $maincolor;
-      &:hover, &:active{
-        background-color: white;
-        color: $maincolor;
-      }//hover
-    }//input[type=button]
-
-  }//.access-form
 
 }//header
 
@@ -829,6 +768,66 @@ a, input[type="button"], i, button{
       }//comment-form
     }//.single-question-page
 
+
+    /**login/signup page*/
+    .login-signup-cont{
+      padding: 4em ;
+      width: 70%;
+      margin: 0 auto;
+      #login-form{
+        display: block;
+      }//#side-login-form
+
+      #signup-form{
+        display: none;
+      }//#side-signup-form
+
+      #signup-form, #login-form{
+        padding: 1em;
+        border: $mainborder;
+        color: black;
+        @include outerBoxShadow(0, 0, 8px, $maincolor);
+        span{
+          button{
+            background-color: transparent;
+            text-decoration: none;
+            border: none;
+            color: $maincolor;
+            &:hover, &:active{
+              color: grey;
+            }//hover
+          }//a
+        }//span
+        form{
+          margin: 1em 0 0;
+        }
+      }//#side-signup-form, #login-form
+
+      input{
+        width: 100%;
+        padding: 1em;
+        margin: 0.5em 0;
+        border: $mainborder;
+        // @include outerBoxShadow(0, 0, 10px, #777777);
+        @include placeholder ($maincolor);
+      }//input
+
+      input[type="button"]{
+        display: inline-block;
+        width: auto;
+        clear: both;
+        padding: 0.5em 2em;
+        color: white;
+        border: $mainborder;
+        background-color: $maincolor;
+        &:hover, &:active{
+          background-color: white;
+          color: $maincolor;
+        }//hover
+      }//input[type=button]
+    }
+
+
   }//.site-content
 
   /**left side bar */
@@ -836,7 +835,7 @@ a, input[type="button"], i, button{
     width: 20%;
     float: left;
 
-    #side-access-forms{
+    .side-access-forms{
       width: 100%;
       text-align: center;
       margin: 40% 0 0;
@@ -1120,6 +1119,16 @@ footer{
 
 @media screen and ( max-width: 768px ){
 
+  body.page-login-signup{
+    .main{
+      .lsidebar{
+      }
+      .site-content{
+        width: 100%;
+      }
+    }//.main
+  }//.page-login-signup
+
   header{
     .welcome{
       font-size: 1em;
@@ -1231,12 +1240,23 @@ footer{
           }//h2
         }//.comment-form
       }//.single-question-page
+
+      /** login/sign up page*/
+      .login-signup-cont{
+        width: 100%;
+        padding: 0;
+      }//.login-signup-cont
+
       #hQuestions{
         .tab{
         }//.tab
       }//#hQuestions
 
     }//.site-content
+
+
+
+
     .side-bar, .lsidebar{
       display: none;
     }//.side-bar
