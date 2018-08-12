@@ -120,10 +120,39 @@ for( let y in countArr){
   }//for x
 }//for y
 
-/** edit question dropdown settings */
+/** single question template edit question dropdown settings */
 let $editOption = $('.edit-option');
 $editOption.click( function(){
-   $(this).next().slideToggle();
+    $(this).next().slideToggle();
 });
+
+/** comments list background color */
+let $comments = $('.comments ul li');
+for( let x in $comments){
+  if( x%2 === 0 ){
+    $($comments[x]).css('background-color', '#f4f4f4');
+  }
+}
+
+
+/** action buttons config*/
+let $actionBtnArr = ['.like-btn i','.dislike-btn i','.report-btn i','.favorite-btn i'];
+let $thinClass = ['far fa-thumbs-up','far fa-thumbs-down','far fa-flag','far fa-star'];
+let $thickClass = ['fas fa-thumbs-up','fas fa-thumbs-down','fas fa-flag','fas fa-star'];
+for(let x in $actionBtnArr ){
+  let current = $($actionBtnArr[x]);
+  current.on('click', function(){
+    let currentClass = $(this).attr('class');
+    console.log(currentClass);
+    if( currentClass === $thinClass[x]){
+      $(this).removeClass($thinClass[x]).addClass($thickClass[x]);
+      console.log('changing to thick');
+    }
+    else{
+      $(this).removeClass($thickClass[x]).addClass($thinClass[x]);
+      console.log('changing to thin');
+    }
+  });
+}
 
 });
