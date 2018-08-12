@@ -11,7 +11,11 @@ body {
 }
 
 /** profile page specific css*/
-body.page-profile .main .lsidebar .profile .profile-info ul li:last-child {
+body.page-profile-page .main .lsidebar .profile {
+  display: block;
+}
+
+body.page-profile-page .main .lsidebar .profile .profile-info ul li:last-child {
   display: none;
 }
 
@@ -631,7 +635,7 @@ a:hover, a:active, input[type="button"]:hover, input[type="button"]:active, i:ho
 .main .site-content .single-question .q-details {
   display: inline-block;
   padding: 0 0.2em;
-  width: auto;
+  width: 100%;
   overflow: visible;
   word-wrap: break-word;
 }
@@ -1022,6 +1026,7 @@ a:hover, a:active, input[type="button"]:hover, input[type="button"]:active, i:ho
 }
 
 .main .lsidebar .profile {
+  display: none;
   z-index: 999;
   width: 20%;
   position: fixed;

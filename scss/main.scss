@@ -54,10 +54,11 @@ body{
 }//body
 
 /** profile page specific css*/
-body.page-profile{
+body.page-profile-page{
   .main{
     .lsidebar{
       .profile{
+        display: block;
         .profile-info{
           ul{
             li{
@@ -566,7 +567,7 @@ a, input[type="button"], i, button{
       .q-details{
         display: inline-block;
         padding: 0 0.2em;
-        width: auto;
+        width: 100%;
         overflow: visible;
         word-wrap: break-word;
         .edit-option-container{
@@ -903,6 +904,7 @@ a, input[type="button"], i, button{
     }//.access-form
 
     .profile{
+      display: none;
       z-index: 999;
       width: 20%;
       position: fixed;
