@@ -10,7 +10,7 @@ const dashTitle = str =>{
   let bodyTag = document.getElementsByTagName('body');
   let currentPageTitle = document.title;
   let cName = dashTitle(currentPageTitle);
-  bodyTag[0].classList += "page-" + cName ;
+  bodyTag[0].classList += "page-" + cName + " " ;
 
 
 /** action buttons config*/
