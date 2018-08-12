@@ -1,7 +1,7 @@
 {
   "name": "final-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "Two week bootcamp project",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +11,13 @@
   "dependencies": {
     "express": "^4.16.3",
     "hbs": "^4.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KvNGCzA/bootcamp-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KvNGCzA/bootcamp-project/issues"
+  },
+  "homepage": "https://github.com/KvNGCzA/bootcamp-project#readme"
 }

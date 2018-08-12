@@ -1,10 +1,8 @@
 
-{{!-- access-form --}}
-<div id="access-forms">
 
     {{!-- signup-form --}}
     <div id="signup-form" class="c-forms">
-        <h2>Sign Up</h2><span>Have an account? <button id="c-t-login" class="c-t-btn" onclick="checkWhichForm()">Login</button> </span>
+        <h2>Sign Up</h2><span>Have an account? <button id="c-t-login" class="c-t-btn">Login</button> </span>
         <form action="index.html" method="post">
             <input type="text" name="fname" placeholder="First Name">
             <input type="text" name="lname" placeholder="Last Name">
@@ -18,7 +16,7 @@
 
     {{!-- login-form --}}
     <div id="login-form" class="c-forms">
-        <h2>Login</h2><span>Don't have an account? <button id="c-t-signup" class="c-t-btn" onclick="checkWhichForm()">Sign up</button> </span>
+        <h2>Login</h2><span>Don't have an account? <button id="c-t-signup" class="c-t-btn" >Sign up</button> </span>
         <form action="index.html" method="post">
             <input type="text" name="username" placeholder="Username" value=""/>
             <input type="password" name="pwd" value="" placeholder="Password"/>
@@ -26,6 +24,3 @@
         </form>
     </div>
     {{!-- login-form --}}
-
-</div>
-{{!-- access-forms --}}
