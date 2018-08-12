@@ -94,6 +94,7 @@ header{
       }//hover
     }//a
   }//.welcome
+
   .main-navigation{
     display:inline-block;
     margin: 0 0 0 0.5em;
@@ -111,9 +112,6 @@ header{
             background-color: $hoverColor;
           }//hover
         }//a
-        &:last-child{
-          display: none;
-        }//last-child
       }//li
     }//ul
   }//.main-navigation
@@ -209,76 +207,6 @@ header{
     }//li
   }//ul
 
-  #access-forms{
-    display: none;
-    position: absolute;
-    top: 2.5em;
-    right: 0;
-    width: 15em;
-    float: right;
-    text-align: center;
-    margin: 1em;
-    z-index: 9;
-    background-color: white;
-    @include outerBoxShadow(0, 0, 10px, $maincolor);
-
-    h2{
-      font-size:1em;
-    }
-
-    #login-form{
-      display: block;
-    }//#login-form
-
-    #signup-form{
-      display: none;
-    }//#signup-form
-
-    #signup-form, #login-form{
-      padding: 1em 0.5em;
-      border: $mainborder;
-      color: black;
-      span{
-        font-size: 0.7em;
-        button{
-          background-color: transparent;
-          text-decoration: none;
-          border: none;
-          color: $maincolor;
-          &:hover, &:active{
-            color: grey;
-          }//hover
-        }//a
-      }//span
-      form{
-        margin: 1em 0 0;
-      }
-    }//#signup-form, #login-form
-
-    input{
-      width: 100%;
-      padding: 0.5em 1em;
-      margin: 0.5em 0;
-      border: $mainborder;
-      // @include outerBoxShadow(0, 0, 10px, #777777);
-      @include placeholder ($maincolor);
-    }//input
-
-    input[type="button"]{
-      display: inline-block;
-      width: auto;
-      clear: both;
-      padding: 0.5em 2em;
-      color: white;
-      border: $mainborder;
-      background-color: $maincolor;
-      &:hover, &:active{
-        background-color: white;
-        color: $maincolor;
-      }//hover
-    }//input[type=button]
-
-  }//.access-form
 
 }//header
 
