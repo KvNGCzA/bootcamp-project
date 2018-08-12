@@ -14,7 +14,7 @@ hbs.registerHelper('getCurrentYear',() => {
 
 app.set('view engine', 'hbs');
 
-let pagesArr = ['Home', 'Profile', 'Question', 'Post A Question', 'Login/SignUp'];
+let pagesArr = ['Home', 'Profile', 'Question', 'Post A Question', 'Login-SignUp'];
 
 app.get('/', (req, res) => {
     res.render('index.hbs',{

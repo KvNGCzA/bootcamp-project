@@ -11,12 +11,20 @@ body {
 }
 
 /** profile page specific css*/
-body.page-profile-page .main .lsidebar .profile {
+body.page-profile .main .lsidebar .profile {
   display: block;
 }
 
-body.page-profile-page .main .lsidebar .profile .profile-info ul li:last-child {
+body.page-profile .main .lsidebar .profile .profile-info ul li:last-child {
   display: none;
+}
+
+body.page-login-signup .main .lsidebar {
+  display: none;
+}
+
+body.page-login-signup .main .site-content {
+  width: 75%;
 }
 
 header {
@@ -65,10 +73,6 @@ header .main-navigation ul li a {
 
 header .main-navigation ul li a:hover, header .main-navigation ul li a:active {
   background-color: #0090ff;
-}
-
-header .main-navigation ul li:last-child {
-  display: none;
 }
 
 header .mobile-navigation {
@@ -183,102 +187,6 @@ header .dropdown-menu-items li {
 header .dropdown-menu-items li a {
   text-decoration: none;
   color: white;
-}
-
-header #access-forms {
-  display: none;
-  position: absolute;
-  top: 2.5em;
-  right: 0;
-  width: 15em;
-  float: right;
-  text-align: center;
-  margin: 1em;
-  z-index: 9;
-  background-color: white;
-  -moz-box-shadow: 0 0 10px #006eff;
-  -webkit-box-shadow: 0 0 10px #006eff;
-  -ms-box-shadow: 0 0 10px #006eff;
-  box-shadow: 0 0 10px #006eff;
-}
-
-header #access-forms h2 {
-  font-size: 1em;
-}
-
-header #access-forms #login-form {
-  display: block;
-}
-
-header #access-forms #signup-form {
-  display: none;
-}
-
-header #access-forms #signup-form, header #access-forms #login-form {
-  padding: 1em 0.5em;
-  border: 1px solid #006eff;
-  color: black;
-}
-
-header #access-forms #signup-form span, header #access-forms #login-form span {
-  font-size: 0.7em;
-}
-
-header #access-forms #signup-form span button, header #access-forms #login-form span button {
-  background-color: transparent;
-  text-decoration: none;
-  border: none;
-  color: #006eff;
-}
-
-header #access-forms #signup-form span button:hover, header #access-forms #signup-form span button:active, header #access-forms #login-form span button:hover, header #access-forms #login-form span button:active {
-  color: grey;
-}
-
-header #access-forms #signup-form form, header #access-forms #login-form form {
-  margin: 1em 0 0;
-}
-
-header #access-forms input {
-  width: 100%;
-  padding: 0.5em 1em;
-  margin: 0.5em 0;
-  border: 1px solid #006eff;
-}
-
-header #access-forms input::-webkit-input-placeholder {
-  color: #006eff;
-}
-
-header #access-forms input::-moz-placeholder {
-  color: #006eff;
-}
-
-header #access-forms input:-ms-input-placeholder {
-  color: #006eff;
-}
-
-header #access-forms input:-moz-placeholder {
-  color: #006eff;
-}
-
-header #access-forms input::placeholder {
-  color: #006eff;
-}
-
-header #access-forms input[type="button"] {
-  display: inline-block;
-  width: auto;
-  clear: both;
-  padding: 0.5em 2em;
-  color: white;
-  border: 1px solid #006eff;
-  background-color: #006eff;
-}
-
-header #access-forms input[type="button"]:hover, header #access-forms input[type="button"]:active {
-  background-color: white;
-  color: #006eff;
 }
 
 /** cursor config*/
@@ -507,6 +415,7 @@ a:hover, a:active, input[type="button"]:hover, input[type="button"]:active, i:ho
   /**home page questions display */
   /**action button styles*/
   /**single question page display*/
+  /**login/signup page*/
 }
 
 .main .site-content .hPostQues {
@@ -930,87 +839,73 @@ a:hover, a:active, input[type="button"]:hover, input[type="button"]:active, i:ho
   box-shadow: inset 0 0 5px #006eff;
 }
 
-.main .lsidebar {
-  width: 20%;
-  float: left;
+.main .site-content .login-signup-cont {
+  padding: 4em;
+  width: 70%;
+  margin: 0 auto;
 }
 
-.main .lsidebar #side-access-forms {
-  width: 100%;
-  text-align: center;
-  margin: 40% 0 0;
-  background-color: white;
-}
-
-.main .lsidebar #side-access-forms h2 {
-  font-size: 1em;
-}
-
-.main .lsidebar #side-access-forms #side-login-form {
+.main .site-content .login-signup-cont #login-form {
   display: block;
 }
 
-.main .lsidebar #side-access-forms #side-signup-form {
+.main .site-content .login-signup-cont #signup-form {
   display: none;
 }
 
-.main .lsidebar #side-access-forms #side-signup-form, .main .lsidebar #side-access-forms #side-login-form {
-  padding: 1em 0.5em;
-  border-top: 1px solid #006eff;
-  border-bottom: 1px solid #006eff;
-  border-right: 1px solid #006eff;
+.main .site-content .login-signup-cont #signup-form, .main .site-content .login-signup-cont #login-form {
+  padding: 1em;
+  border: 1px solid #006eff;
   color: black;
-  position: fixed;
-  width: 20%;
+  -moz-box-shadow: 0 0 8px #006eff;
+  -webkit-box-shadow: 0 0 8px #006eff;
+  -ms-box-shadow: 0 0 8px #006eff;
+  box-shadow: 0 0 8px #006eff;
 }
 
-.main .lsidebar #side-access-forms #side-signup-form span, .main .lsidebar #side-access-forms #side-login-form span {
-  font-size: 0.7em;
-}
-
-.main .lsidebar #side-access-forms #side-signup-form span button, .main .lsidebar #side-access-forms #side-login-form span button {
+.main .site-content .login-signup-cont #signup-form span button, .main .site-content .login-signup-cont #login-form span button {
   background-color: transparent;
   text-decoration: none;
   border: none;
   color: #006eff;
 }
 
-.main .lsidebar #side-access-forms #side-signup-form span button:hover, .main .lsidebar #side-access-forms #side-signup-form span button:active, .main .lsidebar #side-access-forms #side-login-form span button:hover, .main .lsidebar #side-access-forms #side-login-form span button:active {
+.main .site-content .login-signup-cont #signup-form span button:hover, .main .site-content .login-signup-cont #signup-form span button:active, .main .site-content .login-signup-cont #login-form span button:hover, .main .site-content .login-signup-cont #login-form span button:active {
   color: grey;
 }
 
-.main .lsidebar #side-access-forms #side-signup-form form, .main .lsidebar #side-access-forms #side-login-form form {
+.main .site-content .login-signup-cont #signup-form form, .main .site-content .login-signup-cont #login-form form {
   margin: 1em 0 0;
 }
 
-.main .lsidebar #side-access-forms input {
+.main .site-content .login-signup-cont input {
   width: 100%;
-  padding: 0.5em 1em;
+  padding: 1em;
   margin: 0.5em 0;
   border: 1px solid #006eff;
 }
 
-.main .lsidebar #side-access-forms input::-webkit-input-placeholder {
+.main .site-content .login-signup-cont input::-webkit-input-placeholder {
   color: #006eff;
 }
 
-.main .lsidebar #side-access-forms input::-moz-placeholder {
+.main .site-content .login-signup-cont input::-moz-placeholder {
   color: #006eff;
 }
 
-.main .lsidebar #side-access-forms input:-ms-input-placeholder {
+.main .site-content .login-signup-cont input:-ms-input-placeholder {
   color: #006eff;
 }
 
-.main .lsidebar #side-access-forms input:-moz-placeholder {
+.main .site-content .login-signup-cont input:-moz-placeholder {
   color: #006eff;
 }
 
-.main .lsidebar #side-access-forms input::placeholder {
+.main .site-content .login-signup-cont input::placeholder {
   color: #006eff;
 }
 
-.main .lsidebar #side-access-forms input[type="button"] {
+.main .site-content .login-signup-cont input[type="button"] {
   display: inline-block;
   width: auto;
   clear: both;
@@ -1020,7 +915,102 @@ a:hover, a:active, input[type="button"]:hover, input[type="button"]:active, i:ho
   background-color: #006eff;
 }
 
-.main .lsidebar #side-access-forms input[type="button"]:hover, .main .lsidebar #side-access-forms input[type="button"]:active {
+.main .site-content .login-signup-cont input[type="button"]:hover, .main .site-content .login-signup-cont input[type="button"]:active {
+  background-color: white;
+  color: #006eff;
+}
+
+.main .lsidebar {
+  width: 20%;
+  float: left;
+}
+
+.main .lsidebar .side-access-forms {
+  width: 100%;
+  text-align: center;
+  margin: 40% 0 0;
+  background-color: white;
+}
+
+.main .lsidebar .side-access-forms h2 {
+  font-size: 1em;
+}
+
+.main .lsidebar .side-access-forms #side-login-form {
+  display: block;
+}
+
+.main .lsidebar .side-access-forms #side-signup-form {
+  display: none;
+}
+
+.main .lsidebar .side-access-forms #side-signup-form, .main .lsidebar .side-access-forms #side-login-form {
+  padding: 1em 0.5em;
+  border-top: 1px solid #006eff;
+  border-bottom: 1px solid #006eff;
+  border-right: 1px solid #006eff;
+  color: black;
+  position: fixed;
+  width: 20%;
+}
+
+.main .lsidebar .side-access-forms #side-signup-form span, .main .lsidebar .side-access-forms #side-login-form span {
+  font-size: 0.7em;
+}
+
+.main .lsidebar .side-access-forms #side-signup-form span button, .main .lsidebar .side-access-forms #side-login-form span button {
+  background-color: transparent;
+  text-decoration: none;
+  border: none;
+  color: #006eff;
+}
+
+.main .lsidebar .side-access-forms #side-signup-form span button:hover, .main .lsidebar .side-access-forms #side-signup-form span button:active, .main .lsidebar .side-access-forms #side-login-form span button:hover, .main .lsidebar .side-access-forms #side-login-form span button:active {
+  color: grey;
+}
+
+.main .lsidebar .side-access-forms #side-signup-form form, .main .lsidebar .side-access-forms #side-login-form form {
+  margin: 1em 0 0;
+}
+
+.main .lsidebar .side-access-forms input {
+  width: 100%;
+  padding: 0.5em 1em;
+  margin: 0.5em 0;
+  border: 1px solid #006eff;
+}
+
+.main .lsidebar .side-access-forms input::-webkit-input-placeholder {
+  color: #006eff;
+}
+
+.main .lsidebar .side-access-forms input::-moz-placeholder {
+  color: #006eff;
+}
+
+.main .lsidebar .side-access-forms input:-ms-input-placeholder {
+  color: #006eff;
+}
+
+.main .lsidebar .side-access-forms input:-moz-placeholder {
+  color: #006eff;
+}
+
+.main .lsidebar .side-access-forms input::placeholder {
+  color: #006eff;
+}
+
+.main .lsidebar .side-access-forms input[type="button"] {
+  display: inline-block;
+  width: auto;
+  clear: both;
+  padding: 0.5em 2em;
+  color: white;
+  border: 1px solid #006eff;
+  background-color: #006eff;
+}
+
+.main .lsidebar .side-access-forms input[type="button"]:hover, .main .lsidebar .side-access-forms input[type="button"]:active {
   background-color: white;
   color: #006eff;
 }
@@ -1239,6 +1229,9 @@ footer p {
 }
 
 @media screen and (max-width: 768px) {
+  body.page-login-signup .main .site-content {
+    width: 100%;
+  }
   header .welcome {
     font-size: 1em;
   }
@@ -1258,6 +1251,7 @@ footer p {
     width: 100%;
     /**single question template design */
     /** single-question-page*/
+    /** login/sign up page*/
   }
   .main .site-content .hPostQues {
     display: block;
@@ -1317,6 +1311,10 @@ footer p {
   }
   .main .site-content .single-question-page .comment-form h2 {
     font-size: 1.2em;
+  }
+  .main .site-content .login-signup-cont {
+    width: 100%;
+    padding: 0;
   }
   .main .side-bar, .main .lsidebar {
     display: none;
