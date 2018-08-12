@@ -4,15 +4,6 @@ let homeQuestions = $('#hQuestions');
 homeQuestions.tabs();
 
 
-/** drop down login form config */
-//show and hide login/signup form
-const $formCont = $('#access-forms');
-const $navLogin = $('#navLogin');
-const $input = $('#access-forms :input');
-$navLogin.on('click', () => {
-    $formCont.slideToggle();
-});
-
 /** quick options configurations */
 
 //show and hide quick options
