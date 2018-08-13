@@ -4,13 +4,19 @@
   "description": "Two week bootcamp project",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build":  "babel src -d public/js",
+    "build2":  "babel src2 -d ./"
+  },
+  "scripts": {
+    "build":  "babel --presets es2015 src -d public/js",
+    "build2":  "babel --presets es2015 src2 -d ./"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
-    "hbs": "^4.0.1",
+    "hbs": "^4.0.1"
   },
   "devDependencies":{
     "mocha": "^5.2.0",

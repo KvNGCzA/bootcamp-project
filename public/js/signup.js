@@ -1,61 +1,65 @@
-const fs = require('fs');
+'use strict';
 
-const fetch = () => {
-    try {
-        let userDataBase = fs.readFileSync('users.json');
-        return JSON.parse(userDataBase);
-    } catch (error) {
-     return [];
-    }
+var fs = require('fs');
+
+var fetch = function fetch() {
+  try {
+    var userDataBase = fs.readFileSync('users.json');
+    return JSON.parse(userDataBase);
+  } catch (error) {
+    return [];
+  }
 };
-const save = (user) => {
-    fs.writeFileSync('users.json',JSON.stringify(user));
-}
+var save = function save(user) {
+  fs.writeFileSync('users.json', JSON.stringify(user));
+};
 
-const createUser = (fname, lname, mail,  uname, pwd) => {
-  let currentUsers = fetch();
-  let userObj = {
-  fname,
-  lname,
-  mail,
-  uname,
-  pwd,
-  userID: ` user${fetch().length+1}`
+var createUser = function createUser(fname, lname, mail, uname, pwd) {
+  var currentUsers = fetch();
+  var userObj = {
+    fname: fname,
+    lname: lname,
+    mail: mail,
+    uname: uname,
+    pwd: pwd,
+    userID: ' user' + (fetch().length + 1)
   };
 
-  if(currentUsers.length === 0){
+  if (currentUsers.length === 0) {
+    currentUsers.push(userObj);
+    save(currentUsers);
+    console.log("User created");
+  } else if (checkEmail(mail) && checkUsername(uname)) {
     currentUsers.push(userObj);
     save(currentUsers);
     console.log("User created");
   }
-  else if( checkEmail(mail)  && checkUsername(uname) ){
-      currentUsers.push(userObj);
-      save(currentUsers);
-      console.log("User created");
-    }
 };
 
-const checkEmail = mail =>{
-  let currentUsers = fetch();
-  if(currentUsers.filter( user => user.mail === mail).length === 0){
-    return true
-  } else{
+var checkEmail = function checkEmail(mail) {
+  var currentUsers = fetch();
+  if (currentUsers.filter(function (user) {
+    return user.mail === mail;
+  }).length === 0) {
+    return true;
+  } else {
     console.log("user mail already exists");
     return false;
   }
 };
 
-const checkUsername = username => {
-  let currentUsers = fetch();
-    if(currentUsers.filter( user => user.uname === username ).length === 0){
+var checkUsername = function checkUsername(username) {
+  var currentUsers = fetch();
+  if (currentUsers.filter(function (user) {
+    return user.uname === username;
+  }).length === 0) {
     return true;
-    }else{
+  } else {
     console.log("username already exists");
     return false;
   }
 };
 
-
-module.exports= {
-  createUser
+module.exports = {
+  createUser: createUser
 };
