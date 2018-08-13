@@ -1,6 +1,5 @@
 const express = require('express');
 const hbs = require('hbs');
-
 let port = process.env.PORT || 3000;
 
 let app = express();
@@ -46,6 +45,7 @@ app.get('/login-signup', (req, res) => {
         pageTitle: pagesArr[4]
     });
 });
+
 
 app.listen(port, () => {
     console.log(`server is up on port ${port}`);
