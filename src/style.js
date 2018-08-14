@@ -69,16 +69,10 @@ $mobIcon.on('click', ()=>{
     }
 });
 
-
 /** single question template edit question dropdown settings */
 let $editOption = $('.edit-option');
 $editOption.click( function(){
     $(this).next().slideToggle();
 });
-
-
-
-
-
 
 });
