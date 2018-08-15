@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createNewQuestion = exports.fetchQuestions = undefined;
+exports.getQuestionById = exports.createNewQuestion = exports.fetchQuestions = undefined;
 
 var _fs = require('fs');
 
@@ -41,4 +41,17 @@ var createNewQuestion = exports.createNewQuestion = function createNewQuestion(t
   currentQuestions.push(newQuestion);
   saveQuestion(currentQuestions);
   callback(undefined, { status: 201, result: 'Question added' });
+};
+
+var getQuestionById = exports.getQuestionById = function getQuestionById(questionId, callback) {
+  var currentQuestions = fetchQuestions();
+  var question = currentQuestions.filter(function (question) {
+    return question.questionId === questionId;
+  });
+  if (question.length === 1) {
+    return callback(undefined, question);
+  } else if (question.length > 1) {
+    return callback({ status: 404, message: 'More than one question has this id' });
+  }
+  return callback({ status: 404, message: 'Invalid question id' });
 };
