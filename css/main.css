@@ -785,6 +785,7 @@ a:hover, a:active, input[type="button"]:hover, input[type="button"]:active, i:ho
 
 .main .site-content .single-question-page .comments ul p {
   padding: 3em 0.5em 1em;
+  word-break: break-all;
 }
 
 .main .site-content .single-question-page .comments ul .comment {
