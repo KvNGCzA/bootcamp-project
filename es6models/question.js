@@ -59,3 +59,13 @@ export const postAnswer = (questionId, answer, callback) => {
   saveQuestion(otherQuestions);
   return callback(undefined,{ status: 201, message: 'Answer added' });
 };
+
+export const deleteQuestion = (questionId, callback) => {
+  let allQuestions = fetchQuestions();
+  let removeQuestion = allQuestions.filter(question => question.questionId !== questionId);
+  if( allQuestions.length === removeQuestion.length){
+    return callback({ status: 404, message:'Invalid question id' });
+  }
+  saveQuestion(removeQuestion);
+  callback(undefined, { status: 200, message:'Question deleted' });
+};
