@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postAnswer = exports.getQuestionById = exports.createNewQuestion = exports.fetchQuestions = undefined;
+exports.editQuestion = exports.deleteQuestion = exports.postAnswer = exports.getQuestionById = exports.createNewQuestion = exports.fetchQuestions = undefined;
 
 var _fs = require('fs');
 
@@ -74,4 +74,40 @@ var postAnswer = exports.postAnswer = function postAnswer(questionId, answer, ca
   otherQuestions.push(question[0]);
   saveQuestion(otherQuestions);
   return callback(undefined, { status: 201, message: 'Answer added' });
+};
+
+var deleteQuestion = exports.deleteQuestion = function deleteQuestion(questionId, callback) {
+  var allQuestions = fetchQuestions();
+  var removeQuestion = allQuestions.filter(function (question) {
+    return question.questionId !== questionId;
+  });
+  if (allQuestions.length === removeQuestion.length) {
+    return callback({ status: 404, message: 'Invalid question id' });
+  }
+  saveQuestion(removeQuestion);
+  callback(undefined, { status: 200, message: 'Question deleted' });
+};
+
+var editQuestion = exports.editQuestion = function editQuestion(questionId, prop, newProp, callback) {
+  if (!prop) {
+    return callback({ status: 404, message: 'Missing prop property' });
+  } else if (!newProp) {
+    return callback({ status: 404, message: 'Missing newProp property' });
+  }
+  var allQuestions = fetchQuestions();
+  var duplicateQuestion = allQuestions.filter(function (question) {
+    return question.questionId === questionId;
+  });
+  var otherQuestions = allQuestions.filter(function (question) {
+    return question.questionId !== questionId;
+  });
+  if (duplicateQuestion < 1) {
+    return callback({ status: 404, message: 'Question id is invalid' });
+  } else if (duplicateQuestion > 1) {
+    return callback({ status: 404, message: 'More than one quetion exists with this id' });
+  }
+  duplicateQuestion[0][prop] = newProp;
+  otherQuestions.push(duplicateQuestion[0]);
+  saveQuestion(otherQuestions);
+  callback(undefined, { status: 200, message: 'Question ' + String(prop) + ' updated' });
 };

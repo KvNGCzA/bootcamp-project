@@ -69,3 +69,23 @@ export const deleteQuestion = (questionId, callback) => {
   saveQuestion(removeQuestion);
   callback(undefined, { status: 200, message:'Question deleted' });
 };
+
+export const editQuestion = (questionId, prop, newProp, callback) => {
+ if(!prop){
+    return callback({ status: 404, message: 'Missing prop property' });
+  }else if(!newProp){
+    return callback({ status: 404, message: 'Missing newProp property' });
+  }
+  let allQuestions = fetchQuestions();
+  let duplicateQuestion = allQuestions.filter(question => question.questionId === questionId);
+  let otherQuestions = allQuestions.filter(question => question.questionId !== questionId);
+  if(duplicateQuestion < 1){
+    return callback({ status: 404, message: 'Question id is invalid'});
+  }else if( duplicateQuestion > 1){
+    return callback({ status: 404, message: 'More than one quetion exists with this id'});
+  }
+  duplicateQuestion[0][prop] = newProp;
+  otherQuestions.push(duplicateQuestion[0]);
+  saveQuestion(otherQuestions);
+  callback(undefined, { status: 200, message: `Question ${prop} updated`});
+};
