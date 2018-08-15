@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getQuestionById = exports.createNewQuestion = exports.fetchQuestions = undefined;
+exports.postAnswer = exports.getQuestionById = exports.createNewQuestion = exports.fetchQuestions = undefined;
 
 var _fs = require('fs');
 
@@ -54,4 +54,24 @@ var getQuestionById = exports.getQuestionById = function getQuestionById(questio
     return callback({ status: 404, message: 'More than one question has this id' });
   }
   return callback({ status: 404, message: 'Invalid question id' });
+};
+
+var postAnswer = exports.postAnswer = function postAnswer(questionId, answer, callback) {
+  if (!answer) {
+    return callback({ status: 404, message: 'Missing answer property' });
+  }
+  var allQuestions = fetchQuestions();
+  var question = allQuestions.filter(function (question) {
+    return question.questionId === questionId;
+  });
+  if (question.length === 0) {
+    return callback({ status: 404, message: 'Question id is invalid' });
+  }
+  var otherQuestions = allQuestions.filter(function (question) {
+    return question.questionId !== questionId;
+  });
+  question[0].answer.unshift(answer);
+  otherQuestions.push(question[0]);
+  saveQuestion(otherQuestions);
+  return callback(undefined, { status: 201, message: 'Answer added' });
 };
