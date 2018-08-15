@@ -32,3 +32,14 @@ export const createNewQuestion = (title, content, callback) => {
   saveQuestion(currentQuestions);
   callback(undefined,{status: 201, result: 'Question added'});
 };
+
+export const getQuestionById= (questionId, callback) => {
+  let currentQuestions = fetchQuestions();
+  let question = currentQuestions.filter( question => question.questionId === questionId);
+  if( question.length === 1 ){
+    return callback(undefined, question);
+  }else if( question.length > 1){
+    return callback({ status: 404, message: 'More than one question has this id'});
+  }
+  return callback({ status: 404,message: 'Invalid question id'});
+};
