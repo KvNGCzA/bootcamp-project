@@ -46,6 +46,7 @@ const dashTitle = str =>{
   const homeAnswered = document.getElementsByClassName('answer-count-dis');
   const homeLiked = document.getElementsByClassName('likes-count-dis');
   const homeViews = document.getElementsByClassName('views-count-dis');
+
   let countArr = [ homeAnswered,  homeLiked, homeViews];
   const classCountArr = ['answered', 'liked', 'viewed'];
   for( let y in countArr){
@@ -66,10 +67,14 @@ const dashTitle = str =>{
     if( searchForm[0].style.display === "block"){
       mobSearchIcon.style.color = "white";
       searchForm[0].style.display = "none";
+      console.log(searchForm[0]);
+      console.log(searchForm[0].style.display);
     }
     else{
       mobSearchIcon.style.color = "#f24d4d";
       searchForm[0].style.display = "block";
+      console.log(searchForm[0]);
+      console.log(searchForm[0].style.display);
     }
   }, false);
   searchFormInput[0].addEventListener('blur', ()=>{

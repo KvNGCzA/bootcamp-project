@@ -12,7 +12,7 @@ var dashTitle = function dashTitle(str) {
 var bodyTag = document.getElementsByTagName('body');
 var currentPageTitle = document.title;
 var cName = dashTitle(currentPageTitle);
-bodyTag[0].classList += "page-" + cName + " ";
+bodyTag[0].classList += 'page-' + cName + ' ';
 
 /** action buttons config*/
 var actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
@@ -55,7 +55,7 @@ for (var y in countArr) {
   for (var _x in countArr[y]) {
     var _current = Number(countArr[y][_x].textContent);
     if (_current > 0) {
-      countArr[y][_x].classList += " " + classCountArr[y];
+      countArr[y][_x].classList += ' ' + classCountArr[y];
     } //if
   } //for x
 } //for y
@@ -66,17 +66,17 @@ var mobSearchIcon = document.getElementById('fa-search');
 var searchForm = document.getElementsByClassName('mob-search-form');
 var searchFormInput = document.getElementsByClassName('search-form-input');
 mobSearchIcon.addEventListener('click', function () {
-  if (searchForm[0].style.display === "block") {
-    mobSearchIcon.style.color = "white";
-    searchForm[0].style.display = "none";
+  if (searchForm[0].style.display === 'block') {
+    mobSearchIcon.style.color = 'white';
+    searchForm[0].style.display = 'none';
   } else {
-    mobSearchIcon.style.color = "#f24d4d";
-    searchForm[0].style.display = "block";
+    mobSearchIcon.style.color = '#f24d4d';
+    searchForm[0].style.display = 'block';
   }
 }, false);
 searchFormInput[0].addEventListener('blur', function () {
-  searchForm[0].style.display = "none";
-  mobSearchIcon.style.color = "white";
+  searchForm[0].style.display = 'none';
+  mobSearchIcon.style.color = 'white';
 }, false);
 
 /** functions the display either login or sign up forms*/
