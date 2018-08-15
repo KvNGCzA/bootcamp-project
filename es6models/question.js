@@ -43,3 +43,19 @@ export const getQuestionById= (questionId, callback) => {
   }
   return callback({ status: 404,message: 'Invalid question id'});
 };
+
+export const postAnswer = (questionId, answer, callback) => {
+  if(!answer){
+    return callback({  status: 404,  message: 'Missing answer property'  });
+  }
+  let allQuestions = fetchQuestions();
+  let question =  allQuestions.filter( question => question.questionId === questionId);
+  if( question.length === 0 ){
+		return callback({ status: 404, message: 'Question id is invalid' });
+  }
+	let otherQuestions = allQuestions.filter( question => question.questionId !== questionId);
+  question[0].answer.unshift(answer);
+  otherQuestions.push(question[0]);
+  saveQuestion(otherQuestions);
+  return callback(undefined,{ status: 201, message: 'Answer added' });
+};
