@@ -87,5 +87,5 @@ export const editQuestion = (questionId, prop, newProp, callback) => {
   duplicateQuestion[0][prop] = newProp;
   otherQuestions.push(duplicateQuestion[0]);
   saveQuestion(otherQuestions);
-  callback(undefined, { status: 200, message: `Question ${prop} updated`});
+  callback(undefined, { status: 201, message: `Question ${prop} updated`});
 };
