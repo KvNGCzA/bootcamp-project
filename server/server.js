@@ -17,9 +17,6 @@ var _hbs = require('hbs');
 
 var _hbs2 = _interopRequireDefault(_hbs);
 
-var _morgan = require('morgan');
-
-var _morgan2 = _interopRequireDefault(_morgan);
 
 var _questions = require('../api/routes/questions');
 
@@ -32,7 +29,6 @@ var port = process.env.PORT || 3000;
 /**start express server*/
 var app = (0, _express2['default'])();
 
-app.use((0, _morgan2['default'])('dev'));
 app.use(_bodyParser2['default'].urlencoded({ extended: false }));
 app.use(_bodyParser2['default'].json());
 app.use(function (req, res, next) {
