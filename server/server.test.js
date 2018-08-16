@@ -1,5 +1,4 @@
 const request= require('supertest');
-const bodyParser = require('body-parser');
 
 const app = require('./server').app;
 const question = require('../api/models/question');
@@ -11,7 +10,7 @@ describe('GET /api/v1/questions', () => {
   .expect(200)
   .end(done);
   });
-  it('should return JSON format', (done) => {
+  it('should return all questions in JSON format', (done) => {
   request(app)
   .get('/api/v1/questions')
   .expect('Content-type', /json/)
@@ -20,7 +19,7 @@ describe('GET /api/v1/questions', () => {
 });
 
 describe('POST /api/v1/questions', () => {
-  it('should return JSON format', (done) => {
+  it('should return 201 and success message in JSON format', (done) => {
   request(app)
   .post('/api/v1/questions')
   .send({
@@ -31,12 +30,14 @@ describe('POST /api/v1/questions', () => {
     status: 201,
     result: 'Question added'
   })
+  .expect('Content-type', /json/)
   .end(done);
   });
   it('should return 400 error when you send wrong or no information', (done) => {
   request(app)
   .post('/api/v1/questions')
   .send({yam: 'egg'})
+  .expect('Content-type', /json/)
   .expect(400, {
     status: 400,
     message: 'Title can not be empty'
@@ -47,6 +48,7 @@ describe('POST /api/v1/questions', () => {
   request(app)
   .post('/api/v1/questions')
   .send({title: 'egg'})
+  .expect('Content-type', /json/)
   .expect(400, {
     status: 400,
     message: 'Content can not be empty'
@@ -78,6 +80,7 @@ describe('GET /api/v1/question/questionId', () => {
     status: 404,
     message: 'Invalid question id'
   })
+  .expect('Content-type', /json/)
     .end(done);
   });
 });
@@ -91,9 +94,10 @@ describe('POST /api/v1/question/questionId/answers', () => {
       })
       .expect(201, { status: 201,
         message: 'Answer added' })
+        .expect('Content-type', /json/)
         .end(done);
-    })
-    it('should return error if questionId is invalid', (done) => {
+    });
+    it('should return 404 error if questionId is invalid', (done) => {
       request(app)
       .post(`/api/v1/questions/question/answers`)
       .send({ answer: 'test answer'})
@@ -102,13 +106,14 @@ describe('POST /api/v1/question/questionId/answers', () => {
       })
       .end(done);
     });
-    it('should return error if answer not included', (done) => {
+    it('should return 404 error if answer not included', (done) => {
       request(app)
       .post(`/api/v1/questions/question${lastItem}/answers`)
       .send()
       .expect(404, {  status: 404,
         message: 'Missing answer property'
        })
+       .expect('Content-type', /json/)
       .end(done);
     });
 });
@@ -121,6 +126,7 @@ describe('PATCH /api/v1/question/questionId', () => {
         prop: 'title',
         newProp: 'New Test Title'
       })
+      .expect('Content-type', /json/)
       .expect(201, { status: 201, message: 'Question title updated'})
         .end(done);
     });
@@ -131,6 +137,7 @@ describe('PATCH /api/v1/question/questionId', () => {
         prop: 'content',
         newProp: 'New Test Content'
       })
+      .expect('Content-type', /json/)
       .expect(201, { status: 201, message: 'Question content updated'})
         .end(done);
     });
@@ -141,6 +148,7 @@ describe('PATCH /api/v1/question/questionId', () => {
         prop: 'content',
         newProp: 'New Test Content'
       })
+      .expect('Content-type', /json/)
       .expect(404, { status: 404, message: 'Question id is invalid'})
         .end(done);
     });
@@ -150,6 +158,7 @@ describe('PATCH /api/v1/question/questionId', () => {
       .send({
         newProp: 'New Test Content'
       })
+      .expect('Content-type', /json/)
       .expect(404, { status: 404, message: 'Missing prop property' })
         .end(done);
     });
@@ -159,7 +168,25 @@ describe('PATCH /api/v1/question/questionId', () => {
       .send({
         prop: 'content'
       })
+      .expect('Content-type', /json/)
       .expect(404, { status: 404, message: 'Missing newProp property' })
         .end(done);
     });
+});
+
+describe('DELETE /api/v1/question/questionId', () => {
+  it('should return 200 and success message in JSON format', (done) => {
+    request(app)
+    .delete(`/api/v1/questions/question${lastItem}`)
+    .expect(200, { status: 200, message:'Question deleted' })
+    .expect('Content-type', /json/)
+    .end(done);
+  });
+  it('should return 404 error and message in JSON format if question Id is invalid', (done) => {
+    request(app)
+    .delete('/api/v1/questions/question')
+    .expect(404, { status: 404, message:'Invalid question id' })
+    .expect('Content-type', /json/)
+    .end(done);
+  });
 });
