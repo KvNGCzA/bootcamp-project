@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var fetchQuestions = exports.fetchQuestions = function fetchQuestions() {
   try {
-    var questionDatabase = _fs2['default'].readFileSync('databases/questions.json');
+    var questionDatabase = _fs2['default'].readFileSync('server/db/questions.json');
     return JSON.parse(questionDatabase);
   } catch (error) {
     return [];
@@ -21,7 +21,7 @@ var fetchQuestions = exports.fetchQuestions = function fetchQuestions() {
 };
 
 var saveQuestion = function saveQuestion(questions) {
-  _fs2['default'].writeFileSync('databases/questions.json', JSON.stringify(questions, undefined, 2));
+  _fs2['default'].writeFileSync('server/db/questions.json', JSON.stringify(questions, undefined, 2));
 };
 
 var createNewQuestion = exports.createNewQuestion = function createNewQuestion(title, content, callback) {

@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import hbs from 'hbs';
 import morgan from 'morgan';
 
-import questionRoutes from './api/routes/questions';
+import questionRoutes from '../api/routes/questions';
 
 let port = process.env.PORT || 3000;
 
@@ -27,10 +27,10 @@ app.use((req, res, next) => {
 app.use('/api/v1/questions', questionRoutes);
 
 /** link to static directory*/
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '../../public'));
 
 /**register hbs partials*/
-hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerPartials(__dirname + '../../views/partials');
 /**register hbs helper*/
 hbs.registerHelper('getCurrentYear',() => {
     return new Date().getFullYear();
@@ -86,7 +86,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-export default app;
+export {app};
 
 app.listen(port, () => {
     console.log(`server is up on port ${port}`);

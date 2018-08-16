@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.app = undefined;
 
 var _express = require('express');
 
@@ -20,20 +21,20 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
-var _questions = require('./api/routes/questions');
+var _questions = require('../api/routes/questions');
 
 var _questions2 = _interopRequireDefault(_questions);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var port = process.env.PORT || 3000;
 
 /**start express server*/
-var app = (0, _express2.default)();
+var app = (0, _express2['default'])();
 
-app.use((0, _morgan2.default)('dev'));
-app.use(_bodyParser2.default.urlencoded({ extended: false }));
-app.use(_bodyParser2.default.json());
+app.use((0, _morgan2['default'])('dev'));
+app.use(_bodyParser2['default'].urlencoded({ extended: false }));
+app.use(_bodyParser2['default'].json());
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
@@ -44,15 +45,15 @@ app.use(function (req, res, next) {
     next();
 });
 /** questions api route*/
-app.use('/api/v1/questions', _questions2.default);
+app.use('/api/v1/questions', _questions2['default']);
 
 /** link to static directory*/
-app.use(_express2.default.static(__dirname + '/public'));
+app.use(_express2['default']['static'](__dirname + '../../public'));
 
 /**register hbs partials*/
-_hbs2.default.registerPartials(__dirname + '/views/partials');
+_hbs2['default'].registerPartials(__dirname + '../../views/partials');
 /**register hbs helper*/
-_hbs2.default.registerHelper('getCurrentYear', function () {
+_hbs2['default'].registerHelper('getCurrentYear', function () {
     return new Date().getFullYear();
 });
 /**enable hbs*/
@@ -104,9 +105,9 @@ app.use(function (error, req, res, next) {
     });
 });
 
-exports.default = app;
+exports.app = app;
 
 
 app.listen(port, function () {
-    console.log('server is up on port ' + port);
+    console.log('server is up on port ' + String(port));
 });

@@ -2,7 +2,7 @@ import fs from 'fs';
 
 export const fetchQuestions = () => {
     try {
-      let questionDatabase = fs.readFileSync('databases/questions.json');
+      let questionDatabase = fs.readFileSync('server/db/questions.json');
       return JSON.parse(questionDatabase);
     } catch (error) {
      return [];
@@ -10,7 +10,7 @@ export const fetchQuestions = () => {
 };
 
 const saveQuestion = questions => {
-    fs.writeFileSync('databases/questions.json',JSON.stringify(questions, undefined, 2));
+    fs.writeFileSync('server/db/questions.json',JSON.stringify(questions, undefined, 2));
 };
 
 export const createNewQuestion = (title, content, callback) => {
