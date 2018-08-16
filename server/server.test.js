@@ -81,3 +81,34 @@ describe('GET /api/v1/question/questionId', () => {
     .end(done);
   });
 });
+
+describe('POST /api/v1/question/questionId/answers', () => {
+    it('should return 201 and JSON format if answer is successfully posted', (done) => {
+      request(app)
+      .post(`/api/v1/questions/question${lastItem}/answers`)
+      .send({
+        answer: 'test answer'
+      })
+      .expect(201, { status: 201,
+        message: 'Answer added' })
+        .end(done);
+    })
+    it('should return error if questionId is invalid', (done) => {
+      request(app)
+      .post(`/api/v1/questions/question/answers`)
+      .send({ answer: 'test answer'})
+      .expect(404, { status: 404,
+        message: 'Question id is invalid'
+      })
+      .end(done);
+    });
+    it('should return error if answer not included', (done) => {
+      request(app)
+      .post(`/api/v1/questions/question${lastItem}/answers`)
+      .send()
+      .expect(404, {  status: 404,
+        message: 'Missing answer property'
+       })
+      .end(done);
+    });
+});
