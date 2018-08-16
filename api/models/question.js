@@ -109,5 +109,5 @@ var editQuestion = exports.editQuestion = function editQuestion(questionId, prop
   duplicateQuestion[0][prop] = newProp;
   otherQuestions.push(duplicateQuestion[0]);
   saveQuestion(otherQuestions);
-  callback(undefined, { status: 200, message: 'Question ' + String(prop) + ' updated' });
+  callback(undefined, { status: 201, message: 'Question ' + String(prop) + ' updated' });
 };

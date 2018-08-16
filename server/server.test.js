@@ -112,3 +112,54 @@ describe('POST /api/v1/question/questionId/answers', () => {
       .end(done);
     });
 });
+
+describe('PATCH /api/v1/question/questionId', () => {
+    it('should return 201 and JSON format if title property is successfully edited', (done) => {
+      request(app)
+      .patch(`/api/v1/questions/question${lastItem}`)
+      .send({
+        prop: 'title',
+        newProp: 'New Test Title'
+      })
+      .expect(201, { status: 201, message: 'Question title updated'})
+        .end(done);
+    });
+    it('should return 201 and JSON format if content property is successfully edited', (done) => {
+      request(app)
+      .patch(`/api/v1/questions/question${lastItem}`)
+      .send({
+        prop: 'content',
+        newProp: 'New Test Content'
+      })
+      .expect(201, { status: 201, message: 'Question content updated'})
+        .end(done);
+    });
+    it('should return 404 error if question id is invalid', (done) => {
+      request(app)
+      .patch(`/api/v1/questions/question`)
+      .send({
+        prop: 'content',
+        newProp: 'New Test Content'
+      })
+      .expect(404, { status: 404, message: 'Question id is invalid'})
+        .end(done);
+    });
+    it('should return 404 error if property to change is not provided', (done) => {
+      request(app)
+      .patch(`/api/v1/questions/question${lastItem}`)
+      .send({
+        newProp: 'New Test Content'
+      })
+      .expect(404, { status: 404, message: 'Missing prop property' })
+        .end(done);
+    });
+    it('should return 404 error if new property content is not provided', (done) => {
+      request(app)
+      .patch(`/api/v1/questions/question${lastItem}`)
+      .send({
+        prop: 'content'
+      })
+      .expect(404, { status: 404, message: 'Missing newProp property' })
+        .end(done);
+    });
+});
