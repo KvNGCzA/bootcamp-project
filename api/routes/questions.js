@@ -12,11 +12,11 @@ var _question = require('../models/question');
 
 var question = _interopRequireWildcard(_question);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var router = _express2.default.Router();
+var router = _express2['default'].Router();
 
 
 /** get all questions*/
@@ -66,7 +66,7 @@ router.patch('/:questionId', function (req, res, next) {
 });
 
 /**delete a question*/
-router.delete('/:questionId', function (req, res, next) {
+router['delete']('/:questionId', function (req, res, next) {
   question.deleteQuestion(req.params.questionId, function (errorMessage, result) {
     if (errorMessage) {
       return res.status(404).json(errorMessage);
@@ -75,4 +75,4 @@ router.delete('/:questionId', function (req, res, next) {
   });
 });
 
-exports.default = router;
+exports['default'] = router;
