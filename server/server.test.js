@@ -1,6 +1,6 @@
 'use strict';
 
-var _server = require('./server');
+var _server = require('../server/server');
 
 var _supertest = require('supertest');
 

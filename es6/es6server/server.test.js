@@ -1,5 +1,4 @@
-import coverAlls from 'coveralls';
-import {app} from './server';
+import {app} from '../server/server';
 import * as supertest from "supertest";
 import * as question from '../api/models/question';
 const request = supertest.agent(app);

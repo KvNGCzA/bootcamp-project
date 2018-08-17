@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "mocha server/server.test.js --exit",
-    "cover": "npm cover _mocha",
+    "test": "mocha server/server.test.js",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha server/server.test.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "babel --presets airbnb es6/es6styles -d public/js",
