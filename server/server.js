@@ -108,6 +108,8 @@ app.use(function (error, req, res, next) {
 exports.app = app;
 
 
-app.listen(port, function () {
-    console.log('server is up on port ' + String(port));
-});
+if (!module.parent) {
+    app.listen(port, function () {
+        console.log('server is up on port ' + String(port));
+    });
+}
