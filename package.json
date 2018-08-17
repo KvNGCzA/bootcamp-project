@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "mocha server/server.test.js",
+    "test": "mocha server/server.test.js --exit",
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "babel --presets airbnb es6/es6styles -d public/js",
     "build2": "babel --presets airbnb es6/es6server -d server/",
