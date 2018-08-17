@@ -26,9 +26,6 @@ app.use((req, res, next) => {
 /** questions api route*/
 app.use('/api/v1/questions', questionRoutes);
 
-/** link to static directory*/
-app.use(express.static(__dirname + '/../public'));
-
 /**register hbs partials*/
 hbs.registerPartials(__dirname + '/../views/partials');
 
