@@ -88,6 +88,10 @@ app.use((error, req, res, next) => {
 
 export {app};
 
-app.listen(port, () => {
-    console.log(`server is up on port ${port}`);
-});
+if(!module.parent){ 
+    app.listen(port, () => {
+        console.log(`server is up on port ${port}`);
+    });
+}
+
+
