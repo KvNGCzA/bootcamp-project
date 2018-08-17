@@ -48,10 +48,10 @@ app.use(function (req, res, next) {
 app.use('/api/v1/questions', _questions2['default']);
 
 /** link to static directory*/
-app.use(_express2['default']['static'](__dirname + '../../public'));
+app.use(_express2['default']['static'](__dirname + '../public'));
 
 /**register hbs partials*/
-_hbs2['default'].registerPartials(__dirname + '../../views/partials');
+_hbs2['default'].registerPartials(__dirname + '../views/partials');
 /**register hbs helper*/
 _hbs2['default'].registerHelper('getCurrentYear', function () {
     return new Date().getFullYear();
