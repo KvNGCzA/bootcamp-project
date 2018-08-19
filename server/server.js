@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.app = undefined;
 
 var _express = require('express');
 
@@ -33,7 +32,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var port = process.env.PORT || 3000;
 
-//start express server
+// start express server
 var app = (0, _express2['default'])();
 
 app.use((0, _morgan2['default'])('dev'));
@@ -49,65 +48,66 @@ app.use(function (req, res, next) {
     next();
 });
 
-//questions api route
+// questions api route
 app.use('/api/v1/questions', _questions2['default']);
 
-//link to static directory
+// link to static directory
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', 'public')));
 
-//register hbs partials 
+// register hbs partials
 _hbs2['default'].registerPartials(_path2['default'].join(__dirname, '..', 'views', 'partials'));
 
-//register hbs helper 
+// register hbs helper
 _hbs2['default'].registerHelper('getCurrentYear', function () {
     return new Date().getFullYear();
 });
 
-//enable hbs 
+// enable hbs
 app.set('view engine', 'hbs');
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res, next) {
     res.render('index.hbs', {
         pageTitle: 'Home'
     });
 });
 
-app.get('/profile', function (req, res) {
+app.get('/profile', function (req, res, next) {
     res.render('profile.hbs', {
         pageTitle: 'Profile'
     });
 });
 
-app.get('/question', function (req, res) {
+app.get('/question', function (req, res, next) {
     res.render('question.hbs', {
         pageTitle: 'Question'
     });
 });
 
-app.get('/post-question', function (req, res) {
+app.get('/post-question', function (req, res, next) {
     res.render('post-question.hbs', {
         pageTitle: 'Post A Question'
     });
 });
 
-app.get('/login-signup', function (req, res) {
+app.get('/login-signup', function (req, res, next) {
     res.render('login-signup.hbs', {
         pageTitle: 'Login-SignUp'
     });
 });
 
-//error codes   
-app.use(function (res, next) {
+// error codes
+app.use(function (req, res, next) {
     var error = new Error('Not found');
     error.status = 404;
     next(error);
 });
 
-app.use(function (error, res, next) {
+app.use(function (error, req, res, next) {
     res.status(error.status || 500);
     res.json({
         error: {
-            message: error.message
+            message: error.message,
+            status: error.status
         }
     });
 });
@@ -118,4 +118,4 @@ if (!module.parent) {
     });
 }
 
-exports.app = app;
+exports['default'] = app;

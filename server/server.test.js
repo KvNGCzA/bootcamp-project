@@ -6,13 +6,17 @@ var supertest = _interopRequireWildcard(_supertest);
 
 var _server = require('../server/server');
 
+var _server2 = _interopRequireDefault(_server);
+
 var _question = require('../api/models/question');
 
 var question = _interopRequireWildcard(_question);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-var request = supertest.agent(_server.app);
+var request = supertest.agent(_server2['default']);
 
 describe('GET /api/v1/questions', function () {
   it('should return status 200', function (done) {
