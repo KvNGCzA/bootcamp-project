@@ -19,58 +19,58 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 var router = _express2['default'].Router();
 
 // get all questions
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
   var allQuestions = question.fetchQuestions();
   res.status(200).json(allQuestions);
 });
 
 // get question by id
-router.get('/:questionId', function (req, res) {
+router.get('/:questionId', function (req, res, next) {
   question.getQuestionById(req.params.questionId, function (errorMessage, results) {
     if (errorMessage) {
       return res.status(404).json(errorMessage);
     }
-    res.status(200).json(results);
+    return res.status(200).json(results);
   });
 });
 
 // post question
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
   question.createNewQuestion(req.body.title, req.body.content, function (errorMessage, result) {
     if (errorMessage) {
       return res.status(400).json(errorMessage);
     }
-    res.status(201).json(result);
+    return res.status(201).json(result);
   });
 });
 
 // post an answer
-router.post('/:questionId/answers', function (req, res) {
+router.post('/:questionId/answers', function (req, res, next) {
   question.postAnswer(req.params.questionId, req.body.answer, function (errorMessage, result) {
     if (errorMessage) {
       return res.status(404).json(errorMessage);
     }
-    res.status(201).json(result);
+    return res.status(201).json(result);
   });
 });
 
 // edit question details
-router.patch('/:questionId', function (req, res) {
+router.patch('/:questionId', function (req, res, next) {
   question.editQuestion(req.params.questionId, req.body.prop, req.body.newProp, function (errorMessage, result) {
     if (errorMessage) {
       return res.status(404).json(errorMessage);
     }
-    res.status(201).json(result);
+    return res.status(201).json(result);
   });
 });
 
 // delete a question
-router['delete']('/:questionId', function (req, res) {
+router['delete']('/:questionId', function (req, res, next) {
   question.deleteQuestion(req.params.questionId, function (errorMessage, result) {
     if (errorMessage) {
       return res.status(404).json(errorMessage);
     }
-    res.status(200).json(result);
+    return res.status(200).json(result);
   });
 });
 
