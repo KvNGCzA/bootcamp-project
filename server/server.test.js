@@ -1,10 +1,10 @@
 'use strict';
 
-var _server = require('../server/server');
-
 var _supertest = require('supertest');
 
 var supertest = _interopRequireWildcard(_supertest);
+
+var _server = require('../server/server');
 
 var _question = require('../api/models/question');
 
@@ -71,16 +71,20 @@ describe('POST /api/v1/question/questionId/answers', function () {
   it('should return 201 and JSON format if answer is successfully posted', function (done) {
     request.post('/api/v1/questions/question' + String(lastItem) + '/answers').send({
       answer: 'test answer'
-    }).expect(201, { status: 201,
-      message: 'Answer added' }).expect('Content-type', /json/).end(done);
+    }).expect(201, {
+      status: 201,
+      message: 'Answer added'
+    }).expect('Content-type', /json/).end(done);
   });
   it('should return 404 error if questionId is invalid', function (done) {
-    request.post('/api/v1/questions/question/answers').send({ answer: 'test answer' }).expect(404, { status: 404,
+    request.post('/api/v1/questions/question/answers').send({ answer: 'test answer' }).expect(404, {
+      status: 404,
       message: 'Question id is invalid'
     }).end(done);
   });
   it('should return 404 error if answer not included', function (done) {
-    request.post('/api/v1/questions/question' + String(lastItem) + '/answers').send().expect(404, { status: 404,
+    request.post('/api/v1/questions/question' + String(lastItem) + '/answers').send().expect(404, {
+      status: 404,
       message: 'Missing answer property'
     }).expect('Content-type', /json/).end(done);
   });
@@ -91,13 +95,19 @@ describe('PATCH /api/v1/question/questionId', function () {
     request.patch('/api/v1/questions/question' + String(lastItem)).send({
       prop: 'title',
       newProp: 'New Test Title'
-    }).expect('Content-type', /json/).expect(201, { status: 201, message: 'Question title updated' }).end(done);
+    }).expect('Content-type', /json/).expect(201, {
+      status: 201,
+      message: 'Question title updated'
+    }).end(done);
   });
   it('should return 201 and JSON format if content property is successfully edited', function (done) {
     request.patch('/api/v1/questions/question' + String(lastItem)).send({
       prop: 'content',
       newProp: 'New Test Content'
-    }).expect('Content-type', /json/).expect(201, { status: 201, message: 'Question content updated' }).end(done);
+    }).expect('Content-type', /json/).expect(201, {
+      status: 201,
+      message: 'Question content updated'
+    }).end(done);
   });
   it('should return 404 error if question id is invalid', function (done) {
     request.patch('/api/v1/questions/question').send({
@@ -119,9 +129,15 @@ describe('PATCH /api/v1/question/questionId', function () {
 
 describe('DELETE /api/v1/question/questionId', function () {
   it('should return 200 and success message in JSON format', function (done) {
-    request['delete']('/api/v1/questions/question' + String(lastItem)).expect(200, { status: 200, message: 'Question deleted' }).expect('Content-type', /json/).end(done);
+    request['delete']('/api/v1/questions/question' + String(lastItem)).expect(200, {
+      status: 200,
+      message: 'Question deleted'
+    }).expect('Content-type', /json/).end(done);
   });
   it('should return 404 error and message in JSON format if question Id is invalid', function (done) {
-    request['delete']('/api/v1/questions/question').expect(404, { status: 404, message: 'Invalid question id' }).expect('Content-type', /json/).end(done);
+    request['delete']('/api/v1/questions/question').expect(404, {
+      status: 404,
+      message: 'Invalid question id'
+    }).expect('Content-type', /json/).end(done);
   });
 });

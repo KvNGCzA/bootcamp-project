@@ -1,19 +1,18 @@
-$(document).ready(function(){
-/** home questions tabs JQueryUI*/
-let homeQuestions = $('#hQuestions');
-homeQuestions.tabs();
+$(document).ready(function() {
+// home questions tabs JQueryUI
+const homeQuestions = $('#hQuestions').tabs();
 
-/** quick options configurations */
+// quick options configurations 
 //show and hide quick options
 const opt = $('.quick-options');
 const optCount = opt.children().length;
 //quick options icon array
-let $iconElement = ['.quick-search i', '.quick-question i'];
+const $iconElement = ['.quick-search i', '.quick-question i'];
 //quick options class array
-let $optionsClass = ['.quick-search', '.quick-question'];
+const $optionsClass = ['.quick-search', '.quick-question'];
 //quick options icon class array
-let $iconClass = ['fas fa-search','fas fa-pencil-alt'];
-for(let x in $iconElement){
+const $iconClass = ['fas fa-search','fas fa-pencil-alt'];
+for(let x in $iconElement) {
     let $icon = $($iconElement[x]);
     let $optionContainer = $($optionsClass[x]);
     $icon.on('click', ()=>{
@@ -26,6 +25,7 @@ for(let x in $iconElement){
             let sibsN = $($optionsClass[x]).nextAll();
             let index = optCount - sibsN.length;
             //make other options retreat when you open another one and change their icon
+
             //all previous siblings
             if(sibsP.length > 0){
                 for(let y in sibsP){
@@ -55,7 +55,7 @@ for(let x in $iconElement){
     });
 };
 
-/** mobile navigation configuration */
+// mobile navigation configuration
 const $mobIcon = $('.mobile-navigation .dropdown-menu i');
 const $dropDownMenuItems = $('.dropdown-menu-items');
 $mobIcon.on('click', ()=>{
@@ -69,8 +69,8 @@ $mobIcon.on('click', ()=>{
     }
 });
 
-/** single question template edit question dropdown settings */
-let $editOption = $('.edit-option');
+// single question template edit question dropdown settings
+const $editOption = $('.edit-option');
 $editOption.click( function(){
     $(this).next().slideToggle();
 });

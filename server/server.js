@@ -21,6 +21,10 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _questions = require('../api/routes/questions');
 
 var _questions2 = _interopRequireDefault(_questions);
@@ -29,7 +33,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var port = process.env.PORT || 3000;
 
-/**start express server*/
+//start express server
 var app = (0, _express2['default'])();
 
 app.use((0, _morgan2['default'])('dev'));
@@ -44,20 +48,22 @@ app.use(function (req, res, next) {
     }
     next();
 });
-/** questions api route*/
+
+//questions api route
 app.use('/api/v1/questions', _questions2['default']);
 
-/** link to static directory*/
-app.use(_express2['default']['static'](__dirname + '/../public'));
+//link to static directory
+app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', 'public')));
 
-/**register hbs partials*/
-_hbs2['default'].registerPartials(__dirname + '/../views/partials');
+//register hbs partials 
+_hbs2['default'].registerPartials(_path2['default'].join(__dirname, '..', 'views', 'partials'));
 
-/**register hbs helper*/
+//register hbs helper 
 _hbs2['default'].registerHelper('getCurrentYear', function () {
     return new Date().getFullYear();
 });
-/**enable hbs*/
+
+//enable hbs 
 app.set('view engine', 'hbs');
 
 app.get('/', function (req, res) {
@@ -90,14 +96,14 @@ app.get('/login-signup', function (req, res) {
     });
 });
 
-/**error codes*/
-app.use(function (req, res, next) {
+//error codes   
+app.use(function (res, next) {
     var error = new Error('Not found');
     error.status = 404;
     next(error);
 });
 
-app.use(function (error, req, res, next) {
+app.use(function (error, res, next) {
     res.status(error.status || 500);
     res.json({
         error: {
@@ -106,11 +112,10 @@ app.use(function (error, req, res, next) {
     });
 });
 
-exports.app = app;
-
-
 if (!module.parent) {
     app.listen(port, function () {
         console.log('server is up on port ' + String(port));
     });
 }
+
+exports.app = app;
