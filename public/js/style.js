@@ -1,11 +1,10 @@
 'use strict';
 
 $(document).ready(function () {
-    /** home questions tabs JQueryUI*/
-    var homeQuestions = $('#hQuestions');
-    homeQuestions.tabs();
+    // home questions tabs JQueryUI
+    var homeQuestions = $('#hQuestions').tabs();
 
-    /** quick options configurations */
+    // quick options configurations 
     //show and hide quick options
     var opt = $('.quick-options');
     var optCount = opt.children().length;
@@ -29,6 +28,7 @@ $(document).ready(function () {
                 var sibsN = $($optionsClass[x]).nextAll();
                 var index = optCount - sibsN.length;
                 //make other options retreat when you open another one and change their icon
+
                 //all previous siblings
                 if (sibsP.length > 0) {
                     for (var y in sibsP) {
@@ -61,7 +61,7 @@ $(document).ready(function () {
         _loop(x);
     };
 
-    /** mobile navigation configuration */
+    // mobile navigation configuration
     var $mobIcon = $('.mobile-navigation .dropdown-menu i');
     var $dropDownMenuItems = $('.dropdown-menu-items');
     $mobIcon.on('click', function () {
@@ -74,7 +74,7 @@ $(document).ready(function () {
         }
     });
 
-    /** single question template edit question dropdown settings */
+    // single question template edit question dropdown settings
     var $editOption = $('.edit-option');
     $editOption.click(function () {
         $(this).next().slideToggle();

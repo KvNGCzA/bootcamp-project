@@ -1,6 +1,7 @@
-import {app} from '../server/server';
-import * as supertest from "supertest";
+import * as supertest from 'supertest';
+import { app } from '../server/server';
 import * as question from '../api/models/question';
+
 const request = supertest.agent(app);
 
 
@@ -93,16 +94,19 @@ describe('POST /api/v1/question/questionId/answers', () => {
       .send({
         answer: 'test answer'
       })
-      .expect(201, { status: 201,
-        message: 'Answer added' })
+      .expect(201, {
+        status: 201,
+        message: 'Answer added'
+      })
         .expect('Content-type', /json/)
         .end(done);
     });
     it('should return 404 error if questionId is invalid', (done) => {
       request
-      .post(`/api/v1/questions/question/answers`)
+      .post('/api/v1/questions/question/answers')
       .send({ answer: 'test answer'})
-      .expect(404, { status: 404,
+      .expect(404, {
+        status: 404,
         message: 'Question id is invalid'
       })
       .end(done);
@@ -111,7 +115,8 @@ describe('POST /api/v1/question/questionId/answers', () => {
       request
       .post(`/api/v1/questions/question${lastItem}/answers`)
       .send()
-      .expect(404, {  status: 404,
+      .expect(404, {
+        status: 404,
         message: 'Missing answer property'
        })
        .expect('Content-type', /json/)
@@ -128,7 +133,10 @@ describe('PATCH /api/v1/question/questionId', () => {
         newProp: 'New Test Title'
       })
       .expect('Content-type', /json/)
-      .expect(201, { status: 201, message: 'Question title updated'})
+      .expect(201, {
+        status: 201,
+        message: 'Question title updated'
+      })
         .end(done);
     });
     it('should return 201 and JSON format if content property is successfully edited', (done) => {
@@ -139,12 +147,15 @@ describe('PATCH /api/v1/question/questionId', () => {
         newProp: 'New Test Content'
       })
       .expect('Content-type', /json/)
-      .expect(201, { status: 201, message: 'Question content updated'})
+      .expect(201, {
+        status: 201,
+        message: 'Question content updated'
+      })
         .end(done);
     });
     it('should return 404 error if question id is invalid', (done) => {
       request
-      .patch(`/api/v1/questions/question`)
+      .patch('/api/v1/questions/question')
       .send({
         prop: 'content',
         newProp: 'New Test Content'
@@ -179,14 +190,20 @@ describe('DELETE /api/v1/question/questionId', () => {
   it('should return 200 and success message in JSON format', (done) => {
     request
     .delete(`/api/v1/questions/question${lastItem}`)
-    .expect(200, { status: 200, message:'Question deleted' })
+    .expect(200, {
+      status: 200,
+      message: 'Question deleted' 
+    })
     .expect('Content-type', /json/)
     .end(done);
   });
   it('should return 404 error and message in JSON format if question Id is invalid', (done) => {
     request
     .delete('/api/v1/questions/question')
-    .expect(404, { status: 404, message:'Invalid question id' })
+    .expect(404, {
+      status: 404,
+      message: 'Invalid question id'
+     })
     .expect('Content-type', /json/)
     .end(done);
   });

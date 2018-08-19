@@ -1,6 +1,6 @@
 'use strict';
 
-/** add page-title as a class to the body tag*/
+// add page-title as a class to the body tag
 var dashTitle = function dashTitle(str) {
   if (/\s/.test(str)) {
     var lowerStr = str.toLowerCase();
@@ -12,9 +12,9 @@ var dashTitle = function dashTitle(str) {
 var bodyTag = document.getElementsByTagName('body');
 var currentPageTitle = document.title;
 var cName = dashTitle(currentPageTitle);
-bodyTag[0].classList += 'page-' + cName + ' ';
+bodyTag[0].classList += 'page-' + String(cName) + ' ';
 
-/** action buttons config*/
+// action buttons config
 var actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
 var thinClass = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
 var thickClass = ['fas fa-thumbs-up likebutton', 'fas fa-thumbs-down dislikebutton', 'fas fa-flag reportbutton', 'fas fa-star favoritebutton'];
@@ -37,7 +37,7 @@ for (var x in actionBtnArr) {
   _loop(x);
 }
 
-/** comments list background color */
+// comments list background color
 var comments = document.getElementsByClassName('comment-cont');
 for (var x in comments) {
   if (x % 2 === 0) {
@@ -45,23 +45,23 @@ for (var x in comments) {
   }
 }
 
-/** colour for question meta - views, likes and answered if count is greater than 0*/
-var homeAnswered = document.getElementsByClassName('answer-count-dis');
-var homeLiked = document.getElementsByClassName('likes-count-dis');
-var homeViews = document.getElementsByClassName('views-count-dis');
-var countArr = [homeAnswered, homeLiked, homeViews];
+// colour for question meta - views, likes and answered if count is greater than 0
+var answered = document.getElementsByClassName('answer-count-dis');
+var liked = document.getElementsByClassName('likes-count-dis');
+var viewed = document.getElementsByClassName('views-count-dis');
+var countArr = [answered, liked, viewed];
 var classCountArr = ['answered', 'liked', 'viewed'];
 for (var y in countArr) {
   for (var _x in countArr[y]) {
     var _current = Number(countArr[y][_x].textContent);
     if (_current > 0) {
       countArr[y][_x].classList += ' ' + classCountArr[y];
-    } //if
-  } //for x
-} //for y
+    } // if
+  } // for x
+} // for y
 
 
-/** mobile search configuration*/
+// mobile search configuration
 var mobSearchIcon = document.getElementById('fa-search');
 var searchForm = document.getElementsByClassName('mob-search-form');
 var searchFormInput = document.getElementsByClassName('search-form-input');
@@ -79,7 +79,7 @@ searchFormInput[0].addEventListener('blur', function () {
   mobSearchIcon.style.color = 'white';
 }, false);
 
-/** functions the display either login or sign up forms*/
+// functions the display either login or sign up forms
 var loginCheckArr = ['login-form', 'side-login-form'];
 var signupCheckArr = ['signup-form', 'side-signup-form'];
 var changeButtons = ['c-t-login', 's-t-login'];
@@ -92,7 +92,8 @@ var checkWhichForm = function checkWhichForm(login, signup) {
     signup.style.display = 'block';
     login.style.display = 'none';
   }
-}; //checkWhichForm
+};
+// checkWhichForm
 
 var _loop2 = function _loop2(_x2) {
   var loginCheck = document.getElementById(loginCheckArr[_x2]);
