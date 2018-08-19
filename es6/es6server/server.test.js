@@ -1,5 +1,5 @@
 import {app} from '../server/server';
-import * as supertest from "supertest";
+import * as supertest from 'supertest';
 import * as question from '../api/models/question';
 const request = supertest.agent(app);
 
