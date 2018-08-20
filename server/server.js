@@ -24,7 +24,7 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _questions = require('../api/routes/questions');
+var _questions = require('./routes/questions');
 
 var _questions2 = _interopRequireDefault(_questions);
 
