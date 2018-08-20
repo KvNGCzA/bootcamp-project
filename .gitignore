@@ -1,6 +1,8 @@
 /node_modules
-package-lock.json
+/es6
 /public/jquery-3.2.1
 /coverage
+/scss
 .eslintrc.json
 .coveralls.yml
+package-lock.json

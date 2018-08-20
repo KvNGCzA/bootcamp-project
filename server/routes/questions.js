@@ -25,14 +25,6 @@ router.get('/', function (req, res, next) {
 });
 
 // get question by id
-// router.get('/:questionId', (req, res) => {
-//   question.getQuestionById(req.params.questionId, (errorMessage, results) => {
-//     if(errorMessage) {
-//       return res.status(404).json(errorMessage);
-//     }
-//     return res.status(200).json(results);
-//   });
-// });
 router.get('/:questionId', question.getQuestionsById);
 
 // post question
@@ -76,20 +68,3 @@ router['delete']('/:questionId', function (req, res, next) {
 });
 
 exports['default'] = router;
-
-// [{
-//  questionId: 'question8',
-// 	title: 'test',
-// 	content: 'test',
-// 	answer: [] 
-// }];
-
-// { 
-//   question:
-//   [
-//      { questionId: 'question8',
-//       title: 'test',
-//       content: 'test',
-//       answer: [] } 
-//     ] 
-// }
