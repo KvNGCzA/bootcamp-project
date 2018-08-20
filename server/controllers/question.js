@@ -58,16 +58,6 @@ var getQuestionsById = exports.getQuestionsById = function getQuestionsById(req,
 	console.log('if empty', question);
 	return res.status(404).json({ message: 'Invalid question id' });
 };
-// export const getQuestionById = (questionId, callback) => {
-//   const dupQuestion = allQuestions.filter(question => question.questionId === questionId);
-//   if( dupQuestion.length === 1) {
-//     return callback(undefined, dupQuestion);
-//   }
-//   if( dupQuestion.length > 1) {
-//     return callback({ status: 404, message: 'More than one question has this id'});
-//   }
-//   return callback({ status: 404, message: 'Invalid question id'});
-// };
 
 var postAnswer = exports.postAnswer = function postAnswer(questionId, answer, callback) {
 	if (!answer) {
