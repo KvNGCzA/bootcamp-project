@@ -4,11 +4,11 @@ var _supertest = require('supertest');
 
 var supertest = _interopRequireWildcard(_supertest);
 
-var _server = require('../server/server');
+var _server = require('../server');
 
 var _server2 = _interopRequireDefault(_server);
 
-var _question = require('../api/models/question');
+var _question = require('../controllers/question');
 
 var question = _interopRequireWildcard(_question);
 

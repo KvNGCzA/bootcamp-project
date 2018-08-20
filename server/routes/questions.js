@@ -8,7 +8,7 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _question = require('../models/question');
+var _question = require('../controllers/question');
 
 var question = _interopRequireWildcard(_question);
 
@@ -17,9 +17,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var router = _express2['default'].Router();
-
-console.log('question controller ====>', question.questionId);
-console.log('question file +++++++++++++++>', question);
 
 // get all questions
 router.get('/', function (req, res, next) {

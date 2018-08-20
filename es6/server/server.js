@@ -4,7 +4,7 @@ import hbs from 'hbs';
 import morgan from 'morgan';
 import path from 'path';
 
-import questionRoutes from '../api/routes/questions';
+import questionRoutes from './routes/questions';
 
 const port = process.env.PORT || 3000;
 

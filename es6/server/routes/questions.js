@@ -1,10 +1,7 @@
 import express from 'express';
-import * as question from '../models/question';
+import * as question from '../controllers/question';
 
 const router = express.Router();
-
-console.log('question controller ====>', question.questionId);
-console.log('question file +++++++++++++++>', question);
 
 // get all questions
 router.get('/', (req, res, next) => {
