@@ -1,8 +1,8 @@
 /node_modules
 /coverage
-es6/
+/es6
 /scss
-public/
+/public
 .eslintrc.json
 .coveralls.yml
 package-lock.json
