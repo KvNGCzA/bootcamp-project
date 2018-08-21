@@ -1,7 +1,6 @@
 /node_modules
 /coverage
 /scss
-/public
 .eslintrc.json
 .coveralls.yml
 package-lock.json
