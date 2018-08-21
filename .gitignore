@@ -1,5 +1,6 @@
 /node_modules
 /coverage
+/es6
 /scss
 .eslintrc.json
 .coveralls.yml
