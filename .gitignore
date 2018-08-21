@@ -3,8 +3,8 @@
 /scss
 /UI
 /es6
-/public
 /views
+/public
 .eslintrc.json
 .coveralls.yml
 package-lock.json
