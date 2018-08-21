@@ -1,0 +1,24 @@
+{{> header}}
+  {{> lsidebar}}
+
+<div class="site-content">
+  <p class="pageTitle">{{ pageTitle}}<p>
+  <div class="question-form">
+    <form action="index.html" method="post">
+      <label for="title">Title:<br>
+        <input type="text" name="title" placeholder="Title" value="">
+      </label>
+      <label for="question">Body:<br>
+        <textarea name="question" rows="8" cols="80"placeholder="Enter your question here" ></textarea>
+      </label>
+      <label for="tags">Tags:<br>
+        <input type="text" name="tags" placeholder="Tags: Seperate multiple tags with commas e.g. ruby, java" value="">
+      </label>
+      <input type="button" name="submit" value="Post">
+    </form>
+  </div><!-- question-form  -->
+
+</div><!-- site-content  -->
+
+  {{> sidebar}}
+{{> footer}}
