@@ -2,6 +2,9 @@
 /coverage
 /scss
 /UI
+/es6
+/public
+/views
 .eslintrc.json
 .coveralls.yml
 package-lock.json
