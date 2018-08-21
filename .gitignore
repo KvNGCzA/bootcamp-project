@@ -5,6 +5,3 @@
 .coveralls.yml
 package-lock.json
 /UI
-/es6
-/views
-/public
