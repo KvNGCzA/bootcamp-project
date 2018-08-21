@@ -1,10 +1,10 @@
 /node_modules
 /coverage
 /scss
-.eslintrc.json
-.coveralls.yml
-package-lock.json
 /UI
 /es6
 /views
 /public
+.eslintrc.json
+.coveralls.yml
+package-lock.json
