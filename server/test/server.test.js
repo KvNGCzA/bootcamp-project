@@ -10,8 +10,6 @@ var _server2 = _interopRequireDefault(_server);
 
 var _question = require('../controllers/question');
 
-var question = _interopRequireWildcard(_question);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
@@ -51,7 +49,7 @@ describe('POST /api/v1/questions', function () {
 	});
 });
 
-var allQuestions = question.fetchQuestions();
+var allQuestions = (0, _question.fetchQuestions)();
 var lastItem = allQuestions.length + 1;
 
 describe('GET /api/v1/question/questionId', function () {
