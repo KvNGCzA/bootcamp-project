@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import hbs from 'hbs';
 import morgan from 'morgan';
 import path from 'path';
 
@@ -36,44 +35,6 @@ app.use('/auth/signup', signupRoute);
 // link to static directory
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));
 
-// register hbs partials
-hbs.registerPartials(path.join(__dirname, '..', '..', 'views', 'partials'));
-
-// register hbs helper
-hbs.registerHelper('getCurrentYear', () => new Date().getFullYear());
-
-// enable hbs
-app.set('view engine', 'hbs');
-
-app.get('/', (req, res, next) => {
-    res.render('index.hbs', {
-        pageTitle: 'Home'
-    });
-});
-
-app.get('/profile', (req, res, next) => {
-    res.render('profile.hbs', {
-        pageTitle: 'Profile'
-    });
-});
-
-app.get('/question', (req, res, next) => {
-    res.render('question.hbs', {
-        pageTitle: 'Question'
-    });
-});
-
-app.get('/post-question', (req, res, next) => {
-    res.render('post-question.hbs', {
-        pageTitle: 'Post A Question'
-    });
-});
-
-app.get('/login-signup', (req, res, next) => {
-    res.render('login-signup.hbs', {
-        pageTitle: 'Login-SignUp'
-    });
-});
 
 // error codes
 app.use((req, res, next) => {
