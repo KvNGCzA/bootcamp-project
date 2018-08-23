@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _express = require('express');
@@ -11,12 +11,6 @@ var _express2 = _interopRequireDefault(_express);
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
-
-var _pg = require('pg');
-
-var _hbs = require('hbs');
-
-var _hbs2 = _interopRequireDefault(_hbs);
 
 var _morgan = require('morgan');
 
@@ -45,91 +39,48 @@ var port = process.env.PORT || 3000;
 // start express server
 var app = (0, _express2['default'])();
 
-// database connection
-var connectionString = 'postgresql://cza:King301094@localhost:50080/stackoveflow';
-
 app.use((0, _morgan2['default'])('dev'));
 app.use(_bodyParser2['default'].urlencoded({ extended: false }));
 app.use(_bodyParser2['default'].json());
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', '*');
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).json({});
-    }
-    next();
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+  }
+  next();
 });
 
 // questions api route
 app.use('/api/v1/questions', _questions2['default']);
-app.use('/login', _login2['default']);
-app.use('/signup', _signup2['default']);
+app.use('/auth/login', _login2['default']);
+app.use('/auth/signup', _signup2['default']);
+
 // link to static directory
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', '..', 'public')));
 
-// register hbs partials
-_hbs2['default'].registerPartials(_path2['default'].join(__dirname, '..', '..', 'views', 'partials'));
-
-// register hbs helper
-_hbs2['default'].registerHelper('getCurrentYear', function () {
-    return new Date().getFullYear();
-});
-
-// enable hbs
-app.set('view engine', 'hbs');
-
-app.get('/', function (req, res, next) {
-    res.render('index.hbs', {
-        pageTitle: 'Home'
-    });
-});
-
-app.get('/profile', function (req, res, next) {
-    res.render('profile.hbs', {
-        pageTitle: 'Profile'
-    });
-});
-
-app.get('/question', function (req, res, next) {
-    res.render('question.hbs', {
-        pageTitle: 'Question'
-    });
-});
-
-app.get('/post-question', function (req, res, next) {
-    res.render('post-question.hbs', {
-        pageTitle: 'Post A Question'
-    });
-});
-
-app.get('/login-signup', function (req, res, next) {
-    res.render('login-signup.hbs', {
-        pageTitle: 'Login-SignUp'
-    });
-});
-
 // error codes
 app.use(function (req, res, next) {
-    var error = new Error('Not found');
-    error.status = 404;
-    next(error);
+  var error = new Error('Not found');
+  error.status = 404;
+  next(error);
 });
 
 app.use(function (error, req, res, next) {
-    res.status(error.status || 500);
-    res.json({
-        error: {
-            message: error.message,
-            status: error.status
-        }
-    });
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message,
+      status: error.status
+    }
+  });
 });
 
 if (!module.parent) {
-    app.listen(port, function () {
-        console.log('server is up on port ' + String(port));
-    });
+  app.listen(port, function () {
+    console.log('server is up on port ' + String(port));
+  });
 }
 
 exports['default'] = app;

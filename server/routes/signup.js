@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _express = require('express');
@@ -10,20 +10,14 @@ var _express2 = _interopRequireDefault(_express);
 
 var _signup = require('../controllers/signup');
 
-var validUser = _interopRequireWildcard(_signup);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var userClass = new _signup.User();
 
 var router = _express2['default'].Router();
 
-router.get('/', validUser.validateUser);
+router.get('/', userClass.fetchUsers);
 
-router.post('/', function (req, res) {
-	res.json({
-		message: 'creating account'
-	});
-});
+router.post('/', userClass.createUser);
 
 exports['default'] = router;

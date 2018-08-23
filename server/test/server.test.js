@@ -8,7 +8,7 @@ var _server = require('../server');
 
 var _server2 = _interopRequireDefault(_server);
 
-var _question = require('../controllers/question');
+var _utils = require('../controllers/utils/utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -49,8 +49,7 @@ describe('POST /api/v1/questions', function () {
 	});
 });
 
-var allQuestions = (0, _question.fetchQuestions)();
-var lastItem = allQuestions.length + 1;
+var lastItem = _utils.allQuestions.length + 1;
 
 describe('GET /api/v1/question/questionId', function () {
 	it('should return 200 & JSON format', function (done) {
