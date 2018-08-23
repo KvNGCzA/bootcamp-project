@@ -1,4 +1,4 @@
-import { allQuestions, saveQuestion } from './utils/utils'
+import { allQuestions, saveQuestion } from '../utils/utils'
 
 export class Question {
 	// get all questions
