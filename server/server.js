@@ -12,8 +12,6 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _pg = require('pg');
-
 var _hbs = require('hbs');
 
 var _hbs2 = _interopRequireDefault(_hbs);
@@ -45,9 +43,6 @@ var port = process.env.PORT || 3000;
 // start express server
 var app = (0, _express2['default'])();
 
-// database connection
-var connectionString = 'postgresql://cza:King301094@localhost:50080/stackoveflow';
-
 app.use((0, _morgan2['default'])('dev'));
 app.use(_bodyParser2['default'].urlencoded({ extended: false }));
 app.use(_bodyParser2['default'].json());
@@ -63,8 +58,9 @@ app.use(function (req, res, next) {
 
 // questions api route
 app.use('/api/v1/questions', _questions2['default']);
-app.use('/login', _login2['default']);
-app.use('/signup', _signup2['default']);
+app.use('/auth/login', _login2['default']);
+app.use('/auth/signup', _signup2['default']);
+
 // link to static directory
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', '..', 'public')));
 
