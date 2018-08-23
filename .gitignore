@@ -2,15 +2,8 @@
 /coverage
 /scss
 /UI
-/es6
 /views
 /public
 .eslintrc.json
 .coveralls.yml
 package-lock.json
-/server/routes/login.js
-/server/routes/signup.js
-/server/controllers/login.js
-/server/controllers/signup.js
-/server/routes/login.js
-/server/db/user.js
