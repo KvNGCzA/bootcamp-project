@@ -1,6 +1,6 @@
 import * as supertest from 'supertest';
 import app from '../server';
-import { allQuestions } from '../controllers/utils/utils';
+import { allQuestions } from '../utils/utils';
 
 const request = supertest.agent(app);
 
