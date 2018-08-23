@@ -1,6 +1,6 @@
 import * as supertest from 'supertest';
 import app from '../server';
-import { fetchQuestions } from '../controllers/question';
+import { allQuestions } from '../controllers/utils/utils';
 
 const request = supertest.agent(app);
 
@@ -59,7 +59,6 @@ describe('POST /api/v1/questions', () => {
 	});
 });
 
-const allQuestions = fetchQuestions();
 const lastItem = allQuestions.length + 1;
 
 describe('GET /api/v1/question/questionId', () => {

@@ -1,16 +1,4 @@
-import fs from 'fs';
-
-export const fetchQuestions = () => {
-	try {
-		const questionDatabase = fs.readFileSync('server/db/questions.json');
-		return JSON.parse(questionDatabase);
-	} catch (error) {
-		return [];
-	}
-};
-
-const saveQuestion = questions => fs.writeFileSync('server/db/questions.json', JSON.stringify(questions, undefined, 2));
-const allQuestions = fetchQuestions();
+import { allQuestions, saveQuestion } from './utils/utils'
 
 export class Question {
 	// get all questions
