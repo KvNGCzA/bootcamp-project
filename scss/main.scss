@@ -82,6 +82,10 @@ body.page-login-signup{
       width: 75%;
     }
   }//.main
+  footer{
+    position: absolute;
+    top: 100%;
+  }
 }//.page-login-signup
 
 header{
@@ -123,6 +127,9 @@ header{
             background-color: $hoverColor;
           }//hover
         }//a
+        &:last-child{
+          display: none;
+        }
       }//li
     }//ul
   }//.main-navigation
@@ -149,7 +156,7 @@ header{
           border: $whiteBorder;
           margin: 0;
           .profile-image{
-              background-image: url('images/rubix.png');
+              background-image: url('../images/rubix.png');
               background-size: contain;
               background-position: center;
               background-repeat: no-repeat;
@@ -238,7 +245,7 @@ a, input[type="button"], i, button{
     border: 1px solid $hoverColor;
     border-radius: 100em;
     .profile-image{
-        background-image: url('images/rubix.png');
+        background-image: url('../images/rubix.png');
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
@@ -342,9 +349,9 @@ a, input[type="button"], i, button{
     }//.quick-search
 
     .quick-question{
-    top:-0.7em;
-    padding: 1em;
-    text-align: center;
+      top:-0.7em;
+      padding: 1em;
+      text-align: center;
     h2{
       color: white;
       font-size: 1em;
@@ -361,7 +368,8 @@ a, input[type="button"], i, button{
         width: 100%;
       }
       input[type="button"]{
-        padding: 0.5em 1em;
+        padding: 1em;
+        width: 100%;
         color: $maincolor;
         border: $whiteBorder;
         &:hover{
@@ -755,8 +763,9 @@ a, input[type="button"], i, button{
           background-color: $maincolor;
           color: white;
           border: 1px solid $hoverColor;
-          padding: 0.6em 2em;
+          padding: 1em;
           margin: 0 0 2em;
+          width: 100%;
           &:hover{
             background-color: $hoverColor;
             @include outerBoxShadow(0, 0, 5px, $maincolor);
@@ -814,9 +823,9 @@ a, input[type="button"], i, button{
 
       input[type="button"]{
         display: inline-block;
-        width: auto;
+        width: 100%;
         clear: both;
-        padding: 0.5em 2em;
+        padding: 1em;
         color: white;
         border: $mainborder;
         background-color: $maincolor;
@@ -888,9 +897,9 @@ a, input[type="button"], i, button{
 
       input[type="button"]{
         display: inline-block;
-        width: auto;
+        width: 100%;
         clear: both;
-        padding: 0.5em 2em;
+        padding: 0.5em 2em!important;
         color: white;
         border: $mainborder;
         background-color: $maincolor;
@@ -1002,10 +1011,10 @@ a, input[type="button"], i, button{
       }//label
       input[type="button"]{
         display: inline-block;
-        width: auto;
+        width: 100%;
         background-color: $maincolor;
         color: white;
-        padding: 0.5em 1em;
+        padding: 1em;
         float:right;
         &:hover, &:active{
           color: $maincolor;
@@ -1151,12 +1160,12 @@ footer{
   .main{
     .site-content{
       width:100%;
-
+      padding: 1em 1em;
       .hPostQues{
         display: block;
         float: none;
-        text-align: right;
-        margin: 1em 0;
+        text-align: center;
+        margin: 0 0 1em 0;
         a{
         }//a
       }//.hPostQues
@@ -1247,11 +1256,22 @@ footer{
         padding: 0;
       }//.login-signup-cont
 
-      #hQuestions{
+      #hQuestions{        
+        .tab-cont{
+          text-align: center;
+        }
         .tab{
         }//.tab
       }//#hQuestions
 
+
+      .profile-page-cont{
+        .profile{
+          .l-settings{
+            display: none;
+          }//.l-settings
+        }//profile
+      }//.profile-page-cont
     }//.site-content
 
 

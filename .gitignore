@@ -6,3 +6,8 @@ package-lock.json
 /scss
 /api
 /UI
+.env
+.env.default
+/coverage
+.coveralls.yml
+/views
