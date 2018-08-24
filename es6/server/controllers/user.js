@@ -1,8 +1,10 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { db } from '../db'; 
+import { db } from '../db';
+
 
 export class User {
+	// create a new user
 	createUser(req, res) {
 		db.any('SELECT * FROM users WHERE email = $1', [req.body.email])
 		.then( user => {
@@ -30,11 +32,39 @@ export class User {
 		});
 	}
 
+	// login to an account
+	login (req, res) {
+		db.any('SELECT * FROM users WHERE email = $1', [req.body.email])
+		.then( user => {
+			if (user.length < 1) {
+				return res.status(401).json({message: 'Authentication failed!'});
+			}
+			bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+				if (err) {
+					return res.status(401).json({message: 'Authentication failed!'});
+				}
+				if (result) {
+					const token = jwt.sign({
+						email: user[0].email,
+						userid: user[0].id 
+					},process.env.JWT_KEY,{
+						expiresIn: "1h"
+					});
+					
+					return res.status(200).json({message: 'Authentication successful!'});
+				}
+				return res.status(401).json({message: 'Authentication failed!'});
+			});
+		})
+		.catch();
+	}
+
+	// fetch all users
 	fetchUsers(req, res) {
 		db.any('SELECT * FROM users').then(
-			(users) => res.status(200).json({users})
+			users => res.status(200).json({users})
 		).catch(
-			(error) => res.status(400).json({error})
+			error => res.status(400).json({error})
 		);
 	}
 }

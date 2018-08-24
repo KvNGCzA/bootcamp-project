@@ -24,13 +24,13 @@ var _questions = require('./routes/questions');
 
 var _questions2 = _interopRequireDefault(_questions);
 
-var _login = require('./routes/login');
+var _users = require('./routes/users');
 
-var _login2 = _interopRequireDefault(_login);
+var _users2 = _interopRequireDefault(_users);
 
-var _signup = require('./routes/signup');
+var _sqlquestion = require('./routes/sqlquestion');
 
-var _signup2 = _interopRequireDefault(_signup);
+var _sqlquestion2 = _interopRequireDefault(_sqlquestion);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -54,8 +54,8 @@ app.use(function (req, res, next) {
 
 // questions api route
 app.use('/api/v1/questions', _questions2['default']);
-app.use('/auth/login', _login2['default']);
-app.use('/auth/signup', _signup2['default']);
+app.use('/auth', _users2['default']);
+app.use('/questions', _sqlquestion2['default']);
 
 // link to static directory
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', '..', 'public')));
