@@ -4,6 +4,8 @@
 /UI
 /views
 /public
+/server
+.env
 .eslintrc.json
 .coveralls.yml
 package-lock.json
