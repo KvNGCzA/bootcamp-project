@@ -5,7 +5,7 @@ import path from 'path';
 
 import questionRoutes from './routes/questions';
 import userRoutes from './routes/users';
-// import postgresQuestionRoutes from './routes/sqlquestion';
+import postgresQuestionRoutes from './routes/sqlquestion';
 
 const port = process.env.PORT || 3000;
 
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 // questions api route
 app.use('/api/v1/questions', questionRoutes);
 app.use('/auth', userRoutes);
-// app.use('/questions', postgresQuestionRoutes);
+app.use('/questions', postgresQuestionRoutes);
 
 // link to static directory
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));

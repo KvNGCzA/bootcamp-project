@@ -28,9 +28,11 @@ var _users = require('./routes/users');
 
 var _users2 = _interopRequireDefault(_users);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _sqlquestion = require('./routes/sqlquestion');
 
-// import postgresQuestionRoutes from './routes/sqlquestion';
+var _sqlquestion2 = _interopRequireDefault(_sqlquestion);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var port = process.env.PORT || 3000;
 
@@ -53,7 +55,7 @@ app.use(function (req, res, next) {
 // questions api route
 app.use('/api/v1/questions', _questions2['default']);
 app.use('/auth', _users2['default']);
-// app.use('/questions', postgresQuestionRoutes);
+app.use('/questions', _sqlquestion2['default']);
 
 // link to static directory
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', '..', 'public')));
