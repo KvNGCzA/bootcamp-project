@@ -28,6 +28,8 @@ var User = exports.User = function () {
 
 	_createClass(User, [{
 		key: 'createUser',
+
+		// create a new user
 		value: function () {
 			function createUser(req, res) {
 				_db.db.any('SELECT * FROM users WHERE email = $1', [req.body.email]).then(function (user) {
@@ -57,6 +59,41 @@ var User = exports.User = function () {
 
 			return createUser;
 		}()
+
+		// login to an account
+
+	}, {
+		key: 'login',
+		value: function () {
+			function login(req, res) {
+				_db.db.any('SELECT * FROM users WHERE email = $1', [req.body.email]).then(function (user) {
+					if (user.length < 1) {
+						return res.status(401).json({ message: 'Authentication failed!' });
+					}
+					_bcrypt2['default'].compare(req.body.password, user[0].password, function (err, result) {
+						if (err) {
+							return res.status(401).json({ message: 'Authentication failed!' });
+						}
+						if (result) {
+							var token = _jsonwebtoken2['default'].sign({
+								email: user[0].email,
+								userid: user[0].id
+							}, process.env.JWT_KEY, {
+								expiresIn: "1h"
+							});
+
+							return res.status(200).json({ message: 'Authentication successful!' });
+						}
+						return res.status(401).json({ message: 'Authentication failed!' });
+					});
+				})['catch']();
+			}
+
+			return login;
+		}()
+
+		// fetch all users
+
 	}, {
 		key: 'fetchUsers',
 		value: function () {
