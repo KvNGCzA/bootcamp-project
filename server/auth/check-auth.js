@@ -18,7 +18,7 @@ exports['default'] = function (req, res, next) {
         next();
     } catch (error) {
         return res.status(401).json({
-            message: 'Authentication Failed!'
+            message: 'Invalid Token!'
         });
     }
 };
