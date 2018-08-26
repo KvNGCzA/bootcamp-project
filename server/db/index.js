@@ -5,15 +5,14 @@ import { Pool } from 'pg';
 dotEnv.config();
 
 const connectionString = process.env.DB;
-const pool = new Pool({ connectionString });
-pool.connect();
 
 // DROP TABLE IF EXISTS Users CASCADE;
 // DROP TABLE IF EXISTS Questions CASCADE;
-// DROP TABLe IF EXISTS Answers CASCADE;
-
+// DROP TABLE IF EXISTS Answers CASCADE;
 const createTable = () => {
-	const query = `
+    const pool = new Pool({ connectionString });
+    pool.connect();
+    const query = `    
         CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             fullname VARCHAR(150) NOT NULL,
@@ -22,20 +21,21 @@ const createTable = () => {
             password VARCHAR(255) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
-        CREATE TABLE IF NOT EXISTS Questions(
+        CREATE TABLE IF NOT EXISTS questions(
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             content TEXT NOT NULL,
-            userId int REFERENCES users(id),
-            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            userid int NOT NULL,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
-        CREATE TABLE IF NOT EXISTS Answers(
+        CREATE TABLE IF NOT EXISTS answers(
             id SERIAL PRIMARY KEY,
-            Answer TEXT NOT NULL,
-            QuestionId int REFERENCES Questions(id),
-            userId int REFERENCES users(id),
-            status VARCHAR(50) NOT NULL,
-            date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            answer TEXT NOT NULL,
+            questionid int NOT NULL,
+            userid int NOT NULL,
+            date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )`;
 
 	pool.query(query)
