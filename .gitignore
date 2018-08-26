@@ -4,8 +4,9 @@
 /UI
 /views
 /public
+/compiled
+/.vscode
 .env
-.env.default
 .eslintrc.json
 .coveralls.yml
 package-lock.json

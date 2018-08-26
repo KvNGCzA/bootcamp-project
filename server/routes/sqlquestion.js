@@ -1,27 +1,13 @@
-'use strict';
+import express from 'express';
+import checkAuth from '../auth/check-auth';
+import { Questions } from '../controllers/sqlquestion';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+const router = express.Router();
 
-var _express = require('express');
-
-var _express2 = _interopRequireDefault(_express);
-
-var _checkAuth = require('../auth/check-auth');
-
-var _checkAuth2 = _interopRequireDefault(_checkAuth);
-
-var _sqlquestion = require('../controllers/sqlquestion');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var router = _express2['default'].Router();
-
-var questionsClass = new _sqlquestion.Questions();
+const questionsClass = new Questions();
 
 router.get('/', questionsClass.fetchQuestions);
 
 router.post('/', questionsClass.postQuestion);
 
-exports['default'] = router;
+export default router;
