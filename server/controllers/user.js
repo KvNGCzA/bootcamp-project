@@ -4,6 +4,16 @@ import { db } from '../db';
 
 
 export class User {
+	
+	// fetch all users
+	fetchUsers(req, res) {
+		db.any('SELECT * FROM users').then(
+			users => res.status(200).json({ users })
+		).catch(
+			error => res.status(500).json({ error })
+		);
+	}
+
 	// create a new user
 	createUser(req, res) {
 		const firstName = req.body.firstName;
@@ -23,16 +33,22 @@ export class User {
 			.then( user => {
 				if (user.length === 0) {
 						const hash = bcrypt.hashSync(pwd, 10);
-						return db.any('INSERT INTO users (fullname, username, email, password) VALUES ($1, $2, $3, $4)', [fullName, username,emailAdd, hash])
+						return db.any('INSERT INTO users (fullname, username, email, password) VALUES ($1, $2, $3, $4)', [fullName, username,emailAdd, hash])		
 							.then(() => {
-								const token = jwt.sign({
-									emailAdd 
-								},process.env.JWT_KEY,{
-									expiresIn: '1h'
-								});
+								db.any('SELECT * FROM users WHERE email = $1', [emailAdd])
+								.then(user => {		
+									console.log(user);
+									const token = jwt.sign({
+										id : user[0].id
+									},process.env.JWT_KEY,{
+										expiresIn: '1h'
+									});
 								res.status(201).json({ message: 'user created', token })
-							}
-							)
+								})
+								.catch(error => {
+									return res.status(500).json({ error });
+								});
+							})
 							.catch((error) => res.status(500).json({error}));
 				}
 				if (user[0].email === emailAdd) {
@@ -92,12 +108,4 @@ export class User {
 		);
 	}
 
-	// fetch all users
-	fetchUsers(req, res) {
-		db.any('SELECT * FROM users').then(
-			users => res.status(200).json({ users })
-		).catch(
-			error => res.status(500).json({ error })
-		);
-	}
 }

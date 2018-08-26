@@ -8,6 +8,6 @@ const questionsClass = new Questions();
 
 router.get('/', questionsClass.fetchQuestions);
 
-router.post('/', questionsClass.postQuestion);
+router.post('/', checkAuth, questionsClass.postQuestion);
 
 export default router;
