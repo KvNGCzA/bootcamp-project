@@ -62,19 +62,19 @@ export class User {
 		});
 		}
 		if(!firstName || first === false){
-			return res.status(400).json({ message: 'first name is empty or an invalid format' });
+			return res.status(404).json({ message: 'first name is empty or an invalid format' });
 		}
 		if(!lastName || last === false){
-			return res.status(400).json({ message: 'last name is empty or an invalid format' });
+			return res.status(404).json({ message: 'last name is empty or an invalid format' });
 		}
 		if(!username){
-			return res.status(400).json({ message: 'username is empty or an invalid format' });
+			return res.status(404).json({ message: 'username is empty or an invalid format' });
 		}
 		if(!emailAdd || email === false){
-			return res.status(400).json({ message: 'email is empty or an invalid format' });
+			return res.status(404).json({ message: 'email is empty or an invalid format' });
 		} 
 		if(!pwd || password === false){
-			return res.status(400).json({ message: 'password is empty or an invalid format' });
+			return res.status(404).json({ message: 'password is empty or an invalid format' });
 		}
 	}
 
@@ -82,29 +82,37 @@ export class User {
 	login (req, res) {
 		const email = req.body.email;
 		const pwd = req.body.password;
-		db.any('SELECT * FROM users WHERE email = $1', [email])
-		.then( user => {
-			if (user.length < 1) {
-				return res.status(401).json({message: 'invalid user!'});
-			}
-			bcrypt.compare(pwd, user[0].password, (err, result) => {
-				if (err) {
+		const emailAdd = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+		if (!email || emailAdd === false) {
+			return res.status(404).json({
+				message: 'email address is invalid or in an invalid format'
+			});
+		}
+		if (emailAdd) {
+			db.any('SELECT * FROM users WHERE email = $1', [email])
+			.then( user => {
+				if (user.length < 1) {
 					return res.status(401).json({message: 'invalid user!'});
 				}
-				if (result) {
-					const token = jwt.sign({
-						email: user[0].email 
-					},process.env.JWT_KEY,{
-						expiresIn: '1h'
-					});					
-					return res.status(200).json({ message: 'authentication successful!', token });
-				}
-				return res.status(401).json({ message: 'email and password do not match' });
-			});
-		})
-		.catch(
-			error => res.status(500).json({ error })
-		);
+				bcrypt.compare(pwd, user[0].password, (err, result) => {
+					if (err) {
+						return res.status(401).json({message: 'invalid user!'});
+					}
+					if (result) {
+						const token = jwt.sign({
+							id : user[0].id
+						},process.env.JWT_KEY,{
+							expiresIn: '1h'
+						});					
+						return res.status(200).json({ message: 'authentication successful!', token });
+					}
+					return res.status(401).json({ message: 'email and password do not match' });
+				});
+			})
+			.catch(
+				error => res.status(500).json({ error })
+			);
+		}		
 	}
 
 }
