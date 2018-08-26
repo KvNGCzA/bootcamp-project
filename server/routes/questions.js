@@ -1,20 +1,9 @@
-'use strict';
+import express from 'express';
+import { Question } from '../controllers/question';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+const router = express.Router();
 
-var _express = require('express');
-
-var _express2 = _interopRequireDefault(_express);
-
-var _question = require('../controllers/question');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var router = _express2['default'].Router();
-
-var QuestionClass = new _question.Question();
+const QuestionClass = new Question();
 
 // get all questions
 router.get('/', QuestionClass.getAllQuestions);
@@ -31,6 +20,6 @@ router.post('/:questionId/answers', QuestionClass.postAnswer);
 router.patch('/:questionId', QuestionClass.editQuestion);
 
 // delete a question
-router['delete']('/:questionId', QuestionClass.deleteQuestion);
+router.delete('/:questionId', QuestionClass.deleteQuestion);
 
-exports['default'] = router;
+export default router;

@@ -1,29 +1,15 @@
-'use strict';
+import express from 'express';
+import { User } from '../controllers/user';
+import checkAuth from '../auth/check-auth';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+const userClass = new User();
 
-var _express = require('express');
+const router = express.Router();
 
-var _express2 = _interopRequireDefault(_express);
-
-var _user = require('../controllers/user');
-
-var _checkAuth = require('../auth/check-auth');
-
-var _checkAuth2 = _interopRequireDefault(_checkAuth);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var userClass = new _user.User();
-
-var router = _express2['default'].Router();
-
-router.get('/users', _checkAuth2['default'], userClass.fetchUsers);
+router.get('/users', userClass.fetchUsers);
 
 router.post('/signup', userClass.createUser);
 
 router.post('/login', userClass.login);
 
-exports['default'] = router;
+export default router;
