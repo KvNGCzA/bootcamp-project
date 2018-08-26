@@ -25,15 +25,15 @@ const createTable = () => {
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             content TEXT NOT NULL,
-            userid int NOT NULL,
+            userId int NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         CREATE TABLE IF NOT EXISTS answers(
             id SERIAL PRIMARY KEY,
             answer TEXT NOT NULL,
-            questionid int NOT NULL,
-            userid int NOT NULL,
+            questionId int NOT NULL,
+            userId int NOT NULL,
             date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )`;
