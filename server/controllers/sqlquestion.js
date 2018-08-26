@@ -24,14 +24,22 @@ export class Questions {
         if (!content) {
             return res.status(400).json({ message: 'please enter question!' });
         }
-        // add question to database
-        db.any('INSERT INTO questions (title, content, userId) VALUES ($1, $2, $3)', [title, content, id])
-        .then(() => {          
-            return res.status(201).json({ status: 201, message: 'Question Posted' });
+        // first fetch username
+        db.any('SELECT * FROM users WHERE id = $1', [id])
+        .then(result => {
+            const { username } = result[0];
+            // add question to database
+            db.any('INSERT INTO questions (title, content, username, userId) VALUES ($1, $2, $3, $4)', [title, content, username, id])
+            .then(() => {          
+                return res.status(201).json({ status: 201, message: 'Question Posted' });
+            })
+            .catch(error => {
+                return res.status(500).json({ error });
+            });
         })
         .catch(error => {
             return res.status(500).json({ error });
-        });
+        });        
     }
 
     // get a question by its id
@@ -63,14 +71,22 @@ export class Questions {
         const { id } = req.userData;
         const { answer } = req.body;
         const { questionId } = req.params;
-        // insert an answer to a question
-        db.any('INSERT INTO answers (answer, questionid, userid) VALUES ($1, $2, $3)', [answer, questionId, id])
+        // fetch username
+        db.any('SELECT * FROM users WHERE id = $1', [id])
         .then(result => {
-            return res.status(200).json({status: 200, 'message': 'answer posted!'});
+            const { username } = result[0];
+            // insert an answer to a question
+            db.any('INSERT INTO answers (answer, questionid, username) VALUES ($1, $2, $3)', [answer, questionId, username])
+            .then(result => {
+                return res.status(200).json({'message': 'answer posted!'});
+            })
+            .catch(error => {
+                return res.status(500).json({ error });
+            });
         })
         .catch(error => {
             return res.status(500).json({ error });
-        });
+        });        
     }
     
     deleteQuestion (req, res) {        
