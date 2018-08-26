@@ -18,4 +18,7 @@ router.post('/', checkAuth, questionsClass.postQuestion);
 // post answer
 router.post('/:questionId/answers', checkAuth, questionsClass.postAnswer);
 
+// delete question
+router.delete('/:questionId', checkAuth, questionsClass.deleteQuestion);
+
 export default router;
