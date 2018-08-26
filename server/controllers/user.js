@@ -36,7 +36,8 @@ export class User {
 						return db.any('INSERT INTO users (fullname, username, email, password) VALUES ($1, $2, $3, $4)', [fullName, username,emailAdd, hash])		
 							.then(() => {
 								db.any('SELECT * FROM users WHERE email = $1', [emailAdd])
-								.then(user => {
+								.then(user => {		
+									console.log(user);
 									const token = jwt.sign({
 										id : user[0].id
 									},process.env.JWT_KEY,{
@@ -107,4 +108,4 @@ export class User {
 		);
 	}
 
-}
+};
