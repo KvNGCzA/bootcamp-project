@@ -52,10 +52,8 @@ app.use((error, req, res, next) => {
   });
 });
 
-if (!module.parent) {
     app.listen(port, () => {
         console.log(`server is up on port ${port}`);
     });
-}
 
 export default app;
