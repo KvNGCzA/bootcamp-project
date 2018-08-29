@@ -57,9 +57,9 @@ export class User {
 										id : user[0].id
 									},process.env.JWT_KEY,{
 										expiresIn: '1h'
-									});
-								req.headers['x-access-token'] = token; 	
-								return res.status(201).json({ message: 'user created', token })
+									});	
+									res.header('x-access-token', token);
+								return res.status(201).json({ message: 'user created' })
 								})
 								.catch(error => {
 									return res.status(500).json({ error });
@@ -106,8 +106,8 @@ export class User {
 						},process.env.JWT_KEY,{
 							expiresIn: '1h'
 						});
-						req.headers['x-access-token'] = token; 				
-						return res.status(200).json({ message: 'authentication successful!', token });
+						res.header('x-access-token', token);
+						return res.status(200).json({ message: 'successfully logged in!' });
 					}
 					return res.status(401).json({ message: 'email and password do not match' });
 				});
@@ -118,4 +118,13 @@ export class User {
 		}		
 	}
 
+	logout (req,res) {
+		const { id } = req.userData;
+		const { userId } = req.params;
+		if ( id === userId) {
+			return res.header('x-access-token', '');
+		}
+		return res.status(400).json({ message: 'access denied!' });
+	}
+	
 };
