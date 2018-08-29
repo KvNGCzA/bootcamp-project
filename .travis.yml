@@ -8,7 +8,7 @@ addons:
     code_climate:
         repo_token: df931c379587ae0afde855e26f161d47141612abccaec3eb7ead6df54e100d5e
 script:
-    - npm run coveralls
+    - npm run test
 before_script:
   - npm install codeclimate-test-reporter istanbul -g
   - npm run build
