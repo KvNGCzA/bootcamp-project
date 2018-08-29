@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "npm run build && nodemon compiled/server.js",
-    "test": "mocha compiled/test --exit",
+    "test": "mocha compiled/test --timeout=3000 --exit",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha compiled/test",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "test-watch": "nodemon --exec \"npm test\"",

@@ -1,6 +1,5 @@
 import * as supertest from 'supertest';
 import app from '../server';
-import { Questions } from '../controllers/sqlquestion';
 const request = supertest.agent(app);
 
 let token;
