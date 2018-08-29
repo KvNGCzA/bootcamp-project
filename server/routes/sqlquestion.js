@@ -10,13 +10,16 @@ const questionsClass = new Questions();
 router.get('/', questionsClass.fetchQuestions);
 
 // get question by id
-router.get('/:questionId', checkAuth, questionsClass.getQuestionById);
+router.get('/:questionId', questionsClass.getQuestionById);
 
 // post question
 router.post('/', checkAuth, questionsClass.postQuestion);
 
 // post answer
 router.post('/:questionId/answers', checkAuth, questionsClass.postAnswer);
+
+// select favorite
+router.put('/:questionId/answers/:answerId', checkAuth, questionsClass.markFavorite);
 
 // delete question
 router.delete('/:questionId', checkAuth, questionsClass.deleteQuestion);
