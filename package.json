@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && nodemon compiled/server.js",
     "test": "node_modules/mocha/bin/_mocha compiled/test --exit",
-    "cover": "istanbul cover _mocha compiled/test/server.test.js --exit",
+    "cover": "istanbul cover _mocha compiled/test --exit",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "babel --presets airbnb server -d compiled/"
