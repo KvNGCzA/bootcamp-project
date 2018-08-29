@@ -6,7 +6,7 @@ install:
     - npm install
 addons:
     code_climate:
-        repo_token: 5a5b19118fbe960744b7d05bc448caf3dd89c692
+        repo_token: df931c379587ae0afde855e26f161d47141612abccaec3eb7ead6df54e100d5e
 script:
     - npm run coveralls
 before_script:
