@@ -10,7 +10,7 @@ import postgresQuestionRoutes from './routes/sqlquestion';
 const port = process.env.PORT || 3000;
 
 // start express server
-export const app = express();
+const app = express();
 
 
 app.use(morgan('dev'));
@@ -57,3 +57,4 @@ app.listen(port, () => {
 });
 
 
+export default app;
