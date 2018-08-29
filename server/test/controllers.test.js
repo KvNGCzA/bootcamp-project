@@ -1,5 +1,6 @@
 import * as supertest from 'supertest';
 import app from '../server';
+
 const request = supertest.agent(app);
 
 let token;
