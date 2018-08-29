@@ -205,9 +205,6 @@ describe('DELETE /api/v1/question/questionId', () => {
 				message: 'Invalid question id',
 			})
 			.expect('Content-type', /json/)
-			.end(() => {
-				app.close();
-				done();
-			});
+			.end((done));
 	});
 });
