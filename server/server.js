@@ -28,8 +28,8 @@ app.use((req, res, next) => {
 
 // questions api route
 app.use('/api/v1/questions', questionRoutes);
-app.use('/auth', userRoutes);
-app.use('/questions', postgresQuestionRoutes);
+app.use('/api/auth', userRoutes);
+app.use('/api/questions', postgresQuestionRoutes);
 
 // link to static directory
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));
@@ -52,10 +52,9 @@ app.use((error, req, res, next) => {
   });
 });
 
-if (!module.parent) {
-    app.listen(port, () => {
-        console.log(`server is up on port ${port}`);
-    });
-}
+app.listen(port, () => {
+    console.log(`server is up on port ${port}`);
+});
+
 
 export default app;

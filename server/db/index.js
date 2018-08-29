@@ -13,34 +13,45 @@ const createTable = () => {
     const pool = new Pool({ connectionString });
     pool.connect();
     const query = `    
+        DROP TABLE IF EXISTS Users CASCADE;
+        DROP TABLE IF EXISTS Questions CASCADE;
+        DROP TABLE IF EXISTS Answers CASCADE;
         CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             fullname VARCHAR(150) NOT NULL,
             username VARCHAR(100) NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
-            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         CREATE TABLE IF NOT EXISTS questions(
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             content TEXT NOT NULL,
-            userid int NOT NULL,
-            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            username VARCHAR(100) NOT NULL,
+            userId INT NOT NULL,
+            likes INT NOT NULL DEFAULT 0,
+            dislikes INT NOT NULL DEFAULT 0,
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         CREATE TABLE IF NOT EXISTS answers(
             id SERIAL PRIMARY KEY,
             answer TEXT NOT NULL,
-            questionid int NOT NULL,
-            userid int NOT NULL,
-            date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            questionId INT REFERENCES questions ON DELETE CASCADE,
+            username VARCHAR(100) NOT NULL,
+            creator_id INT NOT NULL,
+            userId INT NOT NULL,
+            likes INT NOT NULL DEFAULT 0,
+            dislikes INT NOT NULL DEFAULT 0,
+            favorite BOOLEAN DEFAULT false,
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )`;
 
 	pool.query(query)
-		.then(result => pool.end())
-		.catch(error => pool.end());
+		.then(() => pool.end())
+		.catch(() => pool.end());
 };
 createTable();
 
