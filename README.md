@@ -77,10 +77,6 @@ You can host this app on any server that supports node apps such as Heroku.
 * **Akanmu Christopher** - *Initial work* - [git account](https://github.com/KvNGCzA)
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
