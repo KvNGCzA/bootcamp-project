@@ -23,28 +23,43 @@ export class User {
 		const emailAdd = req.body.email;
 		const pwd = req.body.password;
 
-		const email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailAdd);
-		const password = pwd.length >= 6;
+		validateEmail= (str) => {
+			var re = /[.]/g;
+			const test = str.match(re);
+			if ( test.length < 3) {
+				const split = str.split('.');
+				const last_part = split[split.length-1];
+				if (/@yahoo/g.test(str) || /@gmail/g.test(str) || /@aol/g.test(str) || /@hotmail/g.test(str) || /@outlook/g.test(str) || /@[a-zA-Z]{3,}/g.test(str)) {
+					if (last_part === 'com' || last_part === 'uk' ||last_part === 'za') {
+						return true;
+					}
+				}
+			}    
+			return false;
+		}
+
+		const email = validateEmail(emailAdd);
 		const first = typeof firstName === 'string' && firstName.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(firstName);
 		const last = typeof lastName === 'string' && lastName.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(lastName);
-
+		const usernamecheck = typeof username === 'string' && username.length > 1 &&  (/^[a-zA-Z]+(([_][a-zA-Z ])?[a-zA-Z]*)*$/g).test(username);
+		
 		if(!firstName || first === false){
-			return res.status(404).json({ message: 'first name is empty or an invalid format' });
+			return res.status(400).json({ message: 'first name is empty or an invalid format' });
 		}
 		if(!lastName || last === false){
-			return res.status(404).json({ message: 'last name is empty or an invalid format' });
+			return res.status(400).json({ message: 'last name is empty or an invalid format' });
 		}
-		if(!username){
-			return res.status(404).json({ message: 'username is empty or an invalid format' });
+		if(!username || usernamecheck === false){
+			return res.status(400).json({ message: 'username is empty or an invalid format' });
 		}
 		if(!emailAdd || email === false){
-			return res.status(404).json({ message: 'email is empty or an invalid format' });
+			return res.status(400).json({ message: 'email is empty or an invalid format' });
 		} 
-		if(!pwd || password === false){
-			return res.status(404).json({ message: 'password is empty or an invalid format' });
+		if(!pwd){
+			return res.status(400).json({ message: 'password is empty or an invalid format' });
 		}
 
-		if (first && last && username && email && password) {
+		if (first && last && username && email) {
 			db.any('SELECT * FROM users WHERE email = $1 OR username = $2', [emailAdd, username])
 			.then( user => {
 				if (user.length === 0) {
@@ -54,12 +69,15 @@ export class User {
 								db.any('SELECT * FROM users WHERE email = $1', [emailAdd])
 								.then(user => {
 									const token = jwt.sign({
-										id : user[0].id
+										id : user[0].id,
+										username,
+										emailAdd,
+										fullName
 									},process.env.JWT_KEY,{
 										expiresIn: '1h'
 									});	
 									res.header('x-access-token', token);
-								return res.status(201).json({ message: 'user created' })
+								return res.status(201).json({ message: 'user created', token })
 								})
 								.catch(error => {
 									return res.status(500).json({ error });
@@ -86,7 +104,7 @@ export class User {
 		const pwd = req.body.password;
 		const emailAdd = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 		if (!email || emailAdd === false) {
-			return res.status(404).json({
+			return res.status(400).json({
 				message: 'email address is invalid or in an invalid format'
 			});
 		}
@@ -102,7 +120,10 @@ export class User {
 					}
 					if (result) {
 						const token = jwt.sign({
-							id : user[0].id
+							id : user[0].id,
+							username: user[0].username,
+							fullName: user[0].fullname,
+							email: user[0].email
 						},process.env.JWT_KEY,{
 							expiresIn: '1h'
 						});
