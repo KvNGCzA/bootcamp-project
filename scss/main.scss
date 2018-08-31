@@ -821,7 +821,7 @@ a, input[type="button"], i, button{
         @include placeholder ($maincolor);
       }//input
 
-      input[type="button"]{
+      input[type="submit"]{
         display: inline-block;
         width: 100%;
         clear: both;
