@@ -28,8 +28,8 @@ app.use((req, res, next) => {
 
 // questions api route
 app.use('/api/v1/questions', questionRoutes);
-app.use('/api/auth', userRoutes);
-app.use('/api/questions', postgresQuestionRoutes);
+app.use('/api/v2/auth', userRoutes);
+app.use('/api/v2/questions', postgresQuestionRoutes);
 
 // link to static directory
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));
