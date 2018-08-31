@@ -10,7 +10,8 @@ const createUser  = (e) => {
     newUser.email = signupForm.email.value;
     newUser.username = signupForm.username.value;
 
-    fetch('http://localhost:3000/api/v2/auth/signup', {
+
+    fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/signup', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -20,10 +21,17 @@ const createUser  = (e) => {
     }).then((res) => {
         return res.json();
       }).then(data => {
+        console.log(data);
           const token = data.token;
-        console.log(data.token);   
+          const { fullName, username, email } = data.profile;
+        console.log(data.token);  
+        console.log(data.profile);
         localStorage.setItem('token', token);
-        // window.location.href = './profile.html';
+        localStorage.setItem('fullName', fullName);
+        localStorage.setItem('username', username);
+
+        
+        window.location.href = './profile.html';
       })
       .catch((err) => console.log(err))
   };
