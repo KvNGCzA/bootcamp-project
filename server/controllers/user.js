@@ -36,7 +36,7 @@ export class User {
 		const emailAdd = validateEmail(email);
 		const first = typeof firstName === 'string' && firstName.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(firstName);
 		const last = typeof lastName === 'string' && lastName.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(lastName);
-		const usernamecheck = typeof username === 'string' && username.length > 1 &&  (/^[a-zA-Z]+(([_][a-zA-Z ])?[a-zA-Z]*)*$/g).test(username);
+		const usernamecheck = typeof username === 'string' && username.length > 1 &&  (/^[a-zA-Z0-9]+(([_][a-zA-Z0-9])?[a-zA-Z0-9]*)*$/g).test(username);
 		
 		if(!firstName || first === false){
 			return res.status(400).json({ message: 'first name is empty or an invalid format' });
