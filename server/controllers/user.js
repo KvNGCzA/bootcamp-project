@@ -63,9 +63,7 @@ export class User {
 							.then(() => {
 								db.any('SELECT * FROM users WHERE email = $1', [email])
 								.then(user => {
-									const profile = {
-										fullName, username,email,
-									}
+									const profile = user[0];
 									const token = jwt.sign({
 										id : user[0].id,
 										username,
@@ -75,7 +73,7 @@ export class User {
 										expiresIn: '1h'
 									});	
 									res.header('x-access-token', token);
-								return res.status(201).json({ message: 'user created', token, profile })
+									return res.status(201).json({ message: 'user created', token, profile })
 								})
 								.catch(error => {
 									return res.status(500).json({ error });

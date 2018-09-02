@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
+import cors from 'cors';
 
 import questionRoutes from './routes/questions';
 import userRoutes from './routes/users';
@@ -12,7 +13,7 @@ const port = process.env.PORT || 3000;
 // start express server
 const app = express();
 
-
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

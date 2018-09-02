@@ -140,19 +140,19 @@
           <div id="signup-form" class="c-forms">
               <h2>Sign Up</h2><span>Have an account? <button id="c-t-login" class="c-t-btn">Login</button> </span>
               <form id ="su-form" method="post">
-                  <input id="fname" name="fname" placeholder="First Name" type="text" required>
-                  <input id="lname" name="lname" placeholder="Last Name" type="text" required>
-                  <input id="email" name="email" placeholder="Email" type="email" required>
-                  <input id="username" name="username" placeholder="Username" type="text" required>
-                  <input id="pwd" name="pwd" placeholder="Password" type="password" required>
-                  <input id="submit" name="submit" value="Sign Up" type="submit">
+                  <input name="fname" placeholder="First Name" type="text" required>
+                  <input name="lname" placeholder="Last Name" type="text" required>
+                  <input name="email" placeholder="Email" type="email" required>
+                  <input name="username" placeholder="Username" type="text" required>
+                  <input name="pwd" placeholder="Password" type="password" required>
+                  <input name="submit" value="Sign Up" type="submit">
               </form>
           </div>
 
           <div id="login-form" class="c-forms">
               <h2>Login</h2><span>Don't have an account? <button id="c-t-signup" class="c-t-btn">Sign up</button> </span>
-              <form action="index.html" method="post">
-                  <input name="username" placeholder="Username" value="" type="text">
+              <form id="lg-form" method="post">
+                  <input name="email" placeholder="Email" value="" type="text">
                   <input name="pwd" value="" placeholder="Password" type="password">
                   <input name="submit" value="Login" type="submit">
               </form>
