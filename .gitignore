@@ -4,6 +4,7 @@
 /views
 /public
 /compiled
+/slate
 /.vscode
 .env
 .eslintrc.json

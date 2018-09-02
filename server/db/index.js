@@ -4,7 +4,7 @@ import { Pool } from 'pg';
 
 dotEnv.config();
 
-const connectionString = process.env.DB;
+const connectionString = process.env.DB || process.env.DATABASE_URL;
 
 // DROP TABLE IF EXISTS Users CASCADE;
 // DROP TABLE IF EXISTS Questions CASCADE;
@@ -22,6 +22,8 @@ const createTable = () => {
             username VARCHAR(100) NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
+            answered_count INT NOT NULL DEFAULT 0,
+            asked_count INT NOT NULL DEFAULT 0,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         CREATE TABLE IF NOT EXISTS questions(

@@ -11,9 +11,9 @@
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "babel --presets airbnb server -d compiled/"
   },
-  "author": "",
+  "author": "Akanmu Christopher",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {    
     "babel-core": "^6.26.3",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",

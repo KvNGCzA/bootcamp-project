@@ -11,7 +11,7 @@ describe('POST/ test create new user endpoint', () => {
 	// create your user account
 	it('should create a (your) first user account', (done) => {
 		request
-			.post('/api/auth/signup')
+			.post('/api/v2/auth/signup')
 			.send({
 				firstName: 'TestChris',
 				lastName: 'AkanmuTest',
@@ -26,7 +26,7 @@ describe('POST/ test create new user endpoint', () => {
 	// create second user account
 	it('should create a second user account', (done) => {
 		request
-			.post('/api/auth/signup')
+			.post('/api/v2/auth/signup')
 			.send({
 				firstName: 'TestbabaDee',
 				lastName: 'TestdeeBaba',
@@ -40,7 +40,7 @@ describe('POST/ test create new user endpoint', () => {
     });
     it('should create a third user account', (done) => {
 		request
-			.post('/api/auth/signup')
+			.post('/api/v2/auth/signup')
 			.send({
 				firstName: 'Testfred',
 				lastName: 'TestFred',
@@ -54,11 +54,11 @@ describe('POST/ test create new user endpoint', () => {
 	});
 	it('should return 409 and user with this email already exists', (done) => {
 		request
-			.post('/api/auth/signup')
+			.post('/api/v2/auth/signup')
 			.send({
 				firstName: 'TestChris',
 				lastName: 'AkanmuTest',
-				username: 'christest1',
+				username: 'christestt',
 				email: 'testmail@yahoo.com',
 				password: 'testpass',
 			})
@@ -68,7 +68,7 @@ describe('POST/ test create new user endpoint', () => {
 	});
 	it('should return 409 and user with this username already exists', (done) => {
 		request
-			.post('/api/auth/signup')
+			.post('/api/v2/auth/signup')
 			.send({
 				firstName: 'TestChris',
 				lastName: 'AkanmuTest',
@@ -86,7 +86,7 @@ describe('POST/ test create new user endpoint', () => {
 describe('POST/ test login', () => {
 	before((done) => {
 		request
-			.post('/api/auth/login')
+			.post('/api/v2/auth/login')
 			.send({
 				email: 'testmail@yahoo.com',
 				password: 'testpass',
@@ -101,7 +101,7 @@ describe('POST/ test login', () => {
 	});
 	before((done) => {
 		request
-			.post('/api/auth/login')
+			.post('/api/v2/auth/login')
 			.send({
 				email: 'babadee@yahoo.com',
 				password: 'testpass',
@@ -116,7 +116,7 @@ describe('POST/ test login', () => {
     });
     before((done) => {
 		request
-			.post('/api/auth/login')
+			.post('/api/v2/auth/login')
 			.send({
 				email: 'fred@yahoo.com',
 				password: 'testpass',
@@ -132,7 +132,7 @@ describe('POST/ test login', () => {
 	// login
 	it('should return user logged in', (done) => {
 		request
-			.post('/api/auth/login')
+			.post('/api/v2/auth/login')
 			.send({
 				email: 'testmail@yahoo.com',
 				password: 'testpass',
@@ -147,7 +147,7 @@ describe('POST/ test login', () => {
 describe('POST/ post a question', () => {
 	it('should post a question', (done) => {
 		request
-			.post('/api/questions')
+			.post('/api/v2/questions')
 			.send({
 				title: 'test',
 				content: 'test2',
@@ -162,7 +162,7 @@ describe('POST/ post a question', () => {
 describe('POST/ an answer to your question', () => {
 	it('should post an answer to your own question', (done) => {
 		request
-			.post('/api/questions/1/answers')
+			.post('/api/v2/questions/1/answers')
 			.send({
 				answer: 'test answer',
 				token,
@@ -177,7 +177,7 @@ describe('POST/ an answer to your question', () => {
 describe('POST/ an answer to your question from second account', () => {
 	it('should post an answer to your question from another account', (done) => {
 		request
-			.post('/api/questions/1/answers')
+			.post('/api/v2/questions/1/answers')
 			.send({
 				answer: 'test answer from other user',
 				token: token2,
@@ -192,7 +192,7 @@ describe('POST/ an answer to your question from second account', () => {
 describe('PUT/ favorite an answer', () => {
 	it('should favorite an answer', (done) => {
 		request
-			.put('/api/questions/1/answers/1')
+			.put('/api/v2/questions/1/answers/1')
 			.send({ token })
 			.expect(200, { message: 'answer was favorited!' })
 			.end(done);
@@ -202,7 +202,7 @@ describe('PUT/ favorite an answer', () => {
 describe('PUT/ edit an answer', () => {
 	it('should edit an answer', (done) => {
 		request
-			.put('/api/questions/1/answers/2')
+			.put('/api/v2/questions/1/answers/2')
 			.send({ token: token2, newAnswer: 'edited answer' })
 			.expect(201, { message: 'answer updated!' })
 			.end(done);
@@ -210,7 +210,7 @@ describe('PUT/ edit an answer', () => {
 
 	it('should return an error, this user does not have access to this endpoint', (done) => {
 		request
-			.put('/api/questions/1/answers/2')
+			.put('/api/v2/questions/1/answers/2')
 			.send({ token: token3, newAnswer: 'edited answer' })
 			.expect(400, { message: 'You do no have access to this' })
 			.end(done);
@@ -221,7 +221,7 @@ describe('PUT/ edit an answer', () => {
 describe('GET/ get a question by its id', () => {
     it('should fetch a question and its answers by its id',done => {
         request
-            .get('/api/questions/1/')
+            .get('/api/v2/questions/1/')
             .expect(200)
             .end(done);
     });
@@ -230,14 +230,14 @@ describe('GET/ get a question by its id', () => {
 describe('DELETE/ delete a question', () => {
     it('it should not delete question if the request is not sent by the question creator', done => {
         request
-        .delete('/api/questions/1')
+        .delete('/api/v2/questions/1')
         .send({token: token2})
         .expect(400, { message: 'You do not have the permission to delete this question!' })
         .end(done);
     });
     it('it should delete a question and all its answers if the request is sent by the question creator', done => {
         request
-        .delete('/api/questions/1')
+        .delete('/api/v2/questions/1')
         .send({ token })
         .expect(200, { message: 'question deleted!' })
         .end(done);
