@@ -15,37 +15,37 @@ export class Questions {
     
     // post a question
     postQuestion (req, res) {
-        const { id } = req.userData;
-        const { title } = req.body;
-        const { content } = req.body;
+        const { id, username } = req.userData;
+        const { title, content } = req.body;
         // validate title and content
         if (!title) {
             return res.status(400).json({ message: 'please enter question title!' });
         }
         if (!content) {
-            return res.status(400).json({ message: 'please enter question!' });
+            return res.status(400).json({ message: 'please enter question content!' });
         }
-        // first fetch username
-        db.any('SELECT * FROM users WHERE id = $1', [id])
-        .then(result => {
-            const { username } = result[0];
-            // add question to database
-            db.any('INSERT INTO questions (title, content, username, userId) VALUES ($1, $2, $3, $4)', [title, content, username, id])
-            .then(() => {          
-                return res.status(201).json({ message: 'question posted!' });
+        if (/[a-zA-Z]/g.test(title) === false || /[a-zA-Z]/g.test(content) === false) {
+            return res.status(400).json({ message: 'you cannot post this type of title or content!' });
+        }
+        db.any('INSERT INTO questions (title, content, username, userId) VALUES ($1, $2, $3, $4)', [title, content, username, id])
+            .then(() => {
+                db.any('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] )
+                .then(() => {                    
+                    return res.status(201).json({ message: 'question posted!' });
+                })
+                .catch(error => res.status(500).json({ error }));
             })
             .catch(error => {
                 return res.status(500).json({ error });
-            });
-        })
-        .catch(error => {
-            return res.status(500).json({ error });
-        });        
+            });  
     }
 
     // get a question by its id
     getQuestionById (req, res) {
         const { questionId } = req.params;
+        if (/[0-9]/g.test(questionId) === false || questionId.length > 9 ) {
+            return res.status(400).json({message: 'questionId must be an integer or less than nine characters!' });
+        }
         // fetch question from database
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
         .then(question => {
@@ -69,9 +69,12 @@ export class Questions {
 
     // post answers
     postAnswer (req, res) {
-        const { id } = req.userData;
+        const { id, username } = req.userData;
         const { answer } = req.body;
         const { questionId } = req.params;
+        if (/[0-9]/g.test(questionId) === false || questionId.length > 9) {
+            return res.status(400).json({message: 'questionId must be an integer or less than nine characters!' });
+        }
         if (!answer || answer.trim() === '') {
             return res.status(400).json({ message: 'invalid or empty answer property' });
         }
@@ -79,22 +82,15 @@ export class Questions {
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
         .then(question => {
             let creatorId = question[0].userid;
-             // fetch username of poster
-            db.any('SELECT * FROM users WHERE id = $1', [id])
-            .then(result => {
-                const { username } = result[0];
-                // insert an answer to a question
-                db.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id])
+            db.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id])
                 .then(() => {
-                    return res.status(201).json({'message': 'answer posted!'});
+                    db.any('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1 ,id])
+                    .then(() => res.status(201).json({'message': 'answer posted!'}))
+                    .catch(error => res.status(500).json({ error }));
                 })
                 .catch(error => {
                     return res.status(500).json({ error });
                 });
-            })
-            .catch(error => {
-                return res.status(500).json({ error });
-            });  
         })
         .catch(error => {
                 return res.status(500).json({ error });
@@ -103,11 +99,15 @@ export class Questions {
         
     // mark favorite or update answer
     markFavorite (req, res) {
-        const { questionId } = req.params;
-        const { answerId } = req.params;
+        const { questionId, answerId } = req.params;
         const { newAnswer } = req.body;
         const { id } = req.userData;
-
+        if (/[0-9]/g.test(questionId) === false || questionId.length > 9) {
+            return res.status(400).json({message: 'questionId must be an integer or less than nine characters!' });
+        }
+        if (/[0-9]/g.test(answerId) === false) {
+            return res.status(400).json({message: 'answerId must be an integer or less than nine characters!' });
+        }
         
         db.any('SELECT * FROM answers WHERE questionid = $1 AND id = $2', [questionId, answerId])
         .then(answer => {
