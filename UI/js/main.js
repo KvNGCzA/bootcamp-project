@@ -7,10 +7,33 @@ const dashTitle = str =>{
   }
   return str.toLowerCase();
 };
-  let bodyTag = document.getElementsByTagName('body');
+  let bodyTag = document.getElementsByTagName('body')[0];
   let currentPageTitle = document.title;
   let cName = dashTitle(currentPageTitle);
-  bodyTag[0].classList += "page-" + cName + " " ;
+  bodyTag.classList += "page-" + cName + " " ;
+
+// add logged-in or logged-out class to body
+const status = localStorage.getItem('token');
+console.log(status);
+if (status !== null) {
+  bodyTag.classList += 'logged-in';
+  // add users information from database
+  const names = document.getElementsByClassName('profile-full-name');
+  const uname = document.getElementsByClassName('profile-username');
+  const member = document.getElementsByClassName('profile-msince');
+  for (let x in names) {
+    const fullName = localStorage.getItem('fullname');
+    const username = localStorage.getItem('username');
+    const memSince = localStorage.getItem('created_at');
+    names[x].textContent = fullName;
+    uname[x].innerHTML = '<i class="fas fa-user" ></i> @' + username;
+    member[x].innerHTML = '<i class="fas fa-user" ></i> ' + memSince;
+  }
+}
+if (status === null) {
+  bodyTag.classList += 'logged-out';
+}
+
 
 
 /** action buttons config*/
