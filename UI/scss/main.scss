@@ -49,18 +49,8 @@ $fireRed: #f24d4d;
   font-family: 'Josefin Sans';
 }
 
-html{
-  height: 100%;
-}
-
 body{
   font-size: 16px;
-  min-height: 100vh;
-  height: 100%;
-  overflow: visible;
-  height: 100%;
-  display: block;
-  position: relative;
 }//body
 
 /** profile page specific css*/
@@ -92,6 +82,10 @@ body.page-login-signup{
       width: 75%;
     }
   }//.main
+  footer{
+    position: absolute;
+    top: 100%;
+  }
 }//.page-login-signup
 
 header{
@@ -826,9 +820,6 @@ a, input[type="button"], i, button{
         // @include outerBoxShadow(0, 0, 10px, #777777);
         @include placeholder ($maincolor);
       }//input
-      input[type="file"]{
-        border: none;
-      }
 
       input[type="submit"]{
         display: inline-block;
