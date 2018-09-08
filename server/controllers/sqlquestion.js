@@ -16,7 +16,7 @@ export class Questions {
     // post a question
     postQuestion (req, res) {
         const { id, username } = req.userData;
-        const { title, content } = req.body;
+        const { title, content, tags } = req.body;
         // validate title and content
         if (!title) {
             return res.status(400).json({ message: 'please enter question title!' });
@@ -24,10 +24,13 @@ export class Questions {
         if (!content) {
             return res.status(400).json({ message: 'please enter question content!' });
         }
+        if (!tags) {
+            return res.status(400).json({ message: 'please enter tags for this question!' });
+        }
         if (/[a-zA-Z]/g.test(title) === false || /[a-zA-Z]/g.test(content) === false) {
             return res.status(400).json({ message: 'you cannot post this type of title or content!' });
         }
-        db.any('INSERT INTO questions (title, content, username, userId) VALUES ($1, $2, $3, $4)', [title, content, username, id])
+        db.any('INSERT INTO questions (title, content, username, userId, tags) VALUES ($1, $2, $3, $4, $5)', [title, content, username, id, tags])
             .then(() => {
                 db.any('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] )
                 .then(() => {                    

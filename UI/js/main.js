@@ -21,13 +21,19 @@ if (status !== null) {
   const names = document.getElementsByClassName('profile-full-name');
   const uname = document.getElementsByClassName('profile-username');
   const member = document.getElementsByClassName('profile-msince');
+  const asked = document.getElementsByClassName('profile-num-que');
+  const answered = document.getElementsByClassName('profile-num-ans');
   for (let x in names) {
     const fullName = localStorage.getItem('fullname');
     const username = localStorage.getItem('username');
     const memSince = localStorage.getItem('created_at');
+    const aksedNum = localStorage.getItem('asked_count');
+    const ansNum = localStorage.getItem('answered_count');
     names[x].textContent = fullName;
     uname[x].innerHTML = '<i class="fas fa-user" ></i> @' + username;
     member[x].innerHTML = '<i class="fas fa-user" ></i> ' + memSince;
+    asked[x].innerHTML = '<i class="fas fa-question"></i><span> Asked:</span> ' + aksedNum;
+    answered[x].innerHTML = '<i class="fas fa-check"></i><span> Replied:</span> ' + ansNum;
   }
 }
 if (status === null) {
