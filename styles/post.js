@@ -36,6 +36,6 @@ const postQuestion = (_e) => {
     .catch(error => console.log(error));
 };// post a question function
 
-for (let x in questionForms) {
+for (let x = 0; x < questionForms.length; x++) {
     questionForms[x].addEventListener('submit', postQuestion, false);
 }

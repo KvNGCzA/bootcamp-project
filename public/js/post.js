@@ -36,6 +36,6 @@ var postQuestion = function postQuestion(_e) {
     });
 }; // post a question function
 
-for (var x in questionForms) {
+for (var x = 0; x < questionForms.length; x++) {
     questionForms[x].addEventListener('submit', postQuestion, false);
 }
