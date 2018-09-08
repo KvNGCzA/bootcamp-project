@@ -151,7 +151,7 @@ describe('POST/ post a question', () => {
 			.send({
 				title: 'test',
 				content: 'test2',
-				tags: 'ruby, java'
+				tags: 'ruby, java',
 				token,
 			})
 			.expect(201, { message: 'question posted!' })
