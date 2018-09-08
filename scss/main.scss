@@ -161,6 +161,7 @@ body.logged-in {
 .postQuestion-success-message{
   color: green;
   display: none;
+  padding: 1em 0;
 }
 
 header{
@@ -437,6 +438,9 @@ a, input[type="button"], input[type="submit"], i, button{
       top:-0.7em;
       padding: 1em;
       text-align: center;
+    .postQuestion-success-message{
+      color: white;
+    }
     h2{
       color: white;
       font-size: 1em;

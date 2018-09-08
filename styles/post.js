@@ -1,5 +1,9 @@
-const questionForms = document.getElementsByClassName('postquestionform');
-
+let x = 0;
+const allQuestionForms = document.getElementsByClassName('postquestionform');
+if (allQuestionForms.length > 1) {
+    x = 1;
+}
+const questionForms = document.getElementsByClassName('postquestionform')[x];
 const postQuestion = (_e) => {
     _e.preventDefault();
     const token = localStorage.getItem('token');
@@ -21,7 +25,7 @@ const postQuestion = (_e) => {
         return res.json();
       })
     .then(data => {
-        const successMessage = document.getElementsByClassName('postQuestion-success-message')[0];
+        const successMessage = document.getElementsByClassName('postQuestion-success-message')[x];
         if (data.message === 'question posted!') {
             successMessage.style.display = 'block';
             questionForms.title.value = '';
@@ -36,6 +40,5 @@ const postQuestion = (_e) => {
     .catch(error => console.log(error));
 };// post a question function
 
-for (let x = 0; x < questionForms.length; x++) {
-    questionForms[x].addEventListener('submit', postQuestion, false);
-}
+
+questionForms.addEventListener('submit', postQuestion, false);

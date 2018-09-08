@@ -1,7 +1,11 @@
 'use strict';
 
-var questionForms = document.getElementsByClassName('postquestionform');
-
+var x = 0;
+var allQuestionForms = document.getElementsByClassName('postquestionform');
+if (allQuestionForms.length > 1) {
+    x = 1;
+}
+var questionForms = document.getElementsByClassName('postquestionform')[x];
 var postQuestion = function postQuestion(_e) {
     _e.preventDefault();
     var token = localStorage.getItem('token');
@@ -21,7 +25,7 @@ var postQuestion = function postQuestion(_e) {
     }).then(function (res) {
         return res.json();
     }).then(function (data) {
-        var successMessage = document.getElementsByClassName('postQuestion-success-message')[0];
+        var successMessage = document.getElementsByClassName('postQuestion-success-message')[x];
         if (data.message === 'question posted!') {
             successMessage.style.display = 'block';
             questionForms.title.value = '';
@@ -36,6 +40,5 @@ var postQuestion = function postQuestion(_e) {
     });
 }; // post a question function
 
-for (var x = 0; x < questionForms.length; x++) {
-    questionForms[x].addEventListener('submit', postQuestion, false);
-}
+
+questionForms.addEventListener('submit', postQuestion, false);
