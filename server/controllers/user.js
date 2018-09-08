@@ -16,7 +16,7 @@ export class User {
 
 	// create a new user
 	createUser(req, res) {
-		const { firstName, lastName, username, email, password } = req.body;
+		const { firstName, lastName, occupation, username, email, password } = req.body;
 		const fullName = `${firstName} ${lastName}`;
 		const validateEmail= (str) => {
 			var re = /[.]/g;
@@ -59,7 +59,7 @@ export class User {
 			.then( user => {
 				if (user.length === 0) {
 						const hash = bcrypt.hashSync(password, 10);
-						return db.any('INSERT INTO users (fullname, username, email, password) VALUES ($1, $2, $3, $4)', [fullName, username,email, hash])		
+						return db.any('INSERT INTO users (fullname, occupation, username, email, password) VALUES ($1, $2, $3, $4, $5)', [fullName, occupation, username, email, hash])
 							.then(() => {
 								db.any('SELECT * FROM users WHERE email = $1', [email])
 								.then(user => {

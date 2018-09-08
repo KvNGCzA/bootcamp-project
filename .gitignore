@@ -1,11 +1,10 @@
 /node_modules
 /coverage
-/scss
-/views
-/public
 /compiled
 /slate
 /.vscode
+/public/js/jquery-3.2.1
+/public/js/jquery-ui-1.12.1
 .env
 .eslintrc.json
 .coveralls.yml
