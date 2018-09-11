@@ -133,6 +133,7 @@ body.logged-in {
   }// header
 
   .main{
+
     .lsidebar{
       .side-access-forms {
       } // .side-access-forms
@@ -148,7 +149,43 @@ body.logged-in {
         }//profile-info
       }//.profile
     }//.lsidebar
+
   }//.main
+  
+  .login-info{
+    display: none;
+  }// login-info
+
+  .question-form{
+    form.postquestionform{
+      display: block;
+    }
+  }
+
+  .quick-options{
+    .quick-question{
+      .postQuestion-success-message{
+      }
+      h2{
+      }//h2
+      form.postquestionform{
+        display: block;
+        input{
+        }
+        input[type="text"]{
+        }
+        input[type="submit"]{
+          &:hover{
+          }//hover
+          &:active{
+          }//hover
+        }
+        textarea{
+        }
+      }//form
+     }//.quick-question
+  }// quick-options
+
 }// body.logged-in
 
 // signup/login warning message
@@ -161,6 +198,10 @@ body.logged-in {
 .postQuestion-success-message{
   color: green;
   display: none;
+  padding: 1em 0;
+}
+
+.login-info{
   padding: 1em 0;
 }
 
@@ -441,11 +482,15 @@ a, input[type="button"], input[type="submit"], i, button{
     .postQuestion-success-message{
       color: white;
     }
+    .login-info{
+      color: white;
+    }
     h2{
       color: white;
       font-size: 1em;
     }//h2
-    form{
+    form.postquestionform{
+      display: none;
       input{
         display: block;
         margin: 1em 0;
@@ -1093,7 +1138,8 @@ a, input[type="button"], input[type="submit"], i, button{
 
   /**post -a-quetsion page form */
   .question-form{
-    form{
+    form.postquestionform{
+      display: none;
       label{
         color: $textGray;
         // font-size: 1.3em;

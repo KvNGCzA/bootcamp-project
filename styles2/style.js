@@ -76,9 +76,4 @@ $editOption.click( function(){
     $(this).next().slideToggle();
 });
 
-
-
-
-
-
 });
