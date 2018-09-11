@@ -12,6 +12,9 @@ router.get('/', questionsClass.fetchQuestions);
 // get question by id
 router.get('/:questionId', questionsClass.getQuestionById);
 
+// get a users questions
+router.get('/:username/questions', questionsClass.getUsersQuestions);
+
 // post question
 router.post('/', checkAuth, questionsClass.postQuestion);
 

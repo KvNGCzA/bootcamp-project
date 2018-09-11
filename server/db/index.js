@@ -11,7 +11,7 @@ const connectionString = process.env.DB || process.env.DATABASE_URL;
 // DROP TABLE IF EXISTS Answers CASCADE;
 const createTable = () => {
     const pool = new Pool({ connectionString });
-    pool.connect();
+    // pool.connect();
     const query = `    
         // DROP TABLE IF EXISTS Users CASCADE;
         // DROP TABLE IF EXISTS Questions CASCADE;
@@ -35,6 +35,7 @@ const createTable = () => {
             userId INT NOT NULL,
             likes INT NOT NULL DEFAULT 0,
             dislikes INT NOT NULL DEFAULT 0,
+            answers_count INT NOT NULL DEFAULT 0,
             tags TEXT NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

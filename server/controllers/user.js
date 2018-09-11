@@ -8,10 +8,23 @@ export class User {
 	// fetch all users
 	fetchUsers(req, res) {
 		db.any('SELECT * FROM users').then(
-			users => res.status(200).json({ users })
+			users => res.status(200).json({ status: 200, users })
 		).catch(
-			error => res.status(500).json({ error })
+			error => res.status(500).json({ status: 500, error })
 		);
+	}
+
+	// fetch a user by username
+	fetchUserByUsername (req, res) {
+		const { username } = req.params;
+		db.any('SELECT * FROM users WHERE username = $1', [ username ])
+		.then(user => {
+			if (user.length < 1) {
+				return res.status(404).json({ status: 404, message: 'user not found' });
+			}
+			return res.status(200).json({ status: 200, user });
+		})
+		.catch(error => res.status(500).json({ status: 500, error }));
 	}
 
 	// create a new user
@@ -39,19 +52,19 @@ export class User {
 		const usernamecheck = typeof username === 'string' && username.length > 1 &&  (/^[a-zA-Z0-9]+(([_][a-zA-Z0-9])?[a-zA-Z0-9]*)*$/g).test(username);
 		
 		if(!firstName || first === false){
-			return res.status(400).json({ message: 'first name is empty or an invalid format' });
+			return res.status(400).json({ status: 400, message: 'first name is empty or an invalid format' });
 		}
 		if(!lastName || last === false){
-			return res.status(400).json({ message: 'last name is empty or an invalid format' });
+			return res.status(400).json({ status: 400, message: 'last name is empty or an invalid format' });
 		}
 		if(!username || usernamecheck === false){
-			return res.status(400).json({ message: 'username is empty or an invalid format' });
+			return res.status(400).json({ status: 400, message: 'username is empty or an invalid format' });
 		}
 		if(!email || emailAdd === false){
-			return res.status(400).json({ message: 'email is empty or an invalid format' });
+			return res.status(400).json({ status: 400, message: 'email is empty or an invalid format' });
 		} 
 		if(!password){
-			return res.status(400).json({ message: 'password is empty or an invalid format' });
+			return res.status(400).json({ status: 400, message: 'password is empty or an invalid format' });
 		}
 
 		if (first && last && username && emailAdd) {
@@ -73,24 +86,22 @@ export class User {
 										expiresIn: '1h'
 									});	
 									res.header('x-access-token', token);
-									return res.status(201).json({ message: 'user created', token, profile })
+									return res.status(201).json({ status: 201, message: 'user created', token, profile })
 								})
 								.catch(error => {
-									return res.status(500).json({ error });
+									return res.status(500).json({ status: 500, error });
 								});
 							})
-							.catch((error) => res.status(500).json({error}));
+							.catch(error => res.status(500).json({ status: 500, error}));
 				}
 				if (user[0].email === email) {
-					return res.status(409).json({ message: 'a user with this email already exists' });
+					return res.status(409).json({ status: 409, message: 'a user with this email already exists' });
 				}
 				if (user[0].username === username) {
-					return res.status(409).json({ message: 'a user with this username already exists' });
+					return res.status(409).json({ status: 409, message: 'a user with this username already exists' });
 				}
 			})
-			.catch((error) => {
-			res.status(500).json(error);
-		});
+			.catch(error => res.status(500).json({ status: 500, error }));
 		}		
 	}
 
@@ -113,12 +124,14 @@ export class User {
 		const { email, password } = req.body;
 		const emailAdd = validateEmail(email);
 		if (!email || emailAdd === false) {
-			return res.status(400).json({
+			return res.status(400).json({ 
+				status: 400,
 				message: 'email address is invalid or in an invalid format'
 			});
 		}
 		if (!password) {
-			return res.status(400).json({
+			return res.status(400).json({ 
+				status: 400,
 				message: 'please enter a valid password'
 			});
 		}
@@ -127,11 +140,11 @@ export class User {
 			.then( user => {
 				const profile = user[0];
 				if (user.length < 1) {
-					return res.status(400).json({message: 'invalid user!'});
+					return res.status(400).json({ status: 400, message: 'invalid user!'});
 				}
 				bcrypt.compare(password, user[0].password, (err, result) => {
 					if (err) {
-						return res.status(400).json({message: 'invalid user!'});
+						return res.status(400).json({ status: 400, message: 'invalid user!'});
 					}
 					if (result) {
 						const token = jwt.sign({
@@ -143,13 +156,20 @@ export class User {
 							expiresIn: '1h'
 						});
 						res.header('x-access-token', token);
-						return res.status(200).json({ message: 'successfully logged in!' , profile, token });
+						return res.status(200).json({
+							status: 200,
+							message: 'successfully logged in!',
+							profile,
+							token });
 					}
-					return res.status(401).json({ message: 'email and password do not match' });
+					return res.status(401).json({ 
+						status: 401,
+						message: 'email and password do not match'
+					});
 				});
 			})
 			.catch(
-				error => res.status(500).json({ error })
+				error => res.status(500).json({ status: 500, error })
 			);
 		}		
 	}
