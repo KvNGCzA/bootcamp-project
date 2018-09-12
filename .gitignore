@@ -3,7 +3,8 @@
 /compiled
 /slate
 /.vscode
-/public
+/public/jquery-3.2.1
+/public/jquery-ui-1.12.1
 /scss
 /styles
 /styles2
