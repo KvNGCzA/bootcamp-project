@@ -3,11 +3,8 @@
 /compiled
 /slate
 /.vscode
-/public/jquery-3.2.1
-/public/jquery-ui-1.12.1
-/scss
-/styles
-/styles2
+/public/js/jquery-3.2.1
+/public/js/jquery-ui-1.12.1
 /views
 /front-js
 .env
