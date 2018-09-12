@@ -51,7 +51,8 @@ const createUser = (_e) => {
       localStorage.setItem('asked_count', asked_count);
       localStorage.setItem('created_at', newDate);
       localStorage.setItem('token', token);
-      return window.location.href = './profile.html';
+      window.location.href = './profile.html';
+      return;
     }
     return warning.textContent = message;
   })
@@ -64,7 +65,7 @@ const loginForm = document.getElementById('lg-form');
 
 const loginUser = (_e) => {
   _e.preventDefault();
-  const warning = document.getElementById('warning-message');
+  const warning = document.getElementById('warning-message2');
   const user = {
     email: loginForm.email.value,
     password: loginForm.pwd.value,
@@ -77,9 +78,7 @@ const loginUser = (_e) => {
 		},
 		body: JSON.stringify(user),
   })
-  .then(res => {    
-  console.log(user);
-    console.log(res);
+  .then(res => {
     return res.json();
   })
   .then(data => {
@@ -96,7 +95,8 @@ const loginUser = (_e) => {
       localStorage.setItem('asked_count', asked_count);
       localStorage.setItem('created_at', newDate);
       localStorage.setItem('token', token);
-      return window.location.href = './profile.html';
+      window.location.href = './profile.html';
+      return;
     }
     return warning.textContent = 'username/password do not match';
   })

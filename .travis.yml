@@ -1,4 +1,3 @@
-
 language: node_js
 node_js:
     - "stable"
@@ -13,4 +12,4 @@ before_script:
   - npm install codeclimate-test-reporter istanbul -g
   - npm run build
 after_script:
-  - codeclimate-test-reporter < ./coverage/lcov.info
+- codeclimate-test-reporter < ./coverage/lcov.info

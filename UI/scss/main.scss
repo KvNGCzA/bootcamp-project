@@ -88,6 +88,11 @@ body.page-login-signup{
   }
 }//.page-login-signup
 
+#warning-message, #warning-message2 {
+  color: $fireRed;
+  font-size: 0.8em;
+}// #warning-message
+
 header{
   padding: 1em 0;
   background-color: $maincolor;
