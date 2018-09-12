@@ -65,6 +65,62 @@ var postQuestion = function postQuestion(_e) {
 
 questionForms.addEventListener('submit', postQuestion, false);
 
+var commentForm = document.getElementsByClassName('comment-form')[0];
+var postAnswer = function postAnswer(_e) {
+    _e.preventDefault();
+    var token = localStorage.getItem('token');
+    var newAnswer = {
+        answer: commentForm.answer.value,
+        token: token
+    };
+    console.log(newAnswer);
+    var questionId = window.location.search.split('=')[1];
+    fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/answers', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newAnswer)
+    }).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+        document.getElementById('success-answer').textContent = data.message;
+    })['catch'](function (error) {
+        return console.log(error);
+    });
+};
+commentForm.addEventListener('submit', postAnswer, false);
+var getQuestionById = function getQuestionById() {
+    var questionId = window.location.search.split('=')[1];
+    fetch('http://localhost:3000/api/v2/questions/' + String(questionId)).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+        console.log(data);
+        var tagsArr = [];
+        var question = data.question,
+            answers = data.answers;
+        var _question$ = question[0],
+            title = _question$.title,
+            content = _question$.content,
+            tags = _question$.tags,
+            created_at = _question$.created_at,
+            likes = _question$.likes,
+            username = _question$.username,
+            answers_count = _question$.answers_count;
+
+        tagsArr.push([tags.split(',')]);
+        document.getElementsByClassName('question-title')[0].textContent = title;
+        document.getElementsByClassName('q-meta')[0].innerHTML = '<ul>\n          <li class="answer-count">\n            <a href="#">Answers</a>\n            <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n            <a href="#">Likes</a>\n            <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n          </li><!--\n          --><li class="views-count">\n            <a href="#">Views</a>\n            <a href="#" class="views-count-dis">0</a>\n          </li>\n        </ul>';
+        document.getElementsByClassName('question-body')[0].textContent = content;
+        document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String((0, _functions.formatDate)(created_at)) + '</span> by <span><a href="#">@' + String(username) + '</a></span>';
+        (0, _functions.addTags)(tagsArr);
+        (0, _functions.countClassColours)();
+    })['catch'](function (error) {
+        return console.log(error);
+    });
+}; // get question by id
+
 var getQuestions = function getQuestions() {
     fetch('http://localhost:3000/api/v2/questions').then(function (res) {
         return res.json();
@@ -72,6 +128,7 @@ var getQuestions = function getQuestions() {
         var questions = data.questions;
 
         var tagsArr = [];
+        var idArr = [];
         for (var x = questions.length - 1; x >= 0; x--) {
             var tab = document.getElementById('tab1');
             var _questions$x = questions[x],
@@ -79,39 +136,18 @@ var getQuestions = function getQuestions() {
                 likes = _questions$x.likes,
                 title = _questions$x.title,
                 created_at = _questions$x.created_at,
+                id = _questions$x.id,
                 username = _questions$x.username,
                 tags = _questions$x.tags;
 
             var newDate = (0, _functions.formatDate)(created_at);
             tagsArr.push([tags.split(',')]);
-            tab.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <p class="question-title"><a href="/question">' + String(title) + '</a></p>\n                <ul class="tags">                    \n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
+            tab.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n                <ul class="tags">                    \n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
         }
 
-        /** colour for question meta - views, likes and answered if count is greater than 0 */
-        var homeAnswered = document.getElementsByClassName('answer-count-dis');
-        var homeLiked = document.getElementsByClassName('likes-count-dis');
-        var homeViews = document.getElementsByClassName('views-count-dis');
+        (0, _functions.countClassColours)();
 
-        var countArr = [homeAnswered, homeLiked, homeViews];
-        var classCountArr = ['answered', 'liked', 'viewed'];
-        for (var y in countArr) {
-            for (var _x in countArr[y]) {
-                var current = Number(countArr[y][_x].textContent);
-                if (current > 0) {
-                    countArr[y][_x].classList += ' ' + String(classCountArr[y]);
-                } // if
-            } // for x
-        } // for y
-
-        // add tags to questions
-        var tag = document.getElementsByClassName('tags');
-        for (var _x2 = 0; _x2 < tag.length; _x2++) {
-            for (var _y in tagsArr[_x2]) {
-                for (var z in tagsArr[_x2][_y]) {
-                    tag[_x2].innerHTML += '<li><a href="#">' + String(tagsArr[_x2][_y][z]) + '</a></li>';
-                }
-            }
-        }
+        (0, _functions.addTags)(tagsArr);
     })['catch'](function (error) {
         return console.log(error);
     });
@@ -137,13 +173,13 @@ var deleteQuestion = function deleteQuestion(id) {
 
 var getUsersQuestions = function getUsersQuestions() {
     var username = localStorage.getItem('username');
-    var idArr = [];
     fetch('http://localhost:3000/api/v2/questions/' + String(username) + '/questions').then(function (res) {
         return res.json();
     }).then(function (data) {
         var questions = data.questions;
 
         var tagsArr = [];
+        var idArr = [];
         for (var x = questions.length - 1; x >= 0; x--) {
             var profilePage = document.getElementsByClassName('profile-page-cont')[0];
             var _questions$x2 = questions[x],
@@ -158,48 +194,16 @@ var getUsersQuestions = function getUsersQuestions() {
             tagsArr.push([tags.split(',')]);
             idArr.push(id);
             var newDate = (0, _functions.formatDate)(created_at);
-            profilePage.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                    <span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n                    <ul class="drop-settings">\n                    <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n                    <li><i class="fas fa-wrench"></i> Edit</li>\n                    </ul>\n                </div>\n                <p class="question-title"><a href="/question">' + String(title) + '</a></p>\n                <ul class="tags">                    \n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(_username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
+            profilePage.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                    <span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n                    <ul class="drop-settings">\n                    <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n                    <li><i class="fas fa-wrench"></i> Edit</li>\n                    </ul>\n                </div>\n                <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n                <ul class="tags">\n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(_username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
         }
-        var deleteButton = document.getElementsByClassName('deleteButton');
-
-        var _loop = function _loop(_x3) {
-            deleteButton[_x3].addEventListener('click', function () {
-                deleteQuestion(idArr[_x3]);
-            }, false);
-        };
-
-        for (var _x3 = 0; _x3 < deleteButton.length; _x3++) {
-            _loop(_x3);
-        }
-        /** colour for question meta - views, likes and answered if count is greater than 0 */
-        var homeAnswered = document.getElementsByClassName('answer-count-dis');
-        var homeLiked = document.getElementsByClassName('likes-count-dis');
-        var homeViews = document.getElementsByClassName('views-count-dis');
-
-        var countArr = [homeAnswered, homeLiked, homeViews];
-        var classCountArr = ['answered', 'liked', 'viewed'];
-        for (var y in countArr) {
-            for (var _x4 in countArr[y]) {
-                var current = Number(countArr[y][_x4].textContent);
-                if (current > 0) {
-                    countArr[y][_x4].classList += ' ' + String(classCountArr[y]);
-                } // if
-            } // for x
-        } // for y
-
-        // add tags to questions
-        var tag = document.getElementsByClassName('tags');
-        for (var _x5 = 0; _x5 < tag.length; _x5++) {
-            for (var _y2 in tagsArr[_x5]) {
-                for (var z in tagsArr[_x5][_y2]) {
-                    tag[_x5].innerHTML += '<li><a href="#">' + String(tagsArr[_x5][_y2][z]) + '</a></li>';
-                }
-            }
-        }
+        (0, _functions.deleteButton)(idArr);
+        (0, _functions.countClassColours)();
+        (0, _functions.addTags)(tagsArr);
     })['catch'](function (error) {
         return error;
     });
 }; // get questions for profile page
+
 
 if (document.title === 'Home') {
     getQuestions();
@@ -207,6 +211,10 @@ if (document.title === 'Home') {
 
 if (document.title === 'Profile') {
     getUsersQuestions();
+}
+
+if (document.title === 'Question') {
+    getQuestionById();
 }
 },{"../public/js/functions":2}],2:[function(require,module,exports){
 'use strict';
@@ -238,4 +246,48 @@ var formatDate = exports.formatDate = function formatDate(date) {
   var newDate = String(day) + ' ' + String(newMonth) + ' ' + String(year);
   return newDate;
 };
+
+var countClassColours = exports.countClassColours = function countClassColours() {
+  /** colour for question meta - views, likes and answered if count is greater than 0 */
+  var homeAnswered = document.getElementsByClassName('answer-count-dis');
+  var homeLiked = document.getElementsByClassName('likes-count-dis');
+  var homeViews = document.getElementsByClassName('views-count-dis');
+
+  var countArr = [homeAnswered, homeLiked, homeViews];
+  var classCountArr = ['answered', 'liked', 'viewed'];
+  for (var y in countArr) {
+    for (var x in countArr[y]) {
+      var current = Number(countArr[y][x].textContent);
+      if (current > 0) {
+        countArr[y][x].classList += ' ' + String(classCountArr[y]);
+      } // if
+    } // for x
+  } // for y
+}; // countClassColours
+
+var addTags = exports.addTags = function addTags(tagsArr) {
+  // add tags to questions
+  var tag = document.getElementsByClassName('tags');
+  for (var x = 0; x < tag.length; x++) {
+    for (var y in tagsArr[x]) {
+      for (var z in tagsArr[x][y]) {
+        tag[x].innerHTML += '<li><a href="#">' + String(tagsArr[x][y][z]) + '</a></li>';
+      }
+    }
+  }
+}; // addTags
+
+var deleteButton = exports.deleteButton = function deleteButton(idArr) {
+  var deleteButton = document.getElementsByClassName('deleteButton');
+
+  var _loop = function _loop(x) {
+    deleteButton[x].addEventListener('click', function () {
+      deleteQuestion(idArr[x]);
+    }, false);
+  };
+
+  for (var x = 0; x < deleteButton.length; x++) {
+    _loop(x);
+  }
+}; // deleteButton
 },{}]},{},[1]);

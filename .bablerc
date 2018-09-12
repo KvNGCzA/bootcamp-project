@@ -1,7 +1,7 @@
 {
-"presets":[
-    "airbnb"
-],
+"presets": [
+        "airbnb"
+    ],
 "plugins":[
     "babel-plugin-inline-import"
 ]
