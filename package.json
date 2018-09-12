@@ -4,7 +4,7 @@
   "description": "Two week bootcamp project",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build && npm run build2 && nodemon compiled/server.js",
+    "start": "npm run build && nodemon compiled/server.js",
     "test": "mocha compiled/test --exit",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- compiled/test --exit",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",

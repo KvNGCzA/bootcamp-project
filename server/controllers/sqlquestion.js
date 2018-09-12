@@ -72,10 +72,14 @@ export class Questions {
 
     getUsersQuestions (req, res) {
         const { username } = req.params;
+        const usernameCheck = (/^[a-zA-Z0-9]+(([_][a-zA-Z0-9])?[a-zA-Z0-9]*)*$/g).test(username);
+        if (usernameCheck !== true) {
+            return res.status(400).json({ status: 400, message: 'username parameter is an invalid format!' });
+        }
         db.any('SELECT * FROM questions WHERE username = $1', [ username ])
         .then(questions => {
             if (questions.length < 1) {
-                return res.status(404).json({ status: 404, message: 'question not found' });
+                return res.status(404).json({ status: 404, message: 'questions not found!' });
             }
             return res.status(200).json({ status: 200, questions });
         })
@@ -91,7 +95,7 @@ export class Questions {
             return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
         }
         if (!answer || answer.trim() === '') {
-            return res.status(400).json({ status: 400, message: 'invalid or empty answer property' });
+            return res.status(400).json({ status: 400, message: 'invalid or empty answer property!' });
         }
         // fetch id of question creator
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
@@ -117,7 +121,6 @@ export class Questions {
     // mark favorite or update answer
     markFavorite (req, res) {
         const { questionId, answerId } = req.params;
-        const { newAnswer } = req.body;
         const { id } = req.userData;
         if (/[0-9]/g.test(questionId) === false || questionId.length > 9) {
             return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
@@ -136,7 +139,7 @@ export class Questions {
                     if (result.length < 1) {
                         // set new favorite
                         db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
-                        .then(favAnswer => {
+                        .then(() => {
                             return res.status(200).json({ status: 200, message: 'answer was favorited!' });
                          })
                         .catch(error => res.status(500).json({ status: 500, error }));
@@ -145,7 +148,7 @@ export class Questions {
                     if (result.length === 1) {
                         // set old favorite to false
                         db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true])
-                        .then(result => {
+                        .then(() => {
                             // set the new favorite to true
                             db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
                             .then(() => {

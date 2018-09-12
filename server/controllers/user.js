@@ -20,7 +20,7 @@ export class User {
 		db.any('SELECT * FROM users WHERE username = $1', [ username ])
 		.then(user => {
 			if (user.length < 1) {
-				return res.status(404).json({ status: 404, message: 'user not found' });
+				return res.status(404).json({ status: 404, message: 'user not found!' });
 			}
 			return res.status(200).json({ status: 200, user });
 		})
@@ -174,13 +174,13 @@ export class User {
 		}		
 	}
 
-	logout (req,res) {
-		const { id } = req.userData;
-		const { userId } = req.params;
-		if ( id === userId) {
-			return res.header('x-access-token', '');
-		}
-		return res.status(400).json({ message: 'access denied!' });
-	}
+	// logout (req,res) {
+	// 	const { id } = req.userData;
+	// 	const { userId } = req.params;
+	// 	if ( id === userId) {
+	// 		return res.header('x-access-token', '');
+	// 	}
+	// 	return res.status(400).json({ message: 'access denied!' });
+	// }
 	
 };
