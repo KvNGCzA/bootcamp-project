@@ -3,8 +3,13 @@
 /compiled
 /slate
 /.vscode
-/public/js/jquery-3.2.1
-/public/js/jquery-ui-1.12.1
+/public/jquery-3.2.1
+/public/jquery-ui-1.12.1
+/scss
+/styles
+/styles2
+/views
+/front-js
 .env
 .eslintrc.json
 .coveralls.yml
