@@ -54,11 +54,12 @@ export const addTags = tagsArr => {
   }
 }; // addTags
 
-export const deleteButton = (idArr) => {
-  let deleteButton = document.getElementsByClassName('deleteButton');
-  for ( let x = 0; x < deleteButton.length; x++ ) {
-      deleteButton[x].addEventListener('click', () => {
-          deleteQuestion(idArr[x]);
-      }, false);
+/** comments list background color */
+export const colorComments = () => {
+  const comments = document.getElementsByClassName('comment-cont');
+  for (const x in comments) {
+    if (x % 2 === 0) {
+      comments[x].style.backgroundColor = '#f4f4f4';
+    }
   }
-}; // deleteButton
+};

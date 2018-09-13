@@ -3,6 +3,20 @@
 
 var _functions = require('../public/js/functions');
 
+var deleteButtonFunction = function deleteButtonFunction(idArr) {
+    var deleteButton = document.getElementsByClassName('deleteButton');
+
+    var _loop = function _loop(x) {
+        deleteButton[x].addEventListener('click', function () {
+            deleteQuestion(idArr[x]);
+        }, false);
+    };
+
+    for (var x = 0; x < deleteButton.length; x++) {
+        _loop(x);
+    }
+}; // deleteButton
+
 var formNum = 0;
 var allQuestionForms = document.getElementsByClassName('postquestionform');
 if (allQuestionForms.length > 1) {
@@ -52,17 +66,16 @@ var postQuestion = function postQuestion(_e) {
                     document.location.reload();
                 }
             })['catch'](function (error) {
-                return console.log(error);
+                return error;
             });
         } else {
             successMessage.textContent = data.message;
         }
         return;
     })['catch'](function (error) {
-        return console.log(error);
+        return error;
     });
 }; // post a question function
-
 questionForms.addEventListener('submit', postQuestion, false);
 
 var commentForm = document.getElementsByClassName('comment-form')[0];
@@ -73,7 +86,6 @@ var postAnswer = function postAnswer(_e) {
         answer: commentForm.answer.value,
         token: token
     };
-    console.log(newAnswer);
     var questionId = window.location.search.split('=')[1];
     fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/answers', {
         method: 'POST',
@@ -85,18 +97,28 @@ var postAnswer = function postAnswer(_e) {
     }).then(function (res) {
         return res.json();
     }).then(function (data) {
-        document.getElementById('success-answer').textContent = data.message;
+        var successAnswer = document.getElementById('success-answer');
+        var message = data.message;
+
+        successAnswer.textContent = message;
+        commentForm.answer.value = '';
+        if (message === 'answer posted!') {
+            successAnswer.style.color = 'green';
+            return setTimeout(function () {
+                document.location.reload();
+            }, 1500);
+        } else {
+            successAnswer.style.color = '#f24d4d';
+        }
     })['catch'](function (error) {
-        return console.log(error);
+        return error;
     });
 };
-commentForm.addEventListener('submit', postAnswer, false);
 var getQuestionById = function getQuestionById() {
     var questionId = window.location.search.split('=')[1];
     fetch('http://localhost:3000/api/v2/questions/' + String(questionId)).then(function (res) {
         return res.json();
     }).then(function (data) {
-        console.log(data);
         var tagsArr = [];
         var question = data.question,
             answers = data.answers;
@@ -113,11 +135,22 @@ var getQuestionById = function getQuestionById() {
         document.getElementsByClassName('question-title')[0].textContent = title;
         document.getElementsByClassName('q-meta')[0].innerHTML = '<ul>\n          <li class="answer-count">\n            <a href="#">Answers</a>\n            <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n            <a href="#">Likes</a>\n            <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n          </li><!--\n          --><li class="views-count">\n            <a href="#">Views</a>\n            <a href="#" class="views-count-dis">0</a>\n          </li>\n        </ul>';
         document.getElementsByClassName('question-body')[0].textContent = content;
-        document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String((0, _functions.formatDate)(created_at)) + '</span> by <span><a href="#">@' + String(username) + '</a></span>';
+        document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String((0, _functions.formatDate)(created_at)) + '</span> by <span><a href="/profile?username=' + String(username) + '">@' + String(username) + '</a></span>';
         (0, _functions.addTags)(tagsArr);
         (0, _functions.countClassColours)();
+        var commentsList = document.getElementById('comment-list');
+        if (answers.length > 0) {
+            for (var x in answers) {
+                var answer = answers[x].answer;
+
+                commentsList.innerHTML += '\n            <li class="comment-cont">\n              <p class="comment">' + String(answer) + '</p>\n              <p class="action-buttons">\n                <span class="like-comment action like-btn" title="Mark as useful"><i class="far fa-thumbs-up likebutton"></i></span><!--\n              --><span class="dislike-comment action dislike-btn" title="Mark as not useful"><i class="far fa-thumbs-down dislikebutton"></i></span><!--\n              --><span class="report action report-btn" title="Mark as Inappropriate"><i class="far fa-flag reportbutton"></i></span><!--\n              --><span class="favorite-comment action favorite-btn" title="Mark as favorite"><i class="far fa-star favoritebutton"></i></span>\n              </p>\n            </li>';
+            }
+        } else {
+            commentsList.innerHTML += '<li>No answers posted yet</li><br><br>';
+        }
+        (0, _functions.colorComments)();
     })['catch'](function (error) {
-        return console.log(error);
+        return error;
     });
 }; // get question by id
 
@@ -142,14 +175,12 @@ var getQuestions = function getQuestions() {
 
             var newDate = (0, _functions.formatDate)(created_at);
             tagsArr.push([tags.split(',')]);
-            tab.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n                <ul class="tags">                    \n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
+            tab.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                </div>\n                <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n                <ul class="tags">                    \n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by <a href="/profile?username=' + String(username) + '">' + String(username) + '</a> </span>\n                </div>\n\n             </div><!-- single-question -->';
         }
-
         (0, _functions.countClassColours)();
-
         (0, _functions.addTags)(tagsArr);
     })['catch'](function (error) {
-        return console.log(error);
+        return error;
     });
 }; // get all quetsions for homepage
 
@@ -172,8 +203,8 @@ var deleteQuestion = function deleteQuestion(id) {
 }; // delete a question
 
 var getUsersQuestions = function getUsersQuestions() {
-    var username = localStorage.getItem('username');
-    fetch('http://localhost:3000/api/v2/questions/' + String(username) + '/questions').then(function (res) {
+    var uname = window.location.search.split('=')[1];
+    fetch('http://localhost:3000/api/v2/questions/' + String(uname) + '/questions').then(function (res) {
         return res.json();
     }).then(function (data) {
         var questions = data.questions;
@@ -187,16 +218,22 @@ var getUsersQuestions = function getUsersQuestions() {
                 likes = _questions$x2.likes,
                 title = _questions$x2.title,
                 created_at = _questions$x2.created_at,
-                _username = _questions$x2.username,
+                username = _questions$x2.username,
                 tags = _questions$x2.tags,
                 id = _questions$x2.id;
 
             tagsArr.push([tags.split(',')]);
             idArr.push(id);
             var newDate = (0, _functions.formatDate)(created_at);
-            profilePage.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                    <span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n                    <ul class="drop-settings">\n                    <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n                    <li><i class="fas fa-wrench"></i> Edit</li>\n                    </ul>\n                </div>\n                <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n                <ul class="tags">\n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(_username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
+            profilePage.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                </div>\n                <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n                <ul class="tags">\n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
         }
-        (0, _functions.deleteButton)(idArr);
+        if (uname === localStorage.getItem('username')) {
+            var edit = document.getElementsByClassName('edit-option-container');
+            for (var _x = 0; _x < edit.length; _x++) {
+                edit[_x].innerHTML = '<span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n                    <ul class="drop-settings">\n                    <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n                    <li><i class="fas fa-wrench"></i> Edit</li>\n                    </ul>';
+            }
+            deleteButtonFunction(idArr);
+        }
         (0, _functions.countClassColours)();
         (0, _functions.addTags)(tagsArr);
     })['catch'](function (error) {
@@ -215,6 +252,7 @@ if (document.title === 'Profile') {
 
 if (document.title === 'Question') {
     getQuestionById();
+    commentForm.addEventListener('submit', postAnswer, false);
 }
 },{"../public/js/functions":2}],2:[function(require,module,exports){
 'use strict';
@@ -277,17 +315,13 @@ var addTags = exports.addTags = function addTags(tagsArr) {
   }
 }; // addTags
 
-var deleteButton = exports.deleteButton = function deleteButton(idArr) {
-  var deleteButton = document.getElementsByClassName('deleteButton');
-
-  var _loop = function _loop(x) {
-    deleteButton[x].addEventListener('click', function () {
-      deleteQuestion(idArr[x]);
-    }, false);
-  };
-
-  for (var x = 0; x < deleteButton.length; x++) {
-    _loop(x);
+/** comments list background color */
+var colorComments = exports.colorComments = function colorComments() {
+  var comments = document.getElementsByClassName('comment-cont');
+  for (var x in comments) {
+    if (x % 2 === 0) {
+      comments[x].style.backgroundColor = '#f4f4f4';
+    }
   }
-}; // deleteButton
+};
 },{}]},{},[1]);

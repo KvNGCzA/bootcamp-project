@@ -58,16 +58,12 @@ var addTags = exports.addTags = function addTags(tagsArr) {
   }
 }; // addTags
 
-var deleteButton = exports.deleteButton = function deleteButton(idArr) {
-  var deleteButton = document.getElementsByClassName('deleteButton');
-
-  var _loop = function _loop(x) {
-    deleteButton[x].addEventListener('click', function () {
-      deleteQuestion(idArr[x]);
-    }, false);
-  };
-
-  for (var x = 0; x < deleteButton.length; x++) {
-    _loop(x);
+/** comments list background color */
+var colorComments = exports.colorComments = function colorComments() {
+  var comments = document.getElementsByClassName('comment-cont');
+  for (var x in comments) {
+    if (x % 2 === 0) {
+      comments[x].style.backgroundColor = '#f4f4f4';
+    }
   }
-}; // deleteButton
+};
