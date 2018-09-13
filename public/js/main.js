@@ -13,29 +13,10 @@ bodyTag.classList += 'page-' + String(cName) + ' ';
 var status = localStorage.getItem('token');
 if (status !== null) {
 	bodyTag.classList += 'logged-in';
-	var profilePage = document.getElementsByClassName('page-profile')[0];
-	if (profilePage) {
-		// add users information from database
-		var names = document.getElementsByClassName('profile-full-name');
-		var uname = document.getElementsByClassName('profile-username');
-		var member = document.getElementsByClassName('profile-msince');
-		var asked = document.getElementsByClassName('profile-num-que');
-		var answered = document.getElementsByClassName('profile-num-ans');
-		var job = document.getElementsByClassName('profile-occupation');
-		for (var x = 0; x < names.length; x++) {
-			var fullName = localStorage.getItem('fullname');
-			var username = localStorage.getItem('username');
-			var memSince = localStorage.getItem('created_at');
-			var aksedNum = localStorage.getItem('asked_count');
-			var ansNum = localStorage.getItem('answered_count');
-			var occupation = localStorage.getItem('occupation');
-			names[x].textContent = fullName;
-			uname[x].innerHTML = '<i class="fas fa-user" ></i> @' + String(username);
-			member[x].innerHTML = '<i class="fas fa-user" ></i> ' + String(memSince);
-			asked[x].innerHTML = '<i class="fas fa-question"></i><span> Asked:</span> ' + String(aksedNum);
-			answered[x].innerHTML = '<i class="fas fa-check"></i><span> Replied:</span> ' + String(ansNum);
-			job[x].innerHTML = '<i class="fas fa-suitcase" ></i> ' + String(occupation);
-		}
+	var profileLink = document.getElementsByClassName('profile-link');
+	var username = localStorage.getItem('username');
+	for (var x = 0; x < profileLink.length; x++) {
+		profileLink[x].setAttribute('href', '/profile?username=' + String(username));
 	}
 }
 if (status === null) {
@@ -182,5 +163,45 @@ var formatDate = exports.formatDate = function formatDate(date) {
   var newMonth = monthArray[month];
   var newDate = String(day) + ' ' + String(newMonth) + ' ' + String(year);
   return newDate;
+};
+
+var countClassColours = exports.countClassColours = function countClassColours() {
+  /** colour for question meta - views, likes and answered if count is greater than 0 */
+  var homeAnswered = document.getElementsByClassName('answer-count-dis');
+  var homeLiked = document.getElementsByClassName('likes-count-dis');
+  var homeViews = document.getElementsByClassName('views-count-dis');
+
+  var countArr = [homeAnswered, homeLiked, homeViews];
+  var classCountArr = ['answered', 'liked', 'viewed'];
+  for (var y in countArr) {
+    for (var x in countArr[y]) {
+      var current = Number(countArr[y][x].textContent);
+      if (current > 0) {
+        countArr[y][x].classList += ' ' + String(classCountArr[y]);
+      } // if
+    } // for x
+  } // for y
+}; // countClassColours
+
+var addTags = exports.addTags = function addTags(tagsArr) {
+  // add tags to questions
+  var tag = document.getElementsByClassName('tags');
+  for (var x = 0; x < tag.length; x++) {
+    for (var y in tagsArr[x]) {
+      for (var z in tagsArr[x][y]) {
+        tag[x].innerHTML += '<li><a href="#">' + String(tagsArr[x][y][z]) + '</a></li>';
+      }
+    }
+  }
+}; // addTags
+
+/** comments list background color */
+var colorComments = exports.colorComments = function colorComments() {
+  var comments = document.getElementsByClassName('comment-cont');
+  for (var x in comments) {
+    if (x % 2 === 0) {
+      comments[x].style.backgroundColor = '#f4f4f4';
+    }
+  }
 };
 },{}]},{},[1]);

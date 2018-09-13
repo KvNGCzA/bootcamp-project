@@ -27,3 +27,43 @@ var formatDate = exports.formatDate = function formatDate(date) {
   var newDate = String(day) + ' ' + String(newMonth) + ' ' + String(year);
   return newDate;
 };
+
+var countClassColours = exports.countClassColours = function countClassColours() {
+  /** colour for question meta - views, likes and answered if count is greater than 0 */
+  var homeAnswered = document.getElementsByClassName('answer-count-dis');
+  var homeLiked = document.getElementsByClassName('likes-count-dis');
+  var homeViews = document.getElementsByClassName('views-count-dis');
+
+  var countArr = [homeAnswered, homeLiked, homeViews];
+  var classCountArr = ['answered', 'liked', 'viewed'];
+  for (var y in countArr) {
+    for (var x in countArr[y]) {
+      var current = Number(countArr[y][x].textContent);
+      if (current > 0) {
+        countArr[y][x].classList += ' ' + String(classCountArr[y]);
+      } // if
+    } // for x
+  } // for y
+}; // countClassColours
+
+var addTags = exports.addTags = function addTags(tagsArr) {
+  // add tags to questions
+  var tag = document.getElementsByClassName('tags');
+  for (var x = 0; x < tag.length; x++) {
+    for (var y in tagsArr[x]) {
+      for (var z in tagsArr[x][y]) {
+        tag[x].innerHTML += '<li><a href="#">' + String(tagsArr[x][y][z]) + '</a></li>';
+      }
+    }
+  }
+}; // addTags
+
+/** comments list background color */
+var colorComments = exports.colorComments = function colorComments() {
+  var comments = document.getElementsByClassName('comment-cont');
+  for (var x in comments) {
+    if (x % 2 === 0) {
+      comments[x].style.backgroundColor = '#f4f4f4';
+    }
+  }
+};

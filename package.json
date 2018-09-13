@@ -10,7 +10,7 @@
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "babel --presets airbnb server -d compiled/",
-    "build2": "babel --presets airbnb styles -d front-js  && babel --presets airbnb styles2 -d public/js && browserify front-js/main.js -o public/js/main.js && browserify front-js/questions.js -o public/js/questions.js && browserify front-js/signup-login.js -o public/js/signup-login.js"
+    "build2": "babel --presets airbnb styles -d front-js  && babel --presets airbnb styles2 -d public/js && browserify front-js/main.js -o public/js/main.js && browserify front-js/questions.js -o public/js/questions.js && browserify front-js/profile.js -o public/js/profile.js"
   },
   "author": "Akanmu Christopher",
   "license": "ISC",

@@ -10,29 +10,10 @@ bodyTag.classList += `page-${cName} `;
 const status = localStorage.getItem('token');
 if (status !== null) {
 	bodyTag.classList += 'logged-in';
-	const profilePage = document.getElementsByClassName('page-profile')[0];
-	if (profilePage) {
-		// add users information from database
-		const names = document.getElementsByClassName('profile-full-name');
-		const uname = document.getElementsByClassName('profile-username');
-		const member = document.getElementsByClassName('profile-msince');
-		const asked = document.getElementsByClassName('profile-num-que');
-		const answered = document.getElementsByClassName('profile-num-ans');
-		const job = document.getElementsByClassName('profile-occupation');
-		for (let x = 0; x < names.length; x++) {
-			const fullName = localStorage.getItem('fullname');
-			const username = localStorage.getItem('username');
-			const memSince = localStorage.getItem('created_at');
-			const aksedNum = localStorage.getItem('asked_count');
-			const ansNum = localStorage.getItem('answered_count');
-			const occupation = localStorage.getItem('occupation');
-			names[x].textContent = fullName;
-			uname[x].innerHTML = `<i class="fas fa-user" ></i> @${username}`;
-			member[x].innerHTML = `<i class="fas fa-user" ></i> ${memSince}`;
-			asked[x].innerHTML = `<i class="fas fa-question"></i><span> Asked:</span> ${aksedNum}`;
-			answered[x].innerHTML = `<i class="fas fa-check"></i><span> Replied:</span> ${ansNum}`;
-			job[x].innerHTML = `<i class="fas fa-suitcase" ></i> ${occupation}`;
-		}
+	const profileLink = document.getElementsByClassName('profile-link');
+	const username = localStorage.getItem('username');
+	for ( let x = 0; x < profileLink.length; x++) {
+		profileLink[x].setAttribute('href', `/profile?username=${username}`);
 	}
 }
 if (status === null) {
