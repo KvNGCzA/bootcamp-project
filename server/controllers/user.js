@@ -82,9 +82,7 @@ export class User {
 										username,
 										email,
 										fullName
-									},process.env.JWT_KEY,{
-										expiresIn: '1h'
-									});	
+									},process.env.JWT_KEY);	
 									res.header('x-access-token', token);
 									return res.status(201).json({ status: 201, message: 'user created', token, profile })
 								})
@@ -152,9 +150,7 @@ export class User {
 							username: user[0].username,
 							fullName: user[0].fullname,
 							email: user[0].email
-						},process.env.JWT_KEY,{
-							expiresIn: '1h'
-						});
+						},process.env.JWT_KEY);
 						res.header('x-access-token', token);
 						return res.status(200).json({
 							status: 200,

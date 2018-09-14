@@ -117,7 +117,7 @@ export class Questions {
                 return res.status(500).json({ status: 500, error });
         });
     }
-        
+
     // mark favorite or update answer
     markFavorite (req, res) {
         const { questionId, answerId } = req.params;
@@ -192,14 +192,7 @@ export class Questions {
                 // delete question
                 db.any('DELETE FROM questions WHERE id = $1', [questionId])
                 .then(() => {
-                    // delete all answers to the question
-                    db.any('DELETE FROM answers WHERE questionId = $1', [questionId])
-                    .then(() => {
-                        return res.status(200).json({ status: 200, message: 'question deleted!' });
-                    })
-                    .catch(error => {
-                        return res.status(500).json({ status: 500, error });
-                    });
+                    return res.status(200).json({ status: 200, message: 'question deleted!' });
                 })
                 .catch(error => {
                     return res.status(500).json({ status: 500, error });
