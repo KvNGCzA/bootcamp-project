@@ -11,7 +11,7 @@ const connectionString = process.env.DB || process.env.DATABASE_URL;
 // DROP TABLE IF EXISTS Answers CASCADE;
 const createTable = () => {
     const pool = new Pool({ connectionString });
-    // pool.connect();
+    pool.connect();
     const query = `    
         DROP TABLE IF EXISTS Users CASCADE;
         DROP TABLE IF EXISTS Questions CASCADE;
@@ -19,7 +19,7 @@ const createTable = () => {
         CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             fullname VARCHAR(150) NOT NULL,
-            username VARCHAR(100) NOT NULL,
+            username VARCHAR(100) UNIQUE NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
             occupation TEXT,
@@ -31,8 +31,8 @@ const createTable = () => {
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             content TEXT NOT NULL,
-            username VARCHAR(100) NOT NULL,
-            userId INT NOT NULL,
+            username VARCHAR(100) NOT NULL REFERENCES users(username) ON UPDATE CASCADE,
+            userid INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             likes INT NOT NULL DEFAULT 0,
             dislikes INT NOT NULL DEFAULT 0,
             answers_count INT NOT NULL DEFAULT 0,
@@ -43,10 +43,10 @@ const createTable = () => {
         CREATE TABLE IF NOT EXISTS answers(
             id SERIAL PRIMARY KEY,
             answer TEXT NOT NULL,
-            questionId INT REFERENCES questions ON DELETE CASCADE,
-            username VARCHAR(100) NOT NULL,
-            creator_id INT NOT NULL,
-            userId INT NOT NULL,
+            questionId INT REFERENCES questions(id) ON DELETE CASCADE,
+            username VARCHAR(100) NOT NULL REFERENCES users(username) ON UPDATE CASCADE,
+            creator_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            userid INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             likes INT NOT NULL DEFAULT 0,
             dislikes INT NOT NULL DEFAULT 0,
             favorite BOOLEAN DEFAULT false,
