@@ -138,7 +138,6 @@ body.logged-in {
       .side-access-forms {
       } // .side-access-forms
       .profile{
-        display: block;
         .profile-info{
           ul{
             li{
@@ -613,7 +612,7 @@ a, input[type="button"], input[type="submit"], i, button{
       li{
         list-style: none;
         display: inline-block;
-        margin: 0.4em 0;
+        margin: 0.4em 0 0 0.1em;
         a{
           color: white;
           text-decoration: none;
@@ -869,6 +868,16 @@ a, input[type="button"], input[type="submit"], i, button{
           }
           .comment{
             border-top: 1px solid $borderGray;
+            display: flex;
+            i.fas.fa-check-circle{
+              color: #49ff68;
+              padding: 0 0.5em;
+              &:before{
+                font-size: 3em;
+                // position: relative;
+                // top: -2.5em;
+              }
+            }// check mark
           }//.comment
           &:last-child{
             border-bottom: 1px solid $borderGray;
@@ -1050,7 +1059,7 @@ a, input[type="button"], input[type="submit"], i, button{
     }//.access-form
 
     .profile{
-      display: none;
+      display: block;
       z-index: 999;
       width: 20%;
       position: fixed;
@@ -1412,7 +1421,11 @@ footer{
           ul{
             li{
               .comment{
-
+                i.fas.fa-check-circle{
+                  &:before{
+                    font-size: 2em;
+                  }
+                }// check mark
               }//.comment
               .action-buttons{
                 padding: 1em 0;
