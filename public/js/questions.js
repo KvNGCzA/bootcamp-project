@@ -3,256 +3,171 @@
 
 var _functions = require('../public/js/functions');
 
-var deleteButtonFunction = function deleteButtonFunction(idArr) {
-    var deleteButton = document.getElementsByClassName('deleteButton');
-
-    var _loop = function _loop(x) {
-        deleteButton[x].addEventListener('click', function () {
-            deleteQuestion(idArr[x]);
-        }, false);
-    };
-
-    for (var x = 0; x < deleteButton.length; x++) {
-        _loop(x);
-    }
-}; // deleteButton
-
 var formNum = 0;
 var allQuestionForms = document.getElementsByClassName('postquestionform');
 if (allQuestionForms.length > 1) {
-    formNum = 1;
+	formNum = 1;
 }
 var questionForms = document.getElementsByClassName('postquestionform')[formNum];
 var postQuestion = function postQuestion(_e) {
-    _e.preventDefault();
-    var token = localStorage.getItem('token');
-    var newQuestion = {
-        title: questionForms.title.value,
-        content: questionForms.content.value,
-        tags: questionForms.tags.value,
-        token: token
-    };
-    fetch('http://localhost:3000/api/v2/questions', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newQuestion)
-    }).then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        var successMessage = document.getElementsByClassName('postQuestion-success-message')[formNum];
-        if (data.message === 'question posted!') {
-            successMessage.style.display = 'block';
-            questionForms.title.value = '';
-            questionForms.content.value = '';
-            questionForms.tags.value = '';
-            fetch('http://localhost:3000/api/v2/auth/users').then(function (res) {
-                return res.json();
-            }).then(function (data) {
-                var uname = localStorage.getItem('username');
-                var allUsers = data.users;
-                var getUser = allUsers.filter(function (user) {
-                    return user.username === uname;
-                });
-                var _getUser$ = getUser[0],
-                    asked_count = _getUser$.asked_count,
-                    answered_count = _getUser$.answered_count;
+	_e.preventDefault();
+	var token = localStorage.getItem('token');
+	var newQuestion = {
+		title: questionForms.title.value,
+		content: questionForms.content.value,
+		tags: questionForms.tags.value,
+		token: token
+	};
+	fetch('http://localhost:3000/api/v2/questions', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(newQuestion)
+	}).then(function (res) {
+		return res.json();
+	}).then(function (data) {
+		var successMessage = document.getElementsByClassName('postQuestion-success-message')[formNum];
+		if (data.message === 'question posted!') {
+			successMessage.style.display = 'block';
+			questionForms.title.value = '';
+			questionForms.content.value = '';
+			questionForms.tags.value = '';
+			fetch('http://localhost:3000/api/v2/auth/users').then(function (res) {
+				return res.json();
+			}).then(function (data) {
+				var uname = localStorage.getItem('username');
+				var allUsers = data.users;
+				var getUser = allUsers.filter(function (user) {
+					return user.username === uname;
+				});
+				var _getUser$ = getUser[0],
+				    asked_count = _getUser$.asked_count,
+				    answered_count = _getUser$.answered_count;
 
-                localStorage.setItem('asked_count', asked_count);
-                localStorage.setItem('answered_count', answered_count);
-                if (document.title === 'Profile') {
-                    document.location.reload();
-                }
-            })['catch'](function (error) {
-                return error;
-            });
-        } else {
-            successMessage.textContent = data.message;
-        }
-        return;
-    })['catch'](function (error) {
-        return error;
-    });
+				localStorage.setItem('asked_count', asked_count);
+				localStorage.setItem('answered_count', answered_count);
+				if (document.title === 'Profile') {
+					document.location.reload();
+				}
+			})['catch'](function (error) {
+				return error;
+			});
+		} else {
+			successMessage.textContent = data.message;
+		}
+	})['catch'](function (error) {
+		return error;
+	});
 }; // post a question function
 questionForms.addEventListener('submit', postQuestion, false);
 
 var commentForm = document.getElementsByClassName('comment-form')[0];
 var postAnswer = function postAnswer(_e) {
-    _e.preventDefault();
-    var token = localStorage.getItem('token');
-    var newAnswer = {
-        answer: commentForm.answer.value,
-        token: token
-    };
-    var questionId = window.location.search.split('=')[1];
-    fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/answers', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newAnswer)
-    }).then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        var successAnswer = document.getElementById('success-answer');
-        var message = data.message;
+	_e.preventDefault();
+	var token = localStorage.getItem('token');
+	var newAnswer = {
+		answer: commentForm.answer.value,
+		token: token
+	};
+	var questionId = window.location.search.split('=')[1];
+	fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/answers', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(newAnswer)
+	}).then(function (res) {
+		return res.json();
+	}).then(function (data) {
+		var successAnswer = document.getElementById('success-answer');
+		var message = data.message;
 
-        successAnswer.textContent = message;
-        commentForm.answer.value = '';
-        if (message === 'answer posted!') {
-            successAnswer.style.color = 'green';
-            return setTimeout(function () {
-                document.location.reload();
-            }, 1500);
-        } else {
-            successAnswer.style.color = '#f24d4d';
-        }
-    })['catch'](function (error) {
-        return error;
-    });
+		successAnswer.textContent = message;
+		commentForm.answer.value = '';
+		if (message === 'answer posted!') {
+			successAnswer.style.color = 'green';
+			return setTimeout(function () {
+				document.location.reload();
+			}, 1000);
+		}
+		successAnswer.style.color = '#f24d4d';
+	})['catch'](function (error) {
+		return error;
+	});
 };
+
 var getQuestionById = function getQuestionById() {
-    var questionId = window.location.search.split('=')[1];
-    fetch('http://localhost:3000/api/v2/questions/' + String(questionId)).then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        var tagsArr = [];
-        var question = data.question,
-            answers = data.answers;
-        var _question$ = question[0],
-            title = _question$.title,
-            content = _question$.content,
-            tags = _question$.tags,
-            created_at = _question$.created_at,
-            likes = _question$.likes,
-            username = _question$.username,
-            answers_count = _question$.answers_count;
+	var questionId = window.location.search.split('=')[1];
+	fetch('http://localhost:3000/api/v2/questions/' + String(questionId)).then(function (res) {
+		return res.json();
+	}).then(function (data) {
+		var tagsArr = [];
+		var question = data.question,
+		    answers = data.answers;
+		var _question$ = question[0],
+		    title = _question$.title,
+		    content = _question$.content,
+		    tags = _question$.tags,
+		    created_at = _question$.created_at,
+		    likes = _question$.likes,
+		    username = _question$.username,
+		    answers_count = _question$.answers_count;
 
-        tagsArr.push([tags.split(',')]);
-        document.getElementsByClassName('question-title')[0].textContent = title;
-        document.getElementsByClassName('q-meta')[0].innerHTML = '<ul>\n          <li class="answer-count">\n            <a href="#">Answers</a>\n            <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n            <a href="#">Likes</a>\n            <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n          </li><!--\n          --><li class="views-count">\n            <a href="#">Views</a>\n            <a href="#" class="views-count-dis">0</a>\n          </li>\n        </ul>';
-        document.getElementsByClassName('question-body')[0].textContent = content;
-        document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String((0, _functions.formatDate)(created_at)) + '</span> by <span><a href="/profile?username=' + String(username) + '">@' + String(username) + '</a></span>';
-        (0, _functions.addTags)(tagsArr);
-        (0, _functions.countClassColours)();
-        var commentsList = document.getElementById('comment-list');
-        if (answers.length > 0) {
-            for (var x in answers) {
-                var answer = answers[x].answer;
-
-                commentsList.innerHTML += '\n            <li class="comment-cont">\n              <p class="comment">' + String(answer) + '</p>\n              <p class="action-buttons">\n                <span class="like-comment action like-btn" title="Mark as useful"><i class="far fa-thumbs-up likebutton"></i></span><!--\n              --><span class="dislike-comment action dislike-btn" title="Mark as not useful"><i class="far fa-thumbs-down dislikebutton"></i></span><!--\n              --><span class="report action report-btn" title="Mark as Inappropriate"><i class="far fa-flag reportbutton"></i></span><!--\n              --><span class="favorite-comment action favorite-btn" title="Mark as favorite"><i class="far fa-star favoritebutton"></i></span>\n              </p>\n            </li>';
-            }
-        } else {
-            commentsList.innerHTML += '<li>No answers posted yet</li><br><br>';
-        }
-        (0, _functions.colorComments)();
-    })['catch'](function (error) {
-        return error;
-    });
+		tagsArr.push([tags.split(',')]);
+		(0, _functions.renderQuestionMeta_singleQuestion)(title, answers_count, likes);
+		(0, _functions.renderQuestionBody_singleQuestion)(content, username, created_at);
+		(0, _functions.addTags)(tagsArr);
+		(0, _functions.countClassColours)();
+		(0, _functions.renderComments_singleQuestion)(answers, username);
+		(0, _functions.colorComments)();
+	})['catch'](function (error) {
+		return error;
+	});
 }; // get question by id
 
 var getQuestions = function getQuestions() {
-    fetch('http://localhost:3000/api/v2/questions').then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        var questions = data.questions;
+	fetch('http://localhost:3000/api/v2/questions').then(function (res) {
+		return res.json();
+	}).then(function (data) {
+		var questions = data.questions;
 
-        var tagsArr = [];
-        var idArr = [];
-        for (var x = questions.length - 1; x >= 0; x--) {
-            var tab = document.getElementById('tab1');
-            var _questions$x = questions[x],
-                answers_count = _questions$x.answers_count,
-                likes = _questions$x.likes,
-                title = _questions$x.title,
-                created_at = _questions$x.created_at,
-                id = _questions$x.id,
-                username = _questions$x.username,
-                tags = _questions$x.tags;
-
-            var newDate = (0, _functions.formatDate)(created_at);
-            tagsArr.push([tags.split(',')]);
-            tab.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                </div>\n                <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n                <ul class="tags">                    \n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by <a href="/profile?username=' + String(username) + '">' + String(username) + '</a> </span>\n                </div>\n\n             </div><!-- single-question -->';
-        }
-        (0, _functions.countClassColours)();
-        (0, _functions.addTags)(tagsArr);
-    })['catch'](function (error) {
-        return error;
-    });
+		(0, _functions.renderQuestionTemplates)(questions);
+		(0, _functions.countClassColours)();
+	})['catch'](function (error) {
+		return error;
+	});
 }; // get all quetsions for homepage
 
-var deleteQuestion = function deleteQuestion(id) {
-    var token = localStorage.getItem('token');
-    fetch('http://localhost:3000/api/v2/questions/' + String(id), {
-        method: 'DELETE',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token: token })
-    }).then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        return document.location.reload();
-    })['catch'](function (error) {
-        return error;
-    });
-}; // delete a question
 
 var getUsersQuestions = function getUsersQuestions() {
-    var uname = window.location.search.split('=')[1];
-    fetch('http://localhost:3000/api/v2/questions/' + String(uname) + '/questions').then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        var questions = data.questions;
+	var uname = window.location.search.split('=')[1];
+	fetch('http://localhost:3000/api/v2/questions/' + String(uname) + '/questions').then(function (res) {
+		return res.json();
+	}).then(function (data) {
+		var questions = data.questions;
 
-        var tagsArr = [];
-        var idArr = [];
-        for (var x = questions.length - 1; x >= 0; x--) {
-            var profilePage = document.getElementsByClassName('profile-page-cont')[0];
-            var _questions$x2 = questions[x],
-                answers_count = _questions$x2.answers_count,
-                likes = _questions$x2.likes,
-                title = _questions$x2.title,
-                created_at = _questions$x2.created_at,
-                username = _questions$x2.username,
-                tags = _questions$x2.tags,
-                id = _questions$x2.id;
-
-            tagsArr.push([tags.split(',')]);
-            idArr.push(id);
-            var newDate = (0, _functions.formatDate)(created_at);
-            profilePage.innerHTML += '<div class="single-question">\n                <div class="q-meta">\n                <ul>\n                    <li class="answer-count">\n                    <a href="#">Answers</a>\n                    <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n                    </li><!--\n                    --><li class="likes-count">\n                    <a href="#">Likes</a>\n                    <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n                    </li><!--\n                    --><li class="views-count">\n                    <a href="#">Views</a>\n                    <a href="#" class="views-count-dis">0</a>\n                    </li>\n                </ul>\n                </div>\n\n                <div class="q-details">\n                <div class="edit-option-container">\n                </div>\n                <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n                <ul class="tags">\n                </ul>\n                    <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n                </div>\n\n             </div><!-- single-question -->';
-        }
-        if (uname === localStorage.getItem('username')) {
-            var edit = document.getElementsByClassName('edit-option-container');
-            for (var _x = 0; _x < edit.length; _x++) {
-                edit[_x].innerHTML = '<span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n                    <ul class="drop-settings">\n                    <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n                    <li><i class="fas fa-wrench"></i> Edit</li>\n                    </ul>';
-            }
-            deleteButtonFunction(idArr);
-        }
-        (0, _functions.countClassColours)();
-        (0, _functions.addTags)(tagsArr);
-    })['catch'](function (error) {
-        return error;
-    });
+		(0, _functions.renderUsersQuestions)(questions, uname);
+		(0, _functions.countClassColours)();
+	})['catch'](function (error) {
+		return error;
+	});
 }; // get questions for profile page
 
 
 if (document.title === 'Home') {
-    getQuestions();
+	getQuestions();
 }
 
 if (document.title === 'Profile') {
-    getUsersQuestions();
+	getUsersQuestions();
 }
 
 if (document.title === 'Question') {
-    getQuestionById();
-    commentForm.addEventListener('submit', postAnswer, false);
+	getQuestionById();
+	commentForm.addEventListener('submit', postAnswer, false);
 }
 },{"../public/js/functions":2}],2:[function(require,module,exports){
 'use strict';
@@ -260,6 +175,9 @@ if (document.title === 'Question') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var dashTitle = exports.dashTitle = function dashTitle(str) {
   if (/\s/.test(str)) {
     var lowerStr = str.toLowerCase();
@@ -285,6 +203,39 @@ var formatDate = exports.formatDate = function formatDate(date) {
   return newDate;
 };
 
+var deleteQuestion = exports.deleteQuestion = function deleteQuestion(id) {
+  var token = localStorage.getItem('token');
+  fetch('http://localhost:3000/api/v2/questions/' + String(id), {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token: token })
+  }).then(function (res) {
+    return res.json();
+  }).then(function (data) {
+    return document.location.reload();
+  })['catch'](function (error) {
+    return error;
+  });
+}; // delete a question
+
+var deleteButtonFunction = exports.deleteButtonFunction = function deleteButtonFunction(idArr) {
+  var deleteButton = document.getElementsByClassName('deleteButton');
+
+  var _loop = function _loop(x) {
+    deleteButton[x].addEventListener('click', function () {
+      deleteQuestion(idArr[x]);
+    }, false);
+  };
+
+  for (var x = 0; x < deleteButton.length; x++) {
+    _loop(x);
+  }
+}; // deleteButton
+
+
 var countClassColours = exports.countClassColours = function countClassColours() {
   /** colour for question meta - views, likes and answered if count is greater than 0 */
   var homeAnswered = document.getElementsByClassName('answer-count-dis');
@@ -309,7 +260,9 @@ var addTags = exports.addTags = function addTags(tagsArr) {
   for (var x = 0; x < tag.length; x++) {
     for (var y in tagsArr[x]) {
       for (var z in tagsArr[x][y]) {
-        tag[x].innerHTML += '<li><a href="#">' + String(tagsArr[x][y][z]) + '</a></li>';
+        if (tagsArr[x][y][z].trim() !== "") {
+          tag[x].innerHTML += '<li><a href="#">' + String(tagsArr[x][y][z]) + '</a></li>';
+        }
       }
     }
   }
@@ -323,5 +276,133 @@ var colorComments = exports.colorComments = function colorComments() {
       comments[x].style.backgroundColor = '#f4f4f4';
     }
   }
+};
+
+var actionButtons = exports.actionButtons = function actionButtons() {
+  /** action buttons config */
+  var actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
+  var thinClass = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
+  var thickClass = ['fas fa-thumbs-up likebutton', 'fas fa-thumbs-down dislikebutton', 'fas fa-flag reportbutton', 'fas fa-star favoritebutton'];
+
+  var _loop2 = function _loop2(x) {
+    var current = document.getElementsByClassName(actionBtnArr[x]);
+    for (var y = 0; y < current.length; y++) {
+      current[y].addEventListener('click', function () {
+        var currentClass = this.getAttribute('class');
+        if (currentClass === thinClass[x]) {
+          this.setAttribute('class', thickClass[x]);
+        } else {
+          this.setAttribute('class', thinClass[x]);
+        }
+      }, false);
+    }
+  };
+
+  for (var x in actionBtnArr) {
+    _loop2(x);
+  }
+};
+
+var renderQuestionMeta_singleQuestion = exports.renderQuestionMeta_singleQuestion = function renderQuestionMeta_singleQuestion(title, answersCount, likes) {
+  document.getElementsByClassName('question-title')[0].textContent = title;
+  document.getElementsByClassName('q-meta')[0].innerHTML = '<ul>\n  <li class="answer-count">\n      <a href="#">Answers</a>\n      <a href="#" class="answer-count-dis">' + String(answersCount) + '</a>\n  </li><!--\n  --><li class="likes-count">\n      <a href="#">Likes</a>\n      <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n  </li><!--\n  --><li class="views-count">\n      <a href="#">Views</a>\n      <a href="#" class="views-count-dis">0</a>\n  </li>\n  </ul>';
+};
+
+var renderQuestionBody_singleQuestion = exports.renderQuestionBody_singleQuestion = function renderQuestionBody_singleQuestion(content, username, createdAt) {
+  document.getElementsByClassName('question-body')[0].textContent = content;
+  document.getElementsByClassName('action-meta-cont')[0].innerHTML = '<div class="action-buttons"></div><!--action buttons--><!--\n  --><div class="meta-cont">\n  <span class="date-posted">\n  </span>\n  <ul class="tags">\n  </ul>\n  </div><!--meta cont -->';
+
+  if (localStorage.getItem('username') !== username) {
+    document.getElementsByClassName('action-buttons')[0].innerHTML = '\n      <span class="like-comment action like-btn" title="Like">\n      <i class="far fa-thumbs-up likebutton"></i>\n      </span><!--\n      --><span class="dislike-comment action dislike-btn" title="Dislike">\n      <i class="far fa-thumbs-down dislikebutton"></i>\n      </span><!--\n      --><span class="report action report-btn" title="Mark as Inappropriate">\n      <i class="far fa-flag reportbutton"></i>\n      </span>';
+  }
+
+  document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String(formatDate(createdAt)) + '</span> by <span><a href="/profile?username=' + String(username) + '">@' + String(username) + '</a></span>';
+};
+
+var renderComments_singleQuestion = exports.renderComments_singleQuestion = function renderComments_singleQuestion(answers, username) {
+  var commentsList = document.getElementById('comment-list');
+  if (answers.length > 0) {
+    var favoriteAnswer = answers.filter(function (answer) {
+      return answer.favorite === true;
+    });
+    var otherAnswers = answers.filter(function (answer) {
+      return answer.favorite !== true;
+    });
+    var sortedAnswer = [].concat(_toConsumableArray(favoriteAnswer), _toConsumableArray(otherAnswers));
+    for (var x in sortedAnswer) {
+      var _sortedAnswer$x = sortedAnswer[x],
+          answer = _sortedAnswer$x.answer,
+          id = _sortedAnswer$x.id;
+
+      commentsList.innerHTML += '\n        <li class="comment-cont">\n          <p class="comment">' + String(answer) + '</p>\n          <p class="action-buttons">\n              <span class="like-comment action like-btn" title="Like">\n              <i class="far fa-thumbs-up likebutton"></i>\n              </span><!--\n              --><span class="dislike-comment action dislike-btn" title="Dislike">\n              <i class="far fa-thumbs-down dislikebutton"></i>\n              </span><!--\n              --><span class="report action report-btn" title="Mark as Inappropriate">\n              <i class="far fa-flag reportbutton"></i>\n              </span><!--\n          --></p>\n        </li>';
+      if (localStorage.getItem('username') === username) {
+        document.getElementsByClassName('action-buttons')[Number(x) + 1].innerHTML += '<span class="favorite-comment action favorite-btn" title="Mark as favorite" onclick="favoriteAnAnswer(' + String(id) + ')">\n              <i class="far fa-star favoritebutton"></i>\n          </span>';
+      }
+    }
+
+    var firstStar = document.getElementsByClassName('far fa-star favoritebutton')[0];
+    if (favoriteAnswer.length > 0) {
+      var firstComment = document.getElementsByClassName('comment')[0];
+      var badge = document.createElement('i');
+      badge.classList += 'fas fa-check-circle';
+      badge.setAttribute('title', 'Favorite answer!');
+      firstComment.insertBefore(badge, firstComment.firstChild);
+      if (firstStar) {
+        firstStar.classList = 'fas fa-star favoritebutton';
+      }
+    }
+    actionButtons();
+  } else {
+    commentsList.innerHTML += '<li>No answers posted yet</li><br><br>';
+  }
+};
+
+var renderQuestionTemplates = exports.renderQuestionTemplates = function renderQuestionTemplates(questions) {
+  var tagsArr = [];
+  for (var x = questions.length - 1; x >= 0; x--) {
+    var tab = document.getElementById('tab1');
+    var _questions$x = questions[x],
+        answers_count = _questions$x.answers_count,
+        likes = _questions$x.likes,
+        title = _questions$x.title,
+        created_at = _questions$x.created_at,
+        id = _questions$x.id,
+        username = _questions$x.username,
+        tags = _questions$x.tags;
+
+    var newDate = formatDate(created_at);
+    tagsArr.push([tags.split(',')]);
+    tab.innerHTML += '<div class="single-question">\n          <div class="q-meta">\n          <ul>\n              <li class="answer-count">\n              <a href="#">Answers</a>\n              <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n              </li><!--\n              --><li class="likes-count">\n              <a href="#">Likes</a>\n              <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n              </li><!--\n              --><li class="views-count">\n              <a href="#">Views</a>\n              <a href="#" class="views-count-dis">0</a>\n              </li>\n          </ul>\n          </div>\n\n          <div class="q-details">\n          <div class="edit-option-container">\n          </div>\n          <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n          <ul class="tags">                    \n          </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '\n              </a> by <a href="/profile?username=' + String(username) + '">' + String(username) + '</a>\n          </span>\n          </div>\n      </div><!-- single-question -->';
+  }
+  addTags(tagsArr);
+};
+
+var renderUsersQuestions = exports.renderUsersQuestions = function renderUsersQuestions(questions, uname) {
+  var tagsArr = [];
+  var idArr = [];
+  for (var x = questions.length - 1; x >= 0; x--) {
+    var profilePage = document.getElementsByClassName('profile-page-cont')[0];
+    var _questions$x2 = questions[x],
+        answers_count = _questions$x2.answers_count,
+        likes = _questions$x2.likes,
+        title = _questions$x2.title,
+        created_at = _questions$x2.created_at,
+        username = _questions$x2.username,
+        tags = _questions$x2.tags,
+        id = _questions$x2.id;
+
+    tagsArr.push([tags.split(',')]);
+    idArr.push(id);
+    var newDate = formatDate(created_at);
+    profilePage.innerHTML += '<div class="single-question">\n      <div class="q-meta">\n      <ul>\n          <li class="answer-count">\n          <a href="#">Answers</a>\n          <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n          <a href="#">Likes</a>\n          <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n          </li><!--\n          --><li class="views-count">\n          <a href="#">Views</a>\n          <a href="#" class="views-count-dis">0</a>\n          </li>\n      </ul>\n      </div>\n\n      <div class="q-details">\n      <div class="edit-option-container">\n      </div>\n      <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n      <ul class="tags">\n      </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n      </div>\n\n   </div><!-- single-question -->';
+  }
+  if (uname === localStorage.getItem('username')) {
+    var edit = document.getElementsByClassName('edit-option-container');
+    for (var _x = 0; _x < edit.length; _x++) {
+      edit[_x].innerHTML = '<span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n          <ul class="drop-settings">\n          <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n          <li><i class="fas fa-wrench"></i> Edit</li>\n          </ul>';
+    }
+    deleteButtonFunction(idArr);
+  }
+  addTags(tagsArr);
 };
 },{}]},{},[1]);
