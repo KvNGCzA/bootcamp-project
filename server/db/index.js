@@ -9,8 +9,8 @@ const connectionString = process.env.DB || process.env.DATABASE_URL;
 // DROP TABLE IF EXISTS Users CASCADE;
 // DROP TABLE IF EXISTS Questions CASCADE;
 // DROP TABLE IF EXISTS Answers CASCADE;
-// likesarray VARCHAR(100) ARRAY ELEMENT REFERENCES users(username),
-// dislikesarray VARCHAR(100) ARRAY ELEMENT REFERENCES users(username),
+// likesarray VARCHAR(100) [] ELEMENT REFERENCES users(username),
+// dislikesarray VARCHAR(100) [] ELEMENT REFERENCES users(username),
 const createTable = () => {
     const pool = new Pool({ connectionString });
     pool.connect();
@@ -49,8 +49,8 @@ const createTable = () => {
             username VARCHAR(100) NOT NULL REFERENCES users(username) ON UPDATE CASCADE,
             creator_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             userid INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-            likes INT NOT NULL DEFAULT 0,
-            dislikes INT NOT NULL DEFAULT 0,
+            likes VARCHAR(100) [],
+            dislikes VARCHAR(100) [],
             favorite BOOLEAN DEFAULT false,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
