@@ -144,8 +144,18 @@ export class Questions {
                          })
                         .catch(error => res.status(500).json({ status: 500, error }));
                     }
-                    // if there is a favorite
-                    if (result.length === 1) {
+
+                    // if there is a 
+                    
+                    // if answer was already favorited
+                    else if (result[0].id === Number(answerId)) {
+                        db.any('UPDATE answers SET favorite = $1 WHERE questionId = $2 AND id = $3', [false, questionId, answerId])
+                        .then(() => {
+                            return res.status(200).json({ status: 200, message: 'answer was unfavorited!' });
+                        })
+                        .catch(error => res.status(500).json({ status: 500, message: error }));
+                    }
+                    else {
                         // set old favorite to false
                         db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true])
                         .then(() => {
@@ -161,6 +171,7 @@ export class Questions {
                 })
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
+
             // if route is accessed by answer creator
             if (answer[0].userid === id) {
                 const { newAnswer } = req.body;
@@ -175,7 +186,7 @@ export class Questions {
                 return res.status(400).json({ status: 400, message: 'You do no have access to this' });
             }
         })
-        .catch(error => res.status(500).json({ status: 500, error }));      
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
 
     // delete a question

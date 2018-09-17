@@ -379,12 +379,20 @@ describe('POST/ an answer to your question from second account', () => {
 	});
 });
 
+// favorite an answer
 describe('PUT/ favorite an answer', () => {
 	it('should favorite an answer', done => {
 		request
 			.put('/api/v2/questions/1/answers/1')
 			.send({ token })
 			.expect(200, { status: 200, message: 'answer was favorited!' })
+			.end(done);
+	});
+	it('should unfavorite an answer', done => {
+		request
+			.put('/api/v2/questions/1/answers/1')
+			.send({ token })
+			.expect(200, { status: 200, message: 'answer was unfavorited!' })
 			.end(done);
 	});
 	it('should not favorite an answer if questionId parameter is invalid', done => {
