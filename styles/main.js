@@ -6,31 +6,17 @@ bodyTag.classList += `page-${cName} `;
 
 // add logged-in or logged-out class to body
 const status = localStorage.getItem('token');
-if (status !== null) {
+if (status !== 'null') {
 	bodyTag.classList += 'logged-in';
 	const profileLink = document.getElementsByClassName('profile-link');
 	const username = localStorage.getItem('username');
 	for ( let x = 0; x < profileLink.length; x++) {
 		profileLink[x].setAttribute('href', `/profile?username=${username}`);
 	}
-}
-if (status === null) {
+} else {
 	bodyTag.classList += 'logged-out';
 }
 
-const logout = document.getElementsByClassName('logout');
-const logoutUser = () => {
-	localStorage.clear();
-	if (currentPageTitle === 'Profile') {
-		window.location.href = '/';
-	}
-	else{
-		document.location.reload();
-	}
-};
-for (let x = 0; x < logout.length; x++) {
-	logout[x].addEventListener('click', logoutUser, false);
-}
 /** action buttons config */
 const actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
 const thinClass = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
