@@ -157,6 +157,46 @@ body.logged-in {
       }//.profile
     }//.lsidebar
 
+    .single-question-page {
+      .question-cont{
+        .question-body{
+          margin: 3em 0 0;
+          // background-color: $borderGray;
+        }//.questionBody
+        .action-meta-cont{
+          .meta-cont{
+            width: 50%;
+            .date-posted{
+              span{
+                a{
+                }
+              }//span
+            }//.date-posted
+            .tags{
+              li{
+                a{
+                }//a
+              }//li
+            }//.tags
+          }//meta-cont
+          .action-buttons{
+            display: inline-block;
+          }//.action-buttons
+        }//.action-meta-cont
+      }//.question-cont
+      .comments{
+        ul {
+          li {
+            .comment {
+              padding: 3em 0.5em 1em;
+            } // .comment
+            .action-buttons {
+              display: block;
+            } // .action-buttons
+          } // li
+        } // ul
+      } // .comments
+    } // .single-question-page
   }//.main
   
   .login-info{
@@ -620,7 +660,7 @@ a, input[type="button"], input[type="submit"], i, button{
       li{
         list-style: none;
         display: inline-block;
-        margin: 0.4em 0 0 0.1em;
+        margin: 0.4em 0 0.15em 0.1em;
         a{
           color: white;
           text-decoration: none;
@@ -824,7 +864,7 @@ a, input[type="button"], input[type="submit"], i, button{
       .question-cont{
         .question-body{
           padding: 3em 0.5em 0;
-          margin: 3em 0 0;
+          margin: 3em 0;
           // background-color: $borderGray;
         }//.questionBody
         .action-meta-cont{
@@ -832,7 +872,7 @@ a, input[type="button"], input[type="submit"], i, button{
             text-align: right;
             padding: 6em 0 0;
             display: inline-block;
-            width: 50%;
+            width: 100%;
             .date-posted{
               display: block;
               color: $textGray;
@@ -856,7 +896,7 @@ a, input[type="button"], input[type="submit"], i, button{
             }//.tags
           }//meta-cont
           .action-buttons{
-            display: inline-block;
+            display: none;
             width: 50%;
             text-align: left;
           }//.action-buttons
@@ -891,6 +931,7 @@ a, input[type="button"], input[type="submit"], i, button{
             }// .likes-dislikes-cont
             .action-buttons {
               padding: 1em 0 0.3em;
+              display: none;
               .com-meta {
                 font-size: 0.65em;
                 font-style: italic;
@@ -909,7 +950,7 @@ a, input[type="button"], input[type="submit"], i, button{
             }            
           } // li
           p{
-            padding: 3em 0.5em 1em;
+            padding: 3em 0.5em;
           }
           .comment{
             display: flex;
@@ -1354,6 +1395,7 @@ footer{
       }
     }//.main
   }//body.page-profile
+
   body.page-login-signup{
     .main{
       .lsidebar{
@@ -1364,6 +1406,49 @@ footer{
     }//.main
   }//.page-login-signup
 
+  body.logged-in {
+    .main {
+      .single-question-page {
+        .question-cont{
+          .question-body{
+            // background-color: $borderGray;
+          }//.questionBody
+          .action-meta-cont{
+            .meta-cont{
+              width: 100%;
+              .date-posted{
+                span{
+                  a{
+                  }
+                }//span
+              }//.date-posted
+              .tags{
+                li{
+                  a{
+                  }//a
+                }//li
+              }//.tags
+            }//meta-cont
+            .action-buttons{
+              display: inline-block;
+            }//.action-buttons
+          }//.action-meta-cont
+        }//.question-cont
+        .comments{
+          ul {
+            li {
+              .comment {
+                padding: 3em 0.5em 1em;
+              } // .comment
+              .action-buttons {
+                display: block;
+              } // .action-buttons
+            } // li
+          } // ul
+        } // .comments
+      } // .single-question-page
+    }// .main
+  } // body.logged-in
   header{
     .welcome{
       font-size: 1em;
@@ -1439,7 +1524,6 @@ footer{
           }//.question-body
           .action-meta-cont{
             .action-buttons{
-              display: block;
               width: 100%;
               text-align: center;
               padding: 4em 0 1em;

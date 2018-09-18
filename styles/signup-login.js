@@ -73,3 +73,31 @@ if (body.classList.contains('page-login-signup')) {
   };
   loginForm.addEventListener('submit', loginUser, false);
 }
+
+const logout = document.getElementsByClassName('logout');
+const logoutUser = () => {
+  const token = localStorage.getItem('token');
+  fetch('http://localhost:3000/api/v2/auth/logout', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token })
+  })
+  .then(res => res.json())
+  .then(() => {
+    localStorage.clear();
+    if (currentPageTitle === 'Profile') {
+      window.location.href = '/';
+    }
+    else{
+      document.location.reload();
+    }
+  })
+  .catch(error => error);
+};
+
+for (let x = 0; x < logout.length; x++) {
+	logout[x].addEventListener('click', logoutUser, false);
+}

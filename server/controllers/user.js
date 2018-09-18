@@ -74,21 +74,25 @@ export class User {
 						const hash = bcrypt.hashSync(password, 10);
 						return db.any('INSERT INTO users (fullname, occupation, username, email, password) VALUES ($1, $2, $3, $4, $5)', [fullName, occupation, username, email, hash])
 							.then(() => {
-								db.any('SELECT * FROM users WHERE email = $1', [email])
-								.then(user => {
-									const profile = user[0];
-									const token = jwt.sign({
-										id : user[0].id,
-										username,
-										email,
-										fullName
-									},process.env.JWT_KEY);	
-									res.header('x-access-token', token);
-									return res.status(201).json({ status: 201, message: 'user created', token, profile })
+								db.any('UPDATE users SET logged_in =  $1 WHERE email = $2', [true, email])
+								.then(() => {
+									db.any('SELECT * FROM users WHERE email = $1', [email])
+									.then(user => {
+										const profile = user[0];
+										const token = jwt.sign({
+											id : user[0].id,
+											username,
+											email,
+											fullName
+										},process.env.JWT_KEY);	
+										res.header('x-access-token', token);
+										return res.status(201).json({ status: 201, message: 'user created', token, profile })
+									})
+									.catch(error => {
+										return res.status(500).json({ status: 500, error });
+									});
 								})
-								.catch(error => {
-									return res.status(500).json({ status: 500, error });
-								});
+								.catch(error => res.status(500).json({ status: 500, error}));
 							})
 							.catch(error => res.status(500).json({ status: 500, error}));
 				}
@@ -140,29 +144,33 @@ export class User {
 				if (user.length < 1) {
 					return res.status(400).json({ status: 400, message: 'invalid user!'});
 				}
-				bcrypt.compare(password, user[0].password, (err, result) => {
-					if (err) {
-						return res.status(400).json({ status: 400, message: 'invalid user!'});
-					}
-					if (result) {
-						const token = jwt.sign({
-							id : user[0].id,
-							username: user[0].username,
-							fullName: user[0].fullname,
-							email: user[0].email
-						},process.env.JWT_KEY);
-						res.header('x-access-token', token);
-						return res.status(200).json({
-							status: 200,
-							message: 'successfully logged in!',
-							profile,
-							token });
-					}
-					return res.status(401).json({ 
-						status: 401,
-						message: 'email and password do not match'
+				db.any('UPDATE users SET logged_in = $1 WHERE email = $2', [true, email])
+				.then(() => {
+					bcrypt.compare(password, user[0].password, (err, result) => {
+						if (err) {
+							return res.status(400).json({ status: 400, message: 'invalid user!'});
+						}
+						if (result) {
+							const token = jwt.sign({
+								id : user[0].id,
+								username: user[0].username,
+								fullName: user[0].fullname,
+								email: user[0].email
+							},process.env.JWT_KEY);
+							res.header('x-access-token', token);
+							return res.status(200).json({
+								status: 200,
+								message: 'successfully logged in!',
+								profile,
+								token });
+						}
+						return res.status(401).json({ 
+							status: 401,
+							message: 'email and password do not match'
+						});
 					});
-				});
+				})
+				.catch(error => res.status(500).json({ status: 500, error }));
 			})
 			.catch(
 				error => res.status(500).json({ status: 500, error })
@@ -170,13 +178,13 @@ export class User {
 		}		
 	}
 
-	// logout (req,res) {
-	// 	const { id } = req.userData;
-	// 	const { userId } = req.params;
-	// 	if ( id === userId) {
-	// 		return res.header('x-access-token', '');
-	// 	}
-	// 	return res.status(400).json({ message: 'access denied!' });
-	// }
+	logout (req,res) {
+		const { id } = req.userData;
+		db.any('UPDATE users SET logged_in = $1 WHERE id = $2', [false, id])
+		.then(() => {
+			res.status(200).json({ status: 200, message: 'user logged out!' });
+		})
+		.catch(error => res.status(500).json({ status: 500, error }));
+	}
 	
 };
