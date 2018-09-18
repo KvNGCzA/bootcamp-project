@@ -27,7 +27,8 @@ const createTable = () => {
             occupation TEXT,
             answered_count INT NOT NULL DEFAULT 0,
             asked_count INT NOT NULL DEFAULT 0,
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            logged_in BOOLEAN DEFAULT false
         );
         CREATE TABLE IF NOT EXISTS questions(
             id SERIAL PRIMARY KEY,
