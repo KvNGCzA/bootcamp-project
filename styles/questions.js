@@ -1,19 +1,3 @@
-import {
-	formatDate,
-	countClassColours,
-	addTags,
-	colorComments,
-	editButton,
-    actionButtons,
-    deleteQuestion,
-    deleteButtonFunction,
-	renderQuestionMeta_singleQuestion,
-	renderQuestionBody_singleQuestion,
-	renderComments_singleQuestion,
-	renderQuestionTemplates,
-    renderUsersQuestions,    
-} from '../public/js/functions';
-
 let formNum = 0;
 const allQuestionForms = document.getElementsByClassName('postquestionform');
 if (allQuestionForms.length > 1) {
