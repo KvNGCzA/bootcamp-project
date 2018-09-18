@@ -1,5 +1,3 @@
-import { dashTitle } from '../public/js/functions';
-
 /** add page-title as a class to the body tag */
 const bodyTag = document.getElementsByTagName('body')[0];
 const currentPageTitle = document.title;
