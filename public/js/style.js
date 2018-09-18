@@ -73,10 +73,4 @@ $(document).ready(function () {
             $mobIcon.attr('class', 'fas fa-bars');
         }
     });
-
-    /** single question template edit question dropdown settings */
-    var $editOption = $('.edit-option');
-    $editOption.click(function () {
-        $(this).next().slideToggle();
-    });
 });

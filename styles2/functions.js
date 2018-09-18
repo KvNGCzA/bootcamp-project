@@ -39,6 +39,7 @@ export const deleteQuestion = (id) => {
 		.catch(error => error);
 }; // delete a question
 
+// deleteButtonFunction
 export const deleteButtonFunction = (idArr) => {
 	const deleteButton = document.getElementsByClassName('deleteButton');
 	for (let x = 0; x < deleteButton.length; x++) {
@@ -46,9 +47,24 @@ export const deleteButtonFunction = (idArr) => {
 			deleteQuestion(idArr[x]);
 		}, false);
 	}
-}; // deleteButton
+}; // deleteButtonFunction
 
+export const editButton = () => {
+  const editOption = document.getElementsByClassName('edit-option');
+    for ( let x = 0; x < editOption.length; x ++) {
+        editOption[x].addEventListener('click', () => {
+          let nextSibling = editOption[x].nextElementSibling;
+            if (nextSibling.style.display === 'block') {
+                nextSibling.style.display = 'none';
+            }
+            else{
+                nextSibling.style.display = 'block';
+            }
+        }, false);
+    }
+};
 
+// countClassColours
 export const countClassColours = () => {
   /** colour for question meta - views, likes and answered if count is greater than 0 */
   const homeAnswered = document.getElementsByClassName('answer-count-dis');
@@ -67,6 +83,7 @@ export const countClassColours = () => {
   }// for y
 }; // countClassColours
 
+// addTags
 export const addTags = tagsArr => {
   // add tags to questions
   const tag = document.getElementsByClassName('tags');
@@ -91,6 +108,7 @@ export const colorComments = () => {
   }
 };
 
+// behaviour of like, dislike, flag, and favorite buttons
 export const actionButtons = () => {
   /** action buttons config */
   const actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
@@ -111,6 +129,7 @@ export const actionButtons = () => {
   }
 };
 
+// render question metadata single question page
 export const renderQuestionMeta_singleQuestion = (title, answersCount, likes) => {            
   document.getElementsByClassName('question-title')[0].textContent = title;
   document.getElementsByClassName('q-meta')[0].innerHTML = 
@@ -130,9 +149,9 @@ export const renderQuestionMeta_singleQuestion = (title, answersCount, likes) =>
   </ul>`;
 };
 
+// render question single question page
 export const renderQuestionBody_singleQuestion = (content, username, createdAt) => {
-  document.getElementsByClassName('question-body')[0].textContent = content;
-  document.getElementsByClassName('action-meta-cont')[0].innerHTML = 
+  document.getElementsByClassName('question-body')[0].textContent = content;  document.getElementsByClassName('action-meta-cont')[0].innerHTML = 
   `<div class="action-buttons"></div><!--action buttons--><!--
   --><div class="meta-cont">
   <span class="date-posted">
@@ -157,19 +176,32 @@ export const renderQuestionBody_singleQuestion = (content, username, createdAt) 
   document.getElementsByClassName('date-posted')[0].innerHTML = `<span>${formatDate(createdAt)}</span> by <span><a href="/profile?username=${username}">@${username}</a></span>`;
 };
 
-
-export const renderComments_singleQuestion = (answers, username) => {
+// render comments on single question page
+export const renderComments_singleQuestion = (answers, uname) => {
   const commentsList = document.getElementById('comment-list');
   if (answers.length > 0) {
       const favoriteAnswer = answers.filter(answer => answer.favorite === true);
       const otherAnswers = answers.filter(answer => answer.favorite !== true);
       const sortedAnswer = [...favoriteAnswer, ...otherAnswers];
       for (let x in sortedAnswer) {
-          const { answer, id } = sortedAnswer[x];
+          const { answer, id, username, created_at, likes, dislikes } = sortedAnswer[x];
+          let likesCount;
+          let dislikesCount;
+          if (likes === null || likes.length < 1) {
+            likesCount = 0;
+          }else {
+            likesCount = likes.length
+          }
+          if (dislikes === null || dislikes.length < 1) {
+            dislikesCount = 0;
+          }else {
+            dislikesCount = dislikes.length
+          }
           commentsList.innerHTML += `
         <li class="comment-cont">
           <p class="comment">${answer}</p>
           <p class="action-buttons">
+          <span class="com-meta">answer posted by <a href="/profile?username=${username}">@${username}</a> on <a href="#">${formatDate(created_at)}</a></span>
               <span class="like-comment action like-btn" title="Like">
               <i class="far fa-thumbs-up likebutton"></i>
               </span><!--
@@ -180,8 +212,9 @@ export const renderComments_singleQuestion = (answers, username) => {
               <i class="far fa-flag reportbutton"></i>
               </span><!--
           --></p>
+          <div class="likes-dislikes-cont"><span class="answer-likes-count">Likes: ${likesCount}</span><span class="answer-dislikes-count">Dislikes: ${dislikesCount}</span></div>
         </li>`;
-        if (localStorage.getItem('username') === username) {
+        if (localStorage.getItem('username') === uname) {
           document.getElementsByClassName('action-buttons')[Number(x) + 1].innerHTML += 
           `<span class="favorite-comment action favorite-btn" title="Mark as favorite" onclick="favoriteAnAnswer(${id})">
               <i class="far fa-star favoritebutton"></i>
@@ -206,6 +239,7 @@ export const renderComments_singleQuestion = (answers, username) => {
   }
 };
 
+// render question cards
 export const renderQuestionTemplates = (questions) => {
   let tagsArr = [];
   for (let x = questions.length - 1; x >= 0; x--) {
@@ -239,7 +273,7 @@ export const renderQuestionTemplates = (questions) => {
           <ul class="tags">                    
           </ul>
           <span class="posted-on">Posted on <a href="#">${newDate}
-              </a> by <a href="/profile?username=${username}">${username}</a>
+              </a> by <a href="/profile?username=${username}">@${username}</a>
           </span>
           </div>
       </div><!-- single-question -->`;
@@ -247,9 +281,11 @@ export const renderQuestionTemplates = (questions) => {
   addTags(tagsArr);
 };
 
+// render a users question cards
 export const renderUsersQuestions = (questions, uname) => {
   let tagsArr = [];
   let idArr = [];
+  
   for (let x = questions.length - 1; x >= 0; x--) {
       const profilePage = document.getElementsByClassName('profile-page-cont')[0];
       const { answers_count, likes, title, created_at, username, tags, id } = questions[x];
@@ -280,7 +316,7 @@ export const renderUsersQuestions = (questions, uname) => {
       <p class="question-title"><a href="/question?id=${id}">${title}</a></p>
       <ul class="tags">
       </ul>
-          <span class="posted-on">Posted on <a href="#">${newDate}</a> by ${username} </span>
+          <span class="posted-on">Posted on <a href="#">${newDate}</a> by @${username} </span>
       </div>
 
    </div><!-- single-question -->`;
@@ -288,12 +324,13 @@ export const renderUsersQuestions = (questions, uname) => {
   if (uname === localStorage.getItem('username')) {
       const edit = document.getElementsByClassName('edit-option-container');
       for(let x = 0; x < edit.length; x++) {
-          edit[x].innerHTML = `<span class="edit-option" id=""><i class="fas fa-wrench"></i></span>
+          edit[x].innerHTML = `<span class="edit-option" ><i class="fas fa-wrench"></i></span>
           <ul class="drop-settings">
           <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>
           <li><i class="fas fa-wrench"></i> Edit</li>
           </ul>`;
-      }
+      }      
+      editButton();
       deleteButtonFunction(idArr);
   }
   addTags(tagsArr);
