@@ -193,6 +193,9 @@ export class Questions {
     deleteQuestion (req, res) {
         const { questionId } = req.params;
         const { id } = req.userData;
+        if (/[0-9]/g.test(questionId) === false) {
+            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
+        }
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
         .then(question => {
             if (question.length < 1) {
@@ -222,6 +225,9 @@ export class Questions {
     likeAnswer (req, res) {
         const { answerId } = req.params;
         const { username } = req.userData
+        if (/[0-9]/g.test(answerId) === false) {
+            return res.status(400).json({ status: 400, message: 'answerId must be an integer or less than nine characters!' });
+        }
         db.any('SELECT likes FROM answers WHERE id = $1', [answerId])
         .then(likes => {
             const likers = likes[0].likes;
@@ -233,10 +239,10 @@ export class Questions {
                     if (dislikers !== null && dislikers.indexOf(username) !== -1) {
                         const newDislikers = dislikers.filter(disliker => disliker !== username);
                         db.any('UPDATE answers SET dislikes = $1 WHERE id = $2', [newDislikers, answerId])
-                        .then(() => res.status(200).json({ message: 'answer liked!' }))
+                        .then(() => res.status(200).json({ status: 200, message: 'answer liked!' }))
                         .catch(error => res.status(500).json({ error }));
                     }else{
-                        return res.status(200).json({ message: 'answer liked!' });
+                        return res.status(200).json({ status: 200, message: 'answer liked!' });
                     }
                 })
                 .catch(error => res.status(500).json({ error }));
@@ -256,7 +262,7 @@ export class Questions {
             else{
                 const editLikers = likers.filter(liker => liker !== username);
                 db.any('UPDATE answers SET likes = $1 WHERE id = $2', [editLikers, answerId])
-                .then(() => res.status(200).json({ message: 'answer unliked!' }))
+                .then(() => res.status(200).json({ status: 200, message: 'answer unliked!' }))
                 .catch(error => res.status(500).json({ error }));
             }
         })
@@ -267,6 +273,9 @@ export class Questions {
     dislikeAnswer (req, res) {
         const { answerId } = req.params;
         const { username } = req.userData
+        if (/[0-9]/g.test(answerId) === false) {
+            return res.status(400).json({ status: 400, message: 'answerId must be an integer or less than nine characters!' });
+        }
         db.any('SELECT dislikes FROM answers WHERE id = $1', [answerId])
         .then(dislikes => {
             const dislikers = dislikes[0].dislikes;
@@ -278,10 +287,10 @@ export class Questions {
                     if (likers !== null && likers.indexOf(username) !== -1) {
                         const newLikers = likers.filter(liker => liker !== username);
                         db.any('UPDATE answers SET likes = $1 WHERE id = $2', [newLikers, answerId])
-                        .then(() => res.status(200).json({ message: 'answer disliked!' }))
+                        .then(() => res.status(200).json({ status: 200, message: 'answer disliked!' }))
                         .catch(error => res.status(500).json({ error }));
                     }else{
-                        return res.status(200).json({ message: 'answer disliked!' });
+                        return res.status(200).json({ status: 200, message: 'answer disliked!' });
                     }
                 })
                 .catch(error => res.status(500).json({ error }));
@@ -301,7 +310,7 @@ export class Questions {
             else{
                 const editDislikers = dislikers.filter(disliker => disliker !== username);
                 db.any('UPDATE answers SET dislikes = $1 WHERE id = $2', [editDislikers, answerId])
-                .then(() => res.status(200).json({ message: 'answer undisliked!' }))
+                .then(() => res.status(200).json({ status: 200, message: 'answer undisliked!' }))
                 .catch(error => res.status(500).json({ error }));
             }
         })
