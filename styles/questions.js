@@ -3,6 +3,7 @@ import {
 	countClassColours,
 	addTags,
 	colorComments,
+	editButton,
     actionButtons,
     deleteQuestion,
     deleteButtonFunction,
