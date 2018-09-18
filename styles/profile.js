@@ -1,5 +1,3 @@
-import { formatDate } from "../public/js/functions";
-
 const fetchUserInfo = () => {    
     const uname = window.location.search.split('=')[1];
     fetch(`http://localhost:3000/api/v2/auth/user/${uname}`)
