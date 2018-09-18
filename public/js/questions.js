@@ -221,6 +221,7 @@ var deleteQuestion = exports.deleteQuestion = function deleteQuestion(id) {
   });
 }; // delete a question
 
+// deleteButtonFunction
 var deleteButtonFunction = exports.deleteButtonFunction = function deleteButtonFunction(idArr) {
   var deleteButton = document.getElementsByClassName('deleteButton');
 
@@ -233,9 +234,28 @@ var deleteButtonFunction = exports.deleteButtonFunction = function deleteButtonF
   for (var x = 0; x < deleteButton.length; x++) {
     _loop(x);
   }
-}; // deleteButton
+}; // deleteButtonFunction
 
+var editButton = exports.editButton = function editButton() {
+  var editOption = document.getElementsByClassName('edit-option');
 
+  var _loop2 = function _loop2(x) {
+    editOption[x].addEventListener('click', function () {
+      var nextSibling = editOption[x].nextElementSibling;
+      if (nextSibling.style.display === 'block') {
+        nextSibling.style.display = 'none';
+      } else {
+        nextSibling.style.display = 'block';
+      }
+    }, false);
+  };
+
+  for (var x = 0; x < editOption.length; x++) {
+    _loop2(x);
+  }
+};
+
+// countClassColours
 var countClassColours = exports.countClassColours = function countClassColours() {
   /** colour for question meta - views, likes and answered if count is greater than 0 */
   var homeAnswered = document.getElementsByClassName('answer-count-dis');
@@ -254,6 +274,7 @@ var countClassColours = exports.countClassColours = function countClassColours()
   } // for y
 }; // countClassColours
 
+// addTags
 var addTags = exports.addTags = function addTags(tagsArr) {
   // add tags to questions
   var tag = document.getElementsByClassName('tags');
@@ -278,13 +299,14 @@ var colorComments = exports.colorComments = function colorComments() {
   }
 };
 
+// behaviour of like, dislike, flag, and favorite buttons
 var actionButtons = exports.actionButtons = function actionButtons() {
   /** action buttons config */
   var actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
   var thinClass = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
   var thickClass = ['fas fa-thumbs-up likebutton', 'fas fa-thumbs-down dislikebutton', 'fas fa-flag reportbutton', 'fas fa-star favoritebutton'];
 
-  var _loop2 = function _loop2(x) {
+  var _loop3 = function _loop3(x) {
     var current = document.getElementsByClassName(actionBtnArr[x]);
     for (var y = 0; y < current.length; y++) {
       current[y].addEventListener('click', function () {
@@ -299,18 +321,19 @@ var actionButtons = exports.actionButtons = function actionButtons() {
   };
 
   for (var x in actionBtnArr) {
-    _loop2(x);
+    _loop3(x);
   }
 };
 
+// render question metadata single question page
 var renderQuestionMeta_singleQuestion = exports.renderQuestionMeta_singleQuestion = function renderQuestionMeta_singleQuestion(title, answersCount, likes) {
   document.getElementsByClassName('question-title')[0].textContent = title;
   document.getElementsByClassName('q-meta')[0].innerHTML = '<ul>\n  <li class="answer-count">\n      <a href="#">Answers</a>\n      <a href="#" class="answer-count-dis">' + String(answersCount) + '</a>\n  </li><!--\n  --><li class="likes-count">\n      <a href="#">Likes</a>\n      <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n  </li><!--\n  --><li class="views-count">\n      <a href="#">Views</a>\n      <a href="#" class="views-count-dis">0</a>\n  </li>\n  </ul>';
 };
 
+// render question single question page
 var renderQuestionBody_singleQuestion = exports.renderQuestionBody_singleQuestion = function renderQuestionBody_singleQuestion(content, username, createdAt) {
-  document.getElementsByClassName('question-body')[0].textContent = content;
-  document.getElementsByClassName('action-meta-cont')[0].innerHTML = '<div class="action-buttons"></div><!--action buttons--><!--\n  --><div class="meta-cont">\n  <span class="date-posted">\n  </span>\n  <ul class="tags">\n  </ul>\n  </div><!--meta cont -->';
+  document.getElementsByClassName('question-body')[0].textContent = content;document.getElementsByClassName('action-meta-cont')[0].innerHTML = '<div class="action-buttons"></div><!--action buttons--><!--\n  --><div class="meta-cont">\n  <span class="date-posted">\n  </span>\n  <ul class="tags">\n  </ul>\n  </div><!--meta cont -->';
 
   if (localStorage.getItem('username') !== username) {
     document.getElementsByClassName('action-buttons')[0].innerHTML = '\n      <span class="like-comment action like-btn" title="Like">\n      <i class="far fa-thumbs-up likebutton"></i>\n      </span><!--\n      --><span class="dislike-comment action dislike-btn" title="Dislike">\n      <i class="far fa-thumbs-down dislikebutton"></i>\n      </span><!--\n      --><span class="report action report-btn" title="Mark as Inappropriate">\n      <i class="far fa-flag reportbutton"></i>\n      </span>';
@@ -319,7 +342,8 @@ var renderQuestionBody_singleQuestion = exports.renderQuestionBody_singleQuestio
   document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String(formatDate(createdAt)) + '</span> by <span><a href="/profile?username=' + String(username) + '">@' + String(username) + '</a></span>';
 };
 
-var renderComments_singleQuestion = exports.renderComments_singleQuestion = function renderComments_singleQuestion(answers, username) {
+// render comments on single question page
+var renderComments_singleQuestion = exports.renderComments_singleQuestion = function renderComments_singleQuestion(answers, uname) {
   var commentsList = document.getElementById('comment-list');
   if (answers.length > 0) {
     var favoriteAnswer = answers.filter(function (answer) {
@@ -332,10 +356,26 @@ var renderComments_singleQuestion = exports.renderComments_singleQuestion = func
     for (var x in sortedAnswer) {
       var _sortedAnswer$x = sortedAnswer[x],
           answer = _sortedAnswer$x.answer,
-          id = _sortedAnswer$x.id;
+          id = _sortedAnswer$x.id,
+          username = _sortedAnswer$x.username,
+          created_at = _sortedAnswer$x.created_at,
+          likes = _sortedAnswer$x.likes,
+          dislikes = _sortedAnswer$x.dislikes;
 
-      commentsList.innerHTML += '\n        <li class="comment-cont">\n          <p class="comment">' + String(answer) + '</p>\n          <p class="action-buttons">\n              <span class="like-comment action like-btn" title="Like">\n              <i class="far fa-thumbs-up likebutton"></i>\n              </span><!--\n              --><span class="dislike-comment action dislike-btn" title="Dislike">\n              <i class="far fa-thumbs-down dislikebutton"></i>\n              </span><!--\n              --><span class="report action report-btn" title="Mark as Inappropriate">\n              <i class="far fa-flag reportbutton"></i>\n              </span><!--\n          --></p>\n        </li>';
-      if (localStorage.getItem('username') === username) {
+      var likesCount = void 0;
+      var dislikesCount = void 0;
+      if (likes === null || likes.length < 1) {
+        likesCount = 0;
+      } else {
+        likesCount = likes.length;
+      }
+      if (dislikes === null || dislikes.length < 1) {
+        dislikesCount = 0;
+      } else {
+        dislikesCount = dislikes.length;
+      }
+      commentsList.innerHTML += '\n        <li class="comment-cont">\n          <p class="comment">' + String(answer) + '</p>\n          <p class="action-buttons">\n          <span class="com-meta">answer posted by <a href="/profile?username=' + String(username) + '">@' + String(username) + '</a> on <a href="#">' + String(formatDate(created_at)) + '</a></span>\n              <span class="like-comment action like-btn" title="Like">\n              <i class="far fa-thumbs-up likebutton"></i>\n              </span><!--\n              --><span class="dislike-comment action dislike-btn" title="Dislike">\n              <i class="far fa-thumbs-down dislikebutton"></i>\n              </span><!--\n              --><span class="report action report-btn" title="Mark as Inappropriate">\n              <i class="far fa-flag reportbutton"></i>\n              </span><!--\n          --></p>\n          <div class="likes-dislikes-cont"><span class="answer-likes-count">Likes: ' + String(likesCount) + '</span><span class="answer-dislikes-count">Dislikes: ' + String(dislikesCount) + '</span></div>\n        </li>';
+      if (localStorage.getItem('username') === uname) {
         document.getElementsByClassName('action-buttons')[Number(x) + 1].innerHTML += '<span class="favorite-comment action favorite-btn" title="Mark as favorite" onclick="favoriteAnAnswer(' + String(id) + ')">\n              <i class="far fa-star favoritebutton"></i>\n          </span>';
       }
     }
@@ -357,6 +397,7 @@ var renderComments_singleQuestion = exports.renderComments_singleQuestion = func
   }
 };
 
+// render question cards
 var renderQuestionTemplates = exports.renderQuestionTemplates = function renderQuestionTemplates(questions) {
   var tagsArr = [];
   for (var x = questions.length - 1; x >= 0; x--) {
@@ -372,14 +413,16 @@ var renderQuestionTemplates = exports.renderQuestionTemplates = function renderQ
 
     var newDate = formatDate(created_at);
     tagsArr.push([tags.split(',')]);
-    tab.innerHTML += '<div class="single-question">\n          <div class="q-meta">\n          <ul>\n              <li class="answer-count">\n              <a href="#">Answers</a>\n              <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n              </li><!--\n              --><li class="likes-count">\n              <a href="#">Likes</a>\n              <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n              </li><!--\n              --><li class="views-count">\n              <a href="#">Views</a>\n              <a href="#" class="views-count-dis">0</a>\n              </li>\n          </ul>\n          </div>\n\n          <div class="q-details">\n          <div class="edit-option-container">\n          </div>\n          <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n          <ul class="tags">                    \n          </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '\n              </a> by <a href="/profile?username=' + String(username) + '">' + String(username) + '</a>\n          </span>\n          </div>\n      </div><!-- single-question -->';
+    tab.innerHTML += '<div class="single-question">\n          <div class="q-meta">\n          <ul>\n              <li class="answer-count">\n              <a href="#">Answers</a>\n              <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n              </li><!--\n              --><li class="likes-count">\n              <a href="#">Likes</a>\n              <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n              </li><!--\n              --><li class="views-count">\n              <a href="#">Views</a>\n              <a href="#" class="views-count-dis">0</a>\n              </li>\n          </ul>\n          </div>\n\n          <div class="q-details">\n          <div class="edit-option-container">\n          </div>\n          <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n          <ul class="tags">                    \n          </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '\n              </a> by <a href="/profile?username=' + String(username) + '">@' + String(username) + '</a>\n          </span>\n          </div>\n      </div><!-- single-question -->';
   }
   addTags(tagsArr);
 };
 
+// render a users question cards
 var renderUsersQuestions = exports.renderUsersQuestions = function renderUsersQuestions(questions, uname) {
   var tagsArr = [];
   var idArr = [];
+
   for (var x = questions.length - 1; x >= 0; x--) {
     var profilePage = document.getElementsByClassName('profile-page-cont')[0];
     var _questions$x2 = questions[x],
@@ -394,13 +437,14 @@ var renderUsersQuestions = exports.renderUsersQuestions = function renderUsersQu
     tagsArr.push([tags.split(',')]);
     idArr.push(id);
     var newDate = formatDate(created_at);
-    profilePage.innerHTML += '<div class="single-question">\n      <div class="q-meta">\n      <ul>\n          <li class="answer-count">\n          <a href="#">Answers</a>\n          <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n          <a href="#">Likes</a>\n          <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n          </li><!--\n          --><li class="views-count">\n          <a href="#">Views</a>\n          <a href="#" class="views-count-dis">0</a>\n          </li>\n      </ul>\n      </div>\n\n      <div class="q-details">\n      <div class="edit-option-container">\n      </div>\n      <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n      <ul class="tags">\n      </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by ' + String(username) + ' </span>\n      </div>\n\n   </div><!-- single-question -->';
+    profilePage.innerHTML += '<div class="single-question">\n      <div class="q-meta">\n      <ul>\n          <li class="answer-count">\n          <a href="#">Answers</a>\n          <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n          <a href="#">Likes</a>\n          <a href="#" class="likes-count-dis">' + String(likes) + '</a>\n          </li><!--\n          --><li class="views-count">\n          <a href="#">Views</a>\n          <a href="#" class="views-count-dis">0</a>\n          </li>\n      </ul>\n      </div>\n\n      <div class="q-details">\n      <div class="edit-option-container">\n      </div>\n      <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n      <ul class="tags">\n      </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by @' + String(username) + ' </span>\n      </div>\n\n   </div><!-- single-question -->';
   }
   if (uname === localStorage.getItem('username')) {
     var edit = document.getElementsByClassName('edit-option-container');
     for (var _x = 0; _x < edit.length; _x++) {
-      edit[_x].innerHTML = '<span class="edit-option" id=""><i class="fas fa-wrench"></i></span>\n          <ul class="drop-settings">\n          <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n          <li><i class="fas fa-wrench"></i> Edit</li>\n          </ul>';
+      edit[_x].innerHTML = '<span class="edit-option" ><i class="fas fa-wrench"></i></span>\n          <ul class="drop-settings">\n          <li class="deleteButton"><i class="far fa-trash-alt" title="Delete this question"></i> Delete</li>\n          <li><i class="fas fa-wrench"></i> Edit</li>\n          </ul>';
     }
+    editButton();
     deleteButtonFunction(idArr);
   }
   addTags(tagsArr);
