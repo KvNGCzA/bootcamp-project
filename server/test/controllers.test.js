@@ -564,7 +564,7 @@ describe('DELETE/ api/v2/questions/:questionId', () => {
 describe('POST/ api/v2/auth/logout', () => {
 	it('should log a user out', done => {
 		request
-		.post('api/v2/auth/logout')
+		.post('/api/v2/auth/logout')
 		.send({ token })
 		.expect(200, { status: 200, message: 'user logged out!' })
 		.end(done);
