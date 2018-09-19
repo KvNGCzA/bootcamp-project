@@ -566,7 +566,7 @@ describe('PUT/ api/v2/auth/logout', () => {
 		request
 		.put('api/v2/auth/logout')
 		.send({ token })
-		.extect(200, { status: 200, message: 'user logged out!' })
+		.expect(200, { status: 200, message: 'user logged out!' })
 		.end(done);
 	});
 });
