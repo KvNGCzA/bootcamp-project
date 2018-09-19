@@ -561,7 +561,7 @@ describe('DELETE/ api/v2/questions/:questionId', () => {
     });    
 });
 
-describe('PUT/ api/v2/auth/logout', () => {
+describe('POST/ api/v2/auth/logout', () => {
 	it('should log a user out', done => {
 		request
 		.post('api/v2/auth/logout')
