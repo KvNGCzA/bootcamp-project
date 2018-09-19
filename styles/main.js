@@ -10,9 +10,11 @@ if (status !== 'null') {
 	bodyTag.classList += 'logged-in';
 	const profileLink = document.getElementsByClassName('profile-link');
 	const username = localStorage.getItem('username');
+	const profileimage = localStorage.getItem('profileimage');
 	for ( let x = 0; x < profileLink.length; x++) {
 		profileLink[x].setAttribute('href', `/profile?username=${username}`);
 	}
+	document.getElementsByClassName('profile-image')[0].style.backgroundImage = `url('images/${profileimage}')`;
 } else {
 	bodyTag.classList += 'logged-out';
 }
