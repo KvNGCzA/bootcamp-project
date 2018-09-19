@@ -38,6 +38,8 @@ const renderQuestionBody_singleQuestion = (content, username, createdAt) => {
       --><span class="report action report-btn" title="Mark as Inappropriate">
       <i class="far fa-flag reportbutton"></i>
       </span>`;
+	}else {
+		document.getElementsByClassName('meta-cont')[0].style.width = '100%';
 	}
 
 	document.getElementsByClassName('date-posted')[0].innerHTML = `<span>${formatDate(createdAt)}</span> by <span><a href="/profile?username=${username}">@${username}</a></span>`;
@@ -68,7 +70,6 @@ const renderComments_singleQuestion = (answers, uname) => {
 			<li class="comment-cont">
 			<p class="comment">${answer}</p>
 			<p class="action-buttons">
-			<span class="com-meta">answer posted by <a href="/profile?username=${username}">@${username}</a> on <a href="#">${formatDate(created_at)}</a></span>
 				<span class="like-comment action like-btn" title="Like" onclick="likeAnswer(${id})">
 				<i class="far fa-thumbs-up likebutton"></i>
 				</span><!--
@@ -80,6 +81,7 @@ const renderComments_singleQuestion = (answers, uname) => {
 				</span><!--
 			--></p>
 			<div class="likes-dislikes-cont"><span class="answer-likes-count">upvotes: ${likesCount}</span><span class="answer-dislikes-count">downvotes: ${dislikesCount}</span></div>
+			<span class="com-meta">answer posted by <a href="/profile?username=${username}">@${username}</a> on <a href="#">${formatDate(created_at)}</a></span>
 			</li>`;
 
 			// render already liked buttons
