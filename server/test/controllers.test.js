@@ -7,7 +7,7 @@ let token;
 let token2;
 let token3;
 
-describe('POST/ test create new user endpoint', () => {
+describe('POST/ api/v2/auth/signup', () => {
 	// create your user account
 	it('should create a (your) first user account', done => {
 		request
@@ -134,7 +134,7 @@ describe('POST/ test create new user endpoint', () => {
 	})
 });
 
-describe('POST/ test login', () => {
+describe('POST/ api/v2/auth/login', () => {
 	before(done => {
 		request
 			.post('/api/v2/auth/login')
@@ -239,7 +239,7 @@ describe('POST/ test login', () => {
 });
 
 // get all users
-describe('GET/ fecth all users', () => {
+describe('GET/ api/v2/auth/users', () => {
 	it('should return a list of all users', done => {
 		request
 		.get('/api/v2/auth/users')
@@ -250,7 +250,7 @@ describe('GET/ fecth all users', () => {
 });
 
 // fetch user by username
-describe('GET/ a user by their username', () => {
+describe('GET/ api/v2/auth/user/:username', () => {
 	it('should fetch a user by their username', done => {
 		request
 		.get('/api/v2/auth/user/christest')
@@ -268,7 +268,7 @@ describe('GET/ a user by their username', () => {
 });
 
 // post a question
-describe('POST/ post a question', () => {
+describe('POST/ api/v2/questions', () => {
 	it('should post a question', done => {
 		request
 			.post('/api/v2/questions')
@@ -317,7 +317,7 @@ describe('POST/ post a question', () => {
 });
 
 // post answer
-describe('POST/ an answer to your question', () => {
+describe('POST/ api/v2/questions/:questionId/answers', () => {
 	it('should post an answer to your own question', done => {
 		request
 			.post('/api/v2/questions/1/answers')
@@ -344,7 +344,7 @@ describe('POST/ an answer to your question', () => {
 	});
 });
 
-describe('POST/ an answer to your question from second account', () => {
+describe('POST/ api/v2/questions/:questionId/answers', () => {
 	it('should post an answer to your question from another account', done => {
 		request
 			.post('/api/v2/questions/1/answers')
@@ -380,7 +380,7 @@ describe('POST/ an answer to your question from second account', () => {
 });
 
 // like an answer
-describe('PUT/ like an answer', () => {
+describe('PUT/ api/v2/questions/answers/:answerId/like', () => {
 	it('should like an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/1/like')
@@ -408,7 +408,7 @@ describe('PUT/ like an answer', () => {
 });
 
 // dislike an answer
-describe('PUT/ dislike an answer', () => {
+describe('PUT/ api/v2/questions/answers/:answerId/dislike', () => {
 	it('should dislike an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/1/dislike')
@@ -436,7 +436,7 @@ describe('PUT/ dislike an answer', () => {
 });
 
 // favorite an answer
-describe('PUT/ favorite an answer', () => {
+describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
 	it('should favorite an answer', done => {
 		request
 			.put('/api/v2/questions/1/answers/1')
@@ -467,7 +467,7 @@ describe('PUT/ favorite an answer', () => {
 	});
 });
 
-describe('PUT/ edit an answer', () => {
+describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
 	it('should edit an answer', done => {
 		request
 			.put('/api/v2/questions/1/answers/2')
@@ -485,7 +485,7 @@ describe('PUT/ edit an answer', () => {
 	});
 });
 
-describe('GET/ get a question by its id', () => {
+describe('GET/ api/v2/questions/:questionId', () => {
     it('should fetch a question and its answers by its id',done => {
         request
             .get('/api/v2/questions/1/')
@@ -510,7 +510,7 @@ describe('GET/ get a question by its id', () => {
 });
 
 // get a users questions by username
-describe('GET/ questions by username', () => {
+describe('GET/ /api/v2/questions/:username/questions', () => {
 	it('should return a specific users questions', done => {
 		request
 		.get('/api/v2/questions/christest/questions')
@@ -534,7 +534,7 @@ describe('GET/ questions by username', () => {
 	});
 });
 
-describe('GET/ all questions', () => {
+describe('GET/ api/v2/questions', () => {
 	it('should return all questions in the database', done => {
 		request
 		.get('/api/v2/questions')
@@ -544,7 +544,7 @@ describe('GET/ all questions', () => {
 	});
 });
 
-describe('DELETE/ delete a question', () => {
+describe('DELETE/ api/v2/questions/:questionId', () => {
     it('it should not delete question if the request is not sent by the question creator', done => {
         request
         .delete('/api/v2/questions/1')
@@ -559,4 +559,14 @@ describe('DELETE/ delete a question', () => {
         .expect(200, { status: 200, message: 'question deleted!' })
         .end(done);
     });    
+});
+
+describe('PUT/ api/v2/auth/logout', () => {
+	it('should log a user out', done => {
+		request
+		.put('api/v2/auth/logout')
+		.send({ token })
+		.extect(200, { status: 200, message: 'user logged out!' })
+		.end(done);
+	});
 });
