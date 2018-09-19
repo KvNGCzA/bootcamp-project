@@ -4,30 +4,27 @@ if (body.classList.contains('page-login-signup')) {
   const createUser = (_e) => {
     _e.preventDefault();
     const warning = document.getElementById('warning-message');
-    const newUser = {
-      firstName: signupForm.fname.value,
-      lastName: signupForm.lname.value,
-      occupation: signupForm.occupation.value,
-      password: signupForm.pwd.value,
-      email: signupForm.email.value,
-      username: signupForm.username.value,
-    };
+    let newUser = new FormData();
+    newUser.append('firstName', signupForm.fname.value);
+    newUser.append('lastName', signupForm.lname.value);
+    newUser.append('occupation', signupForm.occupation.value);
+    newUser.append('password', signupForm.pwd.value);
+    newUser.append('email', signupForm.email.value);
+    newUser.append('username', signupForm.username.value);
+    newUser.append('profileImage', signupForm.profileImage.files[0]);
     fetch('http://localhost:3000/api/v2/auth/signup', {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newUser),
+      body: newUser,
     }).then(res => {
       return res.json();
     })
     .then(data => {
       const message = data.message;
       if (message === 'user created') {
-        const { username } = data.profile;
+        const { username, profileimage } = data.profile;
         const { token } = data;
         localStorage.setItem('username', username);
+        localStorage.setItem('profileimage', profileimage);
         localStorage.setItem('token', token);
         window.location.href = `./profile?username=${username}`;
         return;
@@ -60,9 +57,10 @@ if (body.classList.contains('page-login-signup')) {
     .then(data => {
       const message = data.message;
       if (message === "successfully logged in!") {
-        const { username } = data.profile;
+        const { username, profileimage } = data.profile;
         const { token } = data;
         localStorage.setItem('username', username);
+        localStorage.setItem('profileimage', profileimage);
         localStorage.setItem('token', token);
         window.location.href = `./profile?username=${username}`;
         return;

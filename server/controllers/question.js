@@ -30,12 +30,9 @@ export class Question {
 	getQuestionsById (req, res) {
 		const { questionId } = req.params;
 	  const question = allQuestions.filter(singleQuestion => singleQuestion.questionId === questionId);  
-	  if (question.length !== 0) {    
-	  console.log('if not empty: ',question);
+	  if (question.length !== 0) {
 		return res.status(200).json({ question: question[0] });
-	} 
-	  console.log('if empty', question);
-	  return res.status(404).json({ message: 'Invalid question id' });	
+	} return res.status(404).json({ message: 'Invalid question id' });	
 	}
 	
 	//post an answer to a question

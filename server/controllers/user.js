@@ -50,7 +50,7 @@ export class User {
 		const first = typeof firstName === 'string' && firstName.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(firstName);
 		const last = typeof lastName === 'string' && lastName.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(lastName);
 		const usernamecheck = typeof username === 'string' && username.length > 1 &&  (/^[a-zA-Z0-9]+(([_][a-zA-Z0-9])?[a-zA-Z0-9]*)*$/g).test(username);
-		
+		let profileImageName;
 		if(!firstName || first === false){
 			return res.status(400).json({ status: 400, message: 'first name is empty or an invalid format' });
 		}
@@ -66,13 +66,18 @@ export class User {
 		if(!password){
 			return res.status(400).json({ status: 400, message: 'password is empty or an invalid format' });
 		}
-
+		try {			
+			const { filename } = req.file;
+			profileImageName = filename;
+		} catch (error) {
+				profileImageName = 'rubix.png';
+		}
 		if (first && last && username && emailAdd) {
 			db.any('SELECT * FROM users WHERE email = $1 OR username = $2', [email, username])
 			.then( user => {
 				if (user.length === 0) {
 						const hash = bcrypt.hashSync(password, 10);
-						return db.any('INSERT INTO users (fullname, occupation, username, email, password) VALUES ($1, $2, $3, $4, $5)', [fullName, occupation, username, email, hash])
+						return db.any('INSERT INTO users (fullname, occupation, username, email, password, profileimage) VALUES ($1, $2, $3, $4, $5, $6)', [fullName, occupation, username, email, hash, profileImageName])
 							.then(() => {
 								db.any('UPDATE users SET logged_in =  $1 WHERE email = $2', [true, email])
 								.then(() => {

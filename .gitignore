@@ -3,6 +3,7 @@
 /coverage
 /node_modules
 /public/js/*
+/public/images/*
 /UI/js/
 .env
 .eslintrc.json
