@@ -52,6 +52,40 @@ const postQuestion = (_e) => {
 };// post a question function
 questionForms.addEventListener('submit', postQuestion, false);
 
+const likeQuestion = (questionId) => {
+	const token = localStorage.getItem('token');
+	fetch(`http://localhost:3000/api/v2/questions/${questionId}/like`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		body: JSON.stringify({ token }),
+	})
+	.then(res => res.json())
+	.then(() => {
+		return window.location.reload();
+	})
+	.catch(error => console.log(error));
+};
+
+const dislikeQuestion = (questionId) => {
+	const token = localStorage.getItem('token');
+	fetch(`http://localhost:3000/api/v2/questions/${questionId}/dislike`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		body: JSON.stringify({ token })
+	})
+	.then(res => res.json())
+	.then(() => {
+		return window.location.reload();
+	})
+	.catch(error => console.log(error));
+};
+
 const getQuestionById = () => {
 	const questionId = window.location.search.split('=')[1];
 	fetch(`http://localhost:3000/api/v2/questions/${questionId}`)
@@ -60,11 +94,11 @@ const getQuestionById = () => {
 			const tagsArr = [];
 			const { question, answers } = data;
 			const {
-				title, content, tags, created_at, likes, username, answers_count,
+				id, title, content, tags, created_at, likes, dislikes, username, answers_count,
 			} = question[0];
 			tagsArr.push([tags.split(',')]);
-			renderQuestionMeta_singleQuestion(title, answers_count, likes);
-			renderQuestionBody_singleQuestion(content, username, created_at);
+			renderQuestionMeta_singleQuestion(title, answers_count, likes, dislikes);
+			renderQuestionBody_singleQuestion(questionId, content, username, created_at, likes, dislikes);
 			addTags(tagsArr);
 			countClassColours();
 			renderComments_singleQuestion(answers, username);

@@ -221,6 +221,99 @@ export class Questions {
         });
     }
 
+    // like a question
+    likeQuestion (req, res) {
+        const { questionId } = req.params;
+        const { username } = req.userData;
+        if (/[0-9]/g.test(questionId) === false) {
+            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
+        }
+        const removeFromDislikers = (username, questionId) => {
+            db.any('SELECT dislikes FROM questions WHERE id = $1', [questionId])
+            .then(dislikes => {
+                const dislikers = dislikes[0].dislikes;
+                if (dislikers !== null && dislikers.indexOf(username) !== -1) {
+                    const newDislikers = dislikers.filter(disliker => disliker !== username);
+                    db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [newDislikers, questionId])
+                    .then(() => res.status(200).json({ status: 200, message: 'question liked!' }))
+                    .catch(error => res.status(500).json({ status: 500, error }));
+                }else{
+                    return res.status(200).json({ status: 200, message: 'question liked!' });
+                }
+            })
+            .catch(error => res.status(500).json({ status: 500, error }));
+        };
+        db.any('SELECT likes FROM questions WHERE id = $1', [questionId])
+        .then(likes => {
+            const likers = likes[0].likes;
+            if (likers === null) {
+                db.any('UPDATE questions SET likes = $1 WHERE id = $2', [[username], questionId])
+                .then(() => removeFromDislikers(username, questionId))
+                .catch(error => res.status(500).json({ status: 500, error }));
+            }else if (likers.indexOf(username) === -1) {
+                const newLikes = [...likers, username];
+                db.any('UPDATE questions SET likes = $1 WHERE id = $2', [newLikes, questionId])
+                .then(() => removeFromDislikers(username, questionId))
+                .catch(error => res.status(500).json({ status: 500, error }));
+            }
+            else{
+                const editLikers = likers.filter(liker => liker !== username);
+                db.any('UPDATE questions SET likes = $1 WHERE id = $2', [editLikers, questionId])
+                .then(() => res.status(200).json({ status: 200, message: 'question unliked!' }))
+                .catch(error => res.status(500).json({ status: 500, error }));
+            }
+        })
+        .catch(error => res.status(500).json({ status: 500, error }));
+    }
+
+    // dislike answer
+    dislikeQuestion (req, res) {
+        const { questionId } = req.params;
+        const { username } = req.userData
+        if (/[0-9]/g.test(questionId) === false) {
+            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
+        }
+        db.any('SELECT dislikes FROM questions WHERE id = $1', [questionId])
+        .then(dislikes => {
+            const dislikers = dislikes[0].dislikes;
+
+            const removeFromLikers = (username, questionId) => {
+                db.any('SELECT likes FROM questions WHERE id = $1', [questionId])
+                .then(likes => {
+                    const likers = likes[0].likes;
+                    if (likers !== null && likers.indexOf(username) !== -1) {
+                        const newLikers = likers.filter(liker => liker !== username);
+                        db.any('UPDATE questions SET likes = $1 WHERE id = $2', [newLikers, questionId])
+                        .then(() => res.status(200).json({ status: 200, message: 'question disliked!' }))
+                        .catch(error => res.status(500).json({ status: 500, error }));
+                    }else{
+                        return res.status(200).json({ status: 200, message: 'question disliked!' });
+                    }
+                })
+                .catch(error => res.status(500).json({ status: 500, error }));
+            };
+
+            if (dislikers === null) {
+                db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [[username], questionId])
+                .then(() => removeFromLikers(username, questionId))
+                .catch(error => res.status(500).json({ status: 500, error }));
+            }
+            else if (dislikers.indexOf(username) === -1) {
+                const newDislikers = [...dislikers, username];
+                db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [newDislikers, questionId])
+                .then(() => removeFromLikers(username, questionId))
+                .catch(error => res.status(500).json({ status: 500, error }));
+            }
+            else{
+                const editDislikers = dislikers.filter(disliker => disliker !== username);
+                db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [editDislikers, questionId])
+                .then(() => res.status(200).json({ status: 200, message: 'question undisliked!' }))
+                .catch(error => res.status(500).json({ status: 500, error }));
+            }
+        })
+        .catch(error => res.status(500).json({ status: 500, error }));
+    }
+
     // like an answer
     likeAnswer (req, res) {
         const { answerId } = req.params;
