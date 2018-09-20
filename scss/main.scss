@@ -641,19 +641,19 @@ a, input[type="button"], input[type="submit"], i, button{
         }
       }
       .liked{
-        background-color: $fireRed;
-        color: white!important;
-        border: 1px solid $fireRed!important;
-        }
-      .answered{
-          background-color: #49ff68;
-          color: white!important;
-          border: 1px solid #49ff68!important;
-        }
-      .viewed{
         background-color: $hoverColor;
         color: white!important;
         border: 1px solid $hoverColor!important;
+      }
+      .answered{
+        background-color: #49ff68;
+        color: white!important;
+        border: 1px solid #49ff68!important;
+      }
+      .viewed{
+        background-color: $fireRed;
+        color: white!important;
+        border: 1px solid $fireRed!important;
         }
     }//.q-meta
 

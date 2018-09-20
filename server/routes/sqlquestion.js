@@ -24,10 +24,16 @@ router.post('/:questionId/answers', checkAuth, questionsClass.postAnswer);
 // select favorite
 router.put('/:questionId/answers/:answerId', checkAuth, questionsClass.markFavorite);
 
+// like a question
+router.put('/:questionId/like', checkAuth, questionsClass.likeQuestion);
+
+// dislike a question
+router.put('/:questionId/dislike', checkAuth, questionsClass.dislikeQuestion);
+
 // like an answer
 router.put('/answers/:answerId/like', checkAuth, questionsClass.likeAnswer);
 
-// like an answer
+// dislike an answer
 router.put('/answers/:answerId/dislike', checkAuth, questionsClass.dislikeAnswer);
 
 // delete question

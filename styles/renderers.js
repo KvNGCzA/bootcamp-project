@@ -1,5 +1,17 @@
 // render question metadata single question page
-const renderQuestionMeta_singleQuestion = (title, answersCount, likes) => {
+const renderQuestionMeta_singleQuestion = (title, answersCount, likes, dislikes) => {
+	let likesCount;
+	if (likes !== null) {
+		likesCount = likes.length;
+	}else {
+		likesCount = 0;
+	}
+	let dislikesCount;
+	if (dislikes !== null) {
+		dislikesCount = dislikes.length;
+	}else {
+		dislikesCount = 0;
+	}
 	document.getElementsByClassName('question-title')[0].textContent = title;
 	document.getElementsByClassName('q-meta')[0].innerHTML =   `<ul>
   <li class="answer-count">
@@ -7,18 +19,18 @@ const renderQuestionMeta_singleQuestion = (title, answersCount, likes) => {
       <a href="#" class="answer-count-dis">${answersCount}</a>
   </li><!--
   --><li class="likes-count">
-      <a href="#">Likes</a>
-      <a href="#" class="likes-count-dis">${likes}</a>
+      <a href="#">UpVotes</a>
+      <a href="#" class="likes-count-dis">${likesCount}</a>
   </li><!--
   --><li class="views-count">
-      <a href="#">Views</a>
-      <a href="#" class="views-count-dis">0</a>
+      <a href="#">DownVotes</a>
+      <a href="#" class="views-count-dis">${dislikesCount}</a>
   </li>
   </ul>`;
 };
 
 // render question single question page
-const renderQuestionBody_singleQuestion = (content, username, createdAt) => {
+const renderQuestionBody_singleQuestion = (id, content, username, createdAt, likes, dislikes) => {
 	document.getElementsByClassName('question-body')[0].textContent = content; document.getElementsByClassName('action-meta-cont')[0].innerHTML =   `<div class="action-buttons"></div><!--action buttons--><!--
   --><div class="meta-cont">
   <span class="date-posted">
@@ -29,10 +41,10 @@ const renderQuestionBody_singleQuestion = (content, username, createdAt) => {
 
 	if (localStorage.getItem('username') !== username) {
 		document.getElementsByClassName('action-buttons')[0].innerHTML = `
-      <span class="like-question action like-btn" title="Like">
+      <span class="like-question action like-btn" title="Like" onclick="likeQuestion(${id})">
       <i class="far fa-thumbs-up likebutton"></i>
       </span><!--
-      --><span class="dislike-question action dislike-btn" title="Dislike">
+      --><span class="dislike-question action dislike-btn" title="Dislike" onclick="dislikeQuestion(${id})">
       <i class="far fa-thumbs-down dislikebutton"></i>
       </span><!--
       --><span class="report action report-btn" title="Mark as Inappropriate">
@@ -43,6 +55,14 @@ const renderQuestionBody_singleQuestion = (content, username, createdAt) => {
 	}
 
 	document.getElementsByClassName('date-posted')[0].innerHTML = `<span>${formatDate(createdAt)}</span> by <span><a href="/profile?username=${username}">@${username}</a></span>`;
+	if (likes !== null && likes.indexOf(localStorage.getItem('username')) !== -1) {
+		const likeBtn = document.getElementsByClassName('far fa-thumbs-up likebutton')[0];
+		likeBtn.classList = 'fas fa-thumbs-up likebutton';
+	}
+	if (dislikes !== null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
+		const dislikeBtn = document.getElementsByClassName('far fa-thumbs-down dislikebutton')[0];
+		dislikeBtn.classList = 'fas fa-thumbs-down dislikebutton';
+	}
 };
 
 // render comments on single question page
@@ -124,9 +144,19 @@ const renderQuestionTemplates = (questions) => {
 	const tagsArr = [];
 	for (let x = questions.length - 1; x >= 0; x--) {
 		const tab = document.getElementById('tab1');
-		const {
- answers_count, likes, title, created_at, id, username, tags 
-} = questions[x];
+		const { answers_count, likes, dislikes, title, created_at, id, username, tags } = questions[x];
+		let likesCount;
+		let dislikesCount;
+		if (likes !== null) {
+			likesCount = likes.length;
+		} else {
+			likesCount = 0;
+		}
+		if (dislikes !== null) {
+			dislikesCount = dislikes.length;
+		} else {
+			dislikesCount = 0;
+		}
 		const newDate = formatDate(created_at);
 		tagsArr.push([tags.split(',')]);
 		tab.innerHTML
@@ -138,12 +168,12 @@ const renderQuestionTemplates = (questions) => {
               <a href="#" class="answer-count-dis">${answers_count}</a>
               </li><!--
               --><li class="likes-count">
-              <a href="#">Likes</a>
-              <a href="#" class="likes-count-dis">${likes}</a>
+              <a href="#">UpVotes</a>
+              <a href="#" class="likes-count-dis">${likesCount}</a>
               </li><!--
               --><li class="views-count">
-              <a href="#">Views</a>
-              <a href="#" class="views-count-dis">0</a>
+              <a href="#">DownVotes</a>
+              <a href="#" class="views-count-dis">${dislikesCount}</a>
               </li>
           </ul>
           </div>
@@ -170,12 +200,22 @@ const renderUsersQuestions = (questions, uname) => {
 
 	for (let x = questions.length - 1; x >= 0; x--) {
 		const profilePage = document.getElementsByClassName('profile-page-cont')[0];
-		const {
- answers_count, likes, title, created_at, username, tags, id 
-} = questions[x];
+		const { answers_count, likes, dislikes, title, created_at, username, tags, id } = questions[x];
 		tagsArr.push([tags.split(',')]);
 		idArr.push(id);
 		const newDate = formatDate(created_at);
+		let likesCount;
+		let dislikesCount;
+		if (likes !== null) {
+			likesCount = likes.length;
+		} else {
+			likesCount = 0;
+		}
+		if (dislikes !== null) {
+			dislikesCount = dislikes.length;
+		} else {
+			dislikesCount = 0;
+		}
 		profilePage.innerHTML += `<div class="single-question">
       <div class="q-meta">
       <ul>
@@ -184,12 +224,12 @@ const renderUsersQuestions = (questions, uname) => {
           <a href="#" class="answer-count-dis">${answers_count}</a>
           </li><!--
           --><li class="likes-count">
-          <a href="#">Likes</a>
-          <a href="#" class="likes-count-dis">${likes}</a>
+          <a href="#">UpVotes</a>
+          <a href="#" class="likes-count-dis">${likesCount}</a>
           </li><!--
           --><li class="views-count">
-          <a href="#">Views</a>
-          <a href="#" class="views-count-dis">0</a>
+          <a href="#">DownVotes</a>
+          <a href="#" class="views-count-dis">${dislikesCount}</a>
           </li>
       </ul>
       </div>

@@ -34,7 +34,8 @@
     "nodemon": "^1.18.3",
     "pg": "^7.4.3",
     "pg-promise": "^8.4.6",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "swagger-ui": "^3.19.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
