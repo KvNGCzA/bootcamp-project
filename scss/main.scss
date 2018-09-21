@@ -332,11 +332,12 @@ header{
           margin: 0;
           .profile-image{
               background-image: url('');
-              background-size: contain;
+              background-size: cover;
               background-position: center;
               background-repeat: no-repeat;
               height: 100%;
               width: 100%;
+              border-radius: 100em;
           }//.profile-image
         }//.profile-picture
       }//profile
@@ -425,11 +426,12 @@ a, input[type="button"], input[type="submit"], i, button{
     border-radius: 100em;
     .profile-image{
         background-image: url('');
-        background-size: contain;
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         height: 100%;
         width: 100%;
+        border-radius: 100em;
     }//.profile-image
   }//.profile-picture
   .profile-info{
