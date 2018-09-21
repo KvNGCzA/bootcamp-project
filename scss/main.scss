@@ -190,8 +190,10 @@ body.logged-in {
             .comment {
               padding: 3em 0.5em 1em;
             } // .comment
-            .action-buttons {
-              display: block;
+            .action-buttons {              
+              .action {
+                display: initial;
+              }
             } // .action-buttons
           } // li
         } // ul
@@ -250,7 +252,10 @@ body.logged-in {
 
 .login-info{
   padding: 1em 0;
-}
+  a {
+    color: $fireRed;
+  }
+} // .login-info
 
 header{
   padding: 1em 0;
@@ -328,11 +333,12 @@ header{
           margin: 0;
           .profile-image{
               background-image: url('');
-              background-size: contain;
+              background-size: cover;
               background-position: center;
               background-repeat: no-repeat;
               height: 100%;
               width: 100%;
+              border-radius: 100em;
           }//.profile-image
         }//.profile-picture
       }//profile
@@ -384,11 +390,12 @@ header{
     text-align: center;
     top: 3.2em;
     width: 100%;
-    overflow: auto;
+    height: 100vh;
+    overflow: visible;
+    background-color: rgba(0, 91, 122, 0.9);
     li{
       width: 100%;
-      background-color: rgba(0, 91, 122, 0.9);
-      padding: 0.5em;
+      padding: 0.8em 0.5em;
       a{
         text-decoration: none;
         color: white;
@@ -420,11 +427,12 @@ a, input[type="button"], input[type="submit"], i, button{
     border-radius: 100em;
     .profile-image{
         background-image: url('');
-        background-size: contain;
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         height: 100%;
         width: 100%;
+        border-radius: 100em;
     }//.profile-image
   }//.profile-picture
   .profile-info{
@@ -636,19 +644,19 @@ a, input[type="button"], input[type="submit"], i, button{
         }
       }
       .liked{
-        background-color: $fireRed;
-        color: white!important;
-        border: 1px solid $fireRed!important;
-        }
-      .answered{
-          background-color: #49ff68;
-          color: white!important;
-          border: 1px solid #49ff68!important;
-        }
-      .viewed{
         background-color: $hoverColor;
         color: white!important;
         border: 1px solid $hoverColor!important;
+      }
+      .answered{
+        background-color: #49ff68;
+        color: white!important;
+        border: 1px solid #49ff68!important;
+      }
+      .viewed{
+        background-color: $fireRed;
+        color: white!important;
+        border: 1px solid $fireRed!important;
         }
     }//.q-meta
 
@@ -914,10 +922,10 @@ a, input[type="button"], input[type="submit"], i, button{
           li {
             border-top: 1px solid $borderGray;
             .likes-dislikes-cont {
-              text-align: right;
               color: $textGray;
               font-size: 0.8em;
               font-style: italic;
+              float: right;
               .answer-likes-count {
 
               } // answer-likes-count
@@ -931,23 +939,23 @@ a, input[type="button"], input[type="submit"], i, button{
             }// .likes-dislikes-cont
             .action-buttons {
               padding: 1em 0 0.3em;
-              display: none;
-              .com-meta {
-                font-size: 0.65em;
-                font-style: italic;
-                margin: 0 0 0 0.5em;
-                float: left;
-                position: relative;
-                top: 0.3em;
-                a {
-                  color: $fireRed;
-                  text-decoration: none;
-                } // a
-              }// .com-meta
+              .action {
+                display: none;
+              }
             } // .action-buttons 
             &:last-child{
               border-bottom: 1px solid $borderGray;
-            }            
+            }
+            .com-meta {
+              font-size: 0.65em;
+              font-style: italic;
+              margin: 0 0 0 0.5em;
+              width: auto;
+              a {
+                color: $fireRed;
+                text-decoration: none;
+              } // a
+            }// .com-meta
           } // li
           p{
             padding: 3em 0.5em;
@@ -1548,6 +1556,9 @@ footer{
             li {
               .likes-dislikes-cont {
                 font-size: 0.7em;
+                float: none;
+                width: 100%;
+                text-align: center;
               } // .likes-dislikes-cont
               .comment{
                 i.fas.fa-check-circle{
@@ -1558,22 +1569,24 @@ footer{
               }//.comment
               .action-buttons {                
                 padding: 1em 0 0.3em;
+                text-align: center;
                 span.action{
                   font-size: 0.8em;
                 }// span.action
-                .com-meta {
-                  font-size: 0.65em;
-                  font-style: italic;
-                  margin: 0 0 0 1em;
-                  float: left;
-                  position: relative;
-                  top: 0.3em;
-                  a {
-                    color: $fireRed;
-                    text-decoration: none;
-                  } // a
-                }// .com-meta
-              } // .action-buttons             
+              } // .action-buttons              
+              .com-meta {
+                font-size: 0.65em;
+                font-style: italic;
+                padding: 0.3em 0 0.7em;
+                width: 100%;
+                display: block;
+                text-align: center;
+                margin: 0;
+                a {
+                  color: $fireRed;
+                  text-decoration: none;
+                } // a
+              }// .com-meta          
             } // li
           }//ul
         }//.comments

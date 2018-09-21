@@ -435,6 +435,62 @@ describe('PUT/ api/v2/questions/answers/:answerId/dislike', () => {
 	});
 });
 
+// like an question
+describe('PUT/ api/v2/questions/:questionId/like', () => {
+	it('should like an question', (done) => {
+		request
+		.put('/api/v2/questions/1/like')
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'question liked!' })
+		.end(done);
+	});
+	it('should unlike an question', (done) => {
+		request
+		.put('/api/v2/questions/1/like')
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'question unliked!' })
+		.end(done);
+	});
+	it('should fail to like an question an question', (done) => {
+		request
+		.put('/api/v2/questions/sdga/like')
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(400, { status: 400, message: 'questionId must be an integer or less than nine characters!' })
+		.end(done);
+	});
+});
+
+// dislike a question
+describe('PUT/ api/v2/questions/:questionId/dislike', () => {
+	it('should dislike an question', (done) => {
+		request
+		.put('/api/v2/questions/1/dislike')
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'question disliked!' })
+		.end(done);
+	});
+	it('should undislike an question', (done) => {
+		request
+		.put('/api/v2/questions/1/dislike')
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'question undisliked!' })
+		.end(done);
+	});
+	it('should fail to undislike an question', (done) => {
+		request
+		.put('/api/v2/questions/sdga/dislike')
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(400, { status: 400, message: 'questionId must be an integer or less than nine characters!' })
+		.end(done);
+	});
+});
+
 // favorite an answer
 describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
 	it('should favorite an answer', done => {

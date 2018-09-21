@@ -1,6 +1,6 @@
 const fetchUserInfo = () => {    
     const uname = window.location.search.split('=')[1];
-    fetch(`http://localhost:3000/api/v2/auth/user/${uname}`)
+    fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/auth/user/${uname}`)
     .then(res => res.json())
     .then(data => {
         const { username, fullname, created_at, asked_count, answered_count, occupation, profileimage } = data.user[0];
@@ -22,6 +22,6 @@ const fetchUserInfo = () => {
     .catch(error => error);
 };
 
-if (document.title === 'Profile') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-profile')) {
     fetchUserInfo();
 }

@@ -13,7 +13,7 @@ const postQuestion = (_e) => {
 		tags: questionForms.tags.value,
 		token,
 	};
-	fetch('http://localhost:3000/api/v2/questions', {
+	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -29,7 +29,7 @@ const postQuestion = (_e) => {
 				questionForms.title.value = '';
 				questionForms.content.value = '';
 				questionForms.tags.value = '';
-				fetch('http://localhost:3000/api/v2/auth/users')
+				fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/users')
 					.then(res => res.json())
 					.then(data => {
 						const uname = localStorage.getItem('username');
@@ -52,19 +52,53 @@ const postQuestion = (_e) => {
 };// post a question function
 questionForms.addEventListener('submit', postQuestion, false);
 
+const likeQuestion = (questionId) => {
+	const token = localStorage.getItem('token');
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/like`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		body: JSON.stringify({ token }),
+	})
+	.then(res => res.json())
+	.then(() => {
+		return window.location.reload();
+	})
+	.catch(error => console.log(error));
+};
+
+const dislikeQuestion = (questionId) => {
+	const token = localStorage.getItem('token');
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/dislike`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		body: JSON.stringify({ token })
+	})
+	.then(res => res.json())
+	.then(() => {
+		return window.location.reload();
+	})
+	.catch(error => console.log(error));
+};
+
 const getQuestionById = () => {
 	const questionId = window.location.search.split('=')[1];
-	fetch(`http://localhost:3000/api/v2/questions/${questionId}`)
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}`)
 		.then(res => res.json())
 		.then((data) => {
 			const tagsArr = [];
 			const { question, answers } = data;
 			const {
-				title, content, tags, created_at, likes, username, answers_count,
+				id, title, content, tags, created_at, likes, dislikes, username, answers_count,
 			} = question[0];
 			tagsArr.push([tags.split(',')]);
-			renderQuestionMeta_singleQuestion(title, answers_count, likes);
-			renderQuestionBody_singleQuestion(content, username, created_at);
+			renderQuestionMeta_singleQuestion(title, answers_count, likes, dislikes);
+			renderQuestionBody_singleQuestion(questionId, content, username, created_at, likes, dislikes);
 			addTags(tagsArr);
 			countClassColours();
 			renderComments_singleQuestion(answers, username);
@@ -75,7 +109,7 @@ const getQuestionById = () => {
 }; // get question by id
 
 const getQuestions = () => {
-	fetch('http://localhost:3000/api/v2/questions')
+	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions')
 		.then(res => res.json())
 		.then((data) => {
 			const { questions } = data;
@@ -88,7 +122,7 @@ const getQuestions = () => {
 
 const getUsersQuestions = () => {
 	const uname = window.location.search.split('=')[1];
-	fetch(`http://localhost:3000/api/v2/questions/${uname}/questions`)
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${uname}/questions`)
 		.then(res => res.json())
 		.then((data) => {
 			const { questions } = data;
@@ -100,7 +134,7 @@ const getUsersQuestions = () => {
 
 const deleteQuestion = (id) => {
 	const token = localStorage.getItem('token');
-	fetch(`http://localhost:3000/api/v2/questions/${id}`, {
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${id}`, {
 		method: 'DELETE',
 		headers: {
 			Accept: 'application/json',
@@ -113,14 +147,14 @@ const deleteQuestion = (id) => {
 		.catch(error => error);
 }; // delete a question
 
-if (document.title === 'Home') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-home')) {
 	getQuestions();
 }
 
-if (document.title === 'Profile') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-profile')) {
 	getUsersQuestions();
 }
 
-if (document.title === 'Question') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	getQuestionById();
 }

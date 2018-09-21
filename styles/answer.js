@@ -9,7 +9,7 @@ const postAnswer = (_e) => {
 		token,
 	};
 	const questionId = window.location.search.split('=')[1];
-	fetch(`http://localhost:3000/api/v2/questions/${questionId}/answers`, {
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/answers`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -37,7 +37,7 @@ const postAnswer = (_e) => {
 
 const questionId = window.location.search.split('=')[1];
 const favoriteAnAnswer = (id) => {
-fetch(`http://localhost:3000/api/v2/questions/${questionId}/answers/${id}`, {
+fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/answers/${id}`, {
     method: 'PUT',
     headers: {
          Accept: 'application/json',
@@ -53,7 +53,7 @@ fetch(`http://localhost:3000/api/v2/questions/${questionId}/answers/${id}`, {
 };
 
 const likeAnswer = (id) => {
-    fetch(`http://localhost:3000/api/v2/questions/answers/${id}/like`, {
+    fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/answers/${id}/like`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
@@ -67,7 +67,7 @@ const likeAnswer = (id) => {
 };
 
 const dislikeAnswer = (id) => {
-    fetch(`http://localhost:3000/api/v2/questions/answers/${id}/dislike`, {
+    fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/answers/${id}/dislike`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
@@ -80,6 +80,6 @@ const dislikeAnswer = (id) => {
     .catch(error => console.log(error));
 };
 
-if (document.title === 'Question') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	commentForm.addEventListener('submit', postAnswer, false);
 }

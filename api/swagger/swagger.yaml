@@ -1,0 +1,290 @@
+swagger: '2.0'
+info:
+  version: 2.0.0
+  title: StackOverflow Lite API
+  description: Documentation for StackOverFlow Lite API Routes
+  contact:
+    name: Akanmu Christopher
+    email: akanmuoluwadamilare@yahoo.com
+schemes:
+  - https
+host: safe-inlet-99347.herokuapp.com
+basePath: /
+
+  
+paths:
+  /api/v2/auth/users/:
+    get:
+      produces:
+        - application/json
+      responses:
+        200:
+          description: get all users
+    
+  /api/v2/auth/signup/:
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: signs user up
+      parameters:
+        - name: firstName
+          in: formData
+          description: firstName
+          type: string
+          required: true
+        - name: lastName
+          in: formData
+          description: lastName
+          type: string
+          required: true
+        - name: username
+          in: formData
+          description: username
+          type: string
+          required: true
+        - name: email
+          in: formData
+          description: email
+          type: string
+          required: true
+        - name: password
+          in: formData
+          description: password
+          type: string
+          required: true
+        - name: occupation
+          in: formData
+          description: occupation
+          type: string
+          
+  /api/v2/auth/login/:
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: logs user in
+      parameters:
+        - name: email
+          in: formData
+          description: email
+          type: string
+          required: true
+        - name: password
+          in: formData
+          description: password
+          type: string
+          required: true
+            
+  /api/v2/auth/logout/:
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: logs user out
+      parameters:
+        - name: token
+          in: formData
+          description: user token
+          type: string
+          required: true
+          
+  /api/v2/auth/user/{username}/:
+    get:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: fetches user by username
+      parameters:
+        - name: username
+          in: path
+          description: username
+          type: string
+          required: true
+          
+  /api/v2/questions/:
+    get:
+      produces:
+        - application/json
+      responses:
+        200:
+          description: fetches all questions from database
+    
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        201:
+          description: posts a question
+      parameters:
+        - name: title
+          in: formData
+          description: question title
+          type: string
+          required: true
+        - name: content
+          in: formData
+          description: question body
+          type: string
+          required: true
+        - name: tags
+          in: formData
+          description: question tags
+          type: string
+          required: true
+        - name: token
+          in: formData
+          description: users token
+          type: string
+          required: true
+          
+  /api/v2/questions/{questionId}:
+    get:
+      produces:
+        - application/json
+      responses:
+        200:
+          description: fetches question by id
+      parameters:
+        - name: questionId
+          in: path
+          description: question id
+          type: integer
+          required: true
+    delete:
+      produces:
+        - application/json
+      responses:
+        200:
+          description: delete a question by its id
+      parameters:
+        - name: questionId
+          in: path
+          description: question id
+          type: integer
+          required: true
+        - name: token
+          in: formData
+          description: users token
+          type: string
+          required: true
+          
+  /api/v2/{username}/questions/:
+    get:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: fetches a specific users questions
+      parameters:
+        - name: username
+          in: path
+          description: users username
+          type: string
+          required: true
+          
+  /api/v2/questions/{id}/answers/:
+    post:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: posts an answer to a question
+      parameters:
+        - name: id
+          in: path
+          description: question id
+          type: integer
+          required: true
+        - name: token
+          in: formData
+          description: user token
+          type: string
+          required: true
+          
+  /api/v2/questions/{questionId}/answers/{answerId}:
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: marks an answer as favorite/preferred
+      parameters:
+        - name: questionId
+          in: path
+          description: question id
+          type: integer
+          required: true
+        - name: answerId
+          in: path
+          description: answer id
+          type: integer
+          required: true
+        - name: token
+          in: formData
+          description: user token
+          type: string
+          required: true
+          
+  /api/v2/questions/answers/{answerId}/like/:
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: like/upvote an answer
+      parameters:
+        - name: answerId
+          in: path
+          description: answer id
+          type: integer
+          required: true
+        - name: token
+          in: formData
+          description: user token
+          type: string
+          required: true
+          
+  /api/v2/questions/answers/{answerId}/dislike/:
+    put:
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: dislike/downvote an answer
+      parameters:
+        - name: answerId
+          in: path
+          description: answer id
+          type: integer
+          required: true
+        - name: token
+          in: formData
+          description: user token
+          type: string
+          required: true
+          
