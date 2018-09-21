@@ -22,6 +22,6 @@ const fetchUserInfo = () => {
     .catch(error => error);
 };
 
-if (document.title === 'Profile') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-profile')) {
     fetchUserInfo();
 }

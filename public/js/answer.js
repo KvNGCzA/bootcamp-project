@@ -106,6 +106,6 @@ var dislikeAnswer = function () {
 	return dislikeAnswer;
 }();
 
-if (document.title === 'Question') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	commentForm.addEventListener('submit', postAnswer, false);
 }

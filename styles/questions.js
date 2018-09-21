@@ -147,14 +147,14 @@ const deleteQuestion = (id) => {
 		.catch(error => error);
 }; // delete a question
 
-if (document.title === 'Home') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-home')) {
 	getQuestions();
 }
 
-if (document.title === 'Profile') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-profile')) {
 	getUsersQuestions();
 }
 
-if (document.title === 'Question') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	getQuestionById();
 }

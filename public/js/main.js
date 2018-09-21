@@ -2,9 +2,9 @@
 
 /** add page-title as a class to the body tag */
 var bodyTag = document.getElementsByTagName('body')[0];
-// var currentPageTitle = document.title;
-// var cName = dashTitle(currentPageTitle);
-// bodyTag.classList += 'page-' + String(cName) + ' ';
+// const currentPageTitle = document.title;
+// const cName = dashTitle(currentPageTitle);
+// bodyTag.classList += `page-${cName} `;
 
 // add logged-in or logged-out class to body
 var status = localStorage.getItem('token');
