@@ -7,8 +7,8 @@ info:
     name: Akanmu Christopher
     email: akanmuoluwadamilare@yahoo.com
 schemes:
-  - http
-host: localhost:3000
+  - https
+host: safe-inlet-99347.herokuapp.com
 basePath: /
 
   

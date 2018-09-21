@@ -12,7 +12,7 @@ if (body.classList.contains('page-login-signup')) {
     newUser.append('email', signupForm.email.value);
     newUser.append('username', signupForm.username.value);
     newUser.append('profileImage', signupForm.profileImage.files[0]);
-    fetch('http://localhost:3000/api/v2/auth/signup', {
+    fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/signup', {
       method: 'POST',
       body: newUser,
     }).then(res => {
@@ -43,7 +43,7 @@ if (body.classList.contains('page-login-signup')) {
       email: loginForm.email.value,
       password: loginForm.pwd.value,
     };
-    fetch('http://localhost:3000/api/v2/auth/login', {
+    fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -75,7 +75,7 @@ if (body.classList.contains('page-login-signup')) {
 const logout = document.getElementsByClassName('logout');
 const logoutUser = () => {
   const token = localStorage.getItem('token');
-  fetch('http://localhost:3000/api/v2/auth/logout', {
+  fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/logout', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
