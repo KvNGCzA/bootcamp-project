@@ -80,6 +80,6 @@ const dislikeAnswer = (id) => {
     .catch(error => console.log(error));
 };
 
-if (document.title === 'Question') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	commentForm.addEventListener('submit', postAnswer, false);
 }

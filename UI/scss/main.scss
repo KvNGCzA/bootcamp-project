@@ -49,16 +49,26 @@ $fireRed: #f24d4d;
   font-family: 'Josefin Sans';
 }
 
-body{
+html, body{
+  height: 100%;
+  position: relative;
   font-size: 16px;
-}//body
+} //html
+
+.main-container {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 100px; /* height of your footer */
+} // .main-container
 
 /** profile page specific css*/
 body.page-profile{
   .main{
     .lsidebar{
+      width:20%;
       .profile{
-        display: block;
         .profile-info{
           ul{
             li{
@@ -70,28 +80,182 @@ body.page-profile{
         }//profile-info
       }//.profile
     }//.lsidebar
+    .site-content{
+      width: 55%;
+    }
   }//.main
 }//body.page-profile
 
 body.page-login-signup{
   .main{
-    .lsidebar{
-      display: none;
-    }
     .site-content{
       width: 75%;
     }
   }//.main
   footer{
-    position: absolute;
-    top: 100%;
   }
 }//.page-login-signup
 
+body.page-post-a-question{
+  .quick-options{
+    .quick-question{
+      display: none;
+    }// quick-question
+  }// quick-options
+}// page-post-a-question
+
+body.logged-in {
+  
+  header {
+    .main-navigation {
+      ul {
+        li {
+          &:nth-child(2) {
+            display: inline;
+          }          
+          &:nth-child(3) {
+            display: inline;
+          }
+          &:last-child{
+            display: none;
+          }
+        }// li
+      }// ul
+    }// .main-navigation
+    .mobile-navigation {
+      top: -1em;
+      .profile {
+        display: inline-block;
+      }
+    }// mobile-navigation
+    .dropdown-menu-items {
+      li{
+        &:nth-child(3){
+          display: none;
+        }
+        &:last-child{
+          display: inline-block;
+        }
+      }// li
+    }// .dropdown-menu-items
+  }// header
+
+  .main{
+
+    .lsidebar{
+      .side-access-forms {
+      } // .side-access-forms
+      .profile{
+        .profile-info{
+          ul{
+            li{
+              &:last-child{
+              }//last-child
+            }//li
+          }//ul
+        }//profile-info
+      }//.profile
+    }//.lsidebar
+
+    .single-question-page {
+      .question-cont{
+        .question-body{
+          margin: 3em 0 0;
+          // background-color: $borderGray;
+        }//.questionBody
+        .action-meta-cont{
+          .meta-cont{
+            width: 50%;
+            .date-posted{
+              span{
+                a{
+                }
+              }//span
+            }//.date-posted
+            .tags{
+              li{
+                a{
+                }//a
+              }//li
+            }//.tags
+          }//meta-cont
+          .action-buttons{
+            display: inline-block;
+          }//.action-buttons
+        }//.action-meta-cont
+      }//.question-cont
+      .comments{
+        ul {
+          li {
+            .comment {
+              padding: 3em 0.5em 1em;
+            } // .comment
+            .action-buttons {              
+              .action {
+                display: initial;
+              }
+            } // .action-buttons
+          } // li
+        } // ul
+      } // .comments
+    } // .single-question-page
+  }//.main
+  
+  .login-info{
+    display: none;
+  }// login-info
+
+  .question-form{
+    form.postquestionform{
+      display: block;
+    }
+  }
+
+  .quick-options{
+    .quick-question{
+      .postQuestion-success-message{
+      }
+      h2{
+      }//h2
+      form.postquestionform{
+        display: block;
+        input{
+        }
+        input[type="text"]{
+        }
+        input[type="submit"]{
+          &:hover{
+          }//hover
+          &:active{
+          }//hover
+        }
+        textarea{
+        }
+      }//form
+     }//.quick-question
+  }// quick-options
+
+}// body.logged-in
+
+// signup/login warning message
 #warning-message, #warning-message2 {
   color: $fireRed;
   font-size: 0.8em;
 }// #warning-message
+
+// success message
+.postQuestion-success-message{
+  color: green;
+  display: none;
+  padding: 1em 0;
+}
+
+.login-info{
+  padding: 1em 0;
+  a {
+    color: $fireRed;
+  }
+} // .login-info
 
 header{
   padding: 1em 0;
@@ -132,8 +296,14 @@ header{
             background-color: $hoverColor;
           }//hover
         }//a
-        &:last-child{
+        &:nth-child(2) {
           display: none;
+        }
+        &:nth-child(3) {
+          display: none;
+        }
+        &:last-child{
+          display: inline;
         }
       }//li
     }//ul
@@ -143,7 +313,7 @@ header{
   .mobile-navigation{
     display: none;
     position: relative;
-    top: -1em;
+    // top: -1em;
     margin: 0 1em;
     .nav-icon{
       display: inline-block;
@@ -153,6 +323,7 @@ header{
     }//nav-icon
       .profile{
         top:0.5em;
+        display: none;
         .profile-picture{
           width: 2em;
           height: 2em;
@@ -161,12 +332,13 @@ header{
           border: $whiteBorder;
           margin: 0;
           .profile-image{
-              background-image: url('../images/rubix.png');
-              background-size: contain;
+              background-image: url('');
+              background-size: cover;
               background-position: center;
               background-repeat: no-repeat;
               height: 100%;
               width: 100%;
+              border-radius: 100em;
           }//.profile-image
         }//.profile-picture
       }//profile
@@ -218,15 +390,19 @@ header{
     text-align: center;
     top: 3.2em;
     width: 100%;
-    overflow: auto;
+    height: 100vh;
+    overflow: visible;
+    background-color: rgba(0, 91, 122, 0.9);
     li{
       width: 100%;
-      background-color: rgba(0, 91, 122, 0.9);
-      padding: 0.5em;
+      padding: 0.8em 0.5em;
       a{
         text-decoration: none;
         color: white;
       }//a
+      &:last-child{
+        display: none;
+      }// last-child
     }//li
   }//ul
 
@@ -234,7 +410,7 @@ header{
 }//header
 
 /** cursor config*/
-a, input[type="button"], i, button{
+a, input[type="button"], input[type="submit"], i, button{
   &:hover, &:active{
     cursor: pointer;
   }
@@ -250,12 +426,13 @@ a, input[type="button"], i, button{
     border: 1px solid $hoverColor;
     border-radius: 100em;
     .profile-image{
-        background-image: url('../images/rubix.png');
-        background-size: contain;
+        background-image: url('');
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         height: 100%;
         width: 100%;
+        border-radius: 100em;
     }//.profile-image
   }//.profile-picture
   .profile-info{
@@ -357,11 +534,18 @@ a, input[type="button"], i, button{
       top:-0.7em;
       padding: 1em;
       text-align: center;
+    .postQuestion-success-message{
+      color: white;
+    }
+    .login-info{
+      color: white;
+    }
     h2{
       color: white;
       font-size: 1em;
     }//h2
-    form{
+    form.postquestionform{
+      display: none;
       input{
         display: block;
         margin: 1em 0;
@@ -372,9 +556,10 @@ a, input[type="button"], i, button{
         padding: 1em;
         width: 100%;
       }
-      input[type="button"]{
+      input[type="submit"]{
         padding: 1em;
         width: 100%;
+        background-color: white;
         color: $maincolor;
         border: $whiteBorder;
         &:hover{
@@ -405,7 +590,7 @@ a, input[type="button"], i, button{
   height: auto;
   margin: 4em 0 0;
   .site-content{
-    width: 55%;
+    width: 75%;
     float: left;
     padding: 2em 1em;
 
@@ -459,19 +644,19 @@ a, input[type="button"], i, button{
         }
       }
       .liked{
-        background-color: $fireRed;
-        color: white!important;
-        border: 1px solid $fireRed!important;
-        }
-      .answered{
-          background-color: #49ff68;
-          color: white!important;
-          border: 1px solid #49ff68!important;
-        }
-      .viewed{
         background-color: $hoverColor;
         color: white!important;
         border: 1px solid $hoverColor!important;
+      }
+      .answered{
+        background-color: #49ff68;
+        color: white!important;
+        border: 1px solid #49ff68!important;
+      }
+      .viewed{
+        background-color: $fireRed;
+        color: white!important;
+        border: 1px solid $fireRed!important;
         }
     }//.q-meta
 
@@ -483,7 +668,7 @@ a, input[type="button"], i, button{
       li{
         list-style: none;
         display: inline-block;
-        margin: 0.4em 0;
+        margin: 0.4em 0 0.15em 0.1em;
         a{
           color: white;
           text-decoration: none;
@@ -687,7 +872,7 @@ a, input[type="button"], i, button{
       .question-cont{
         .question-body{
           padding: 3em 0.5em 0;
-          margin: 3em 0 0;
+          margin: 3em 0;
           // background-color: $borderGray;
         }//.questionBody
         .action-meta-cont{
@@ -695,7 +880,7 @@ a, input[type="button"], i, button{
             text-align: right;
             padding: 6em 0 0;
             display: inline-block;
-            width: 50%;
+            width: 100%;
             .date-posted{
               display: block;
               color: $textGray;
@@ -719,7 +904,7 @@ a, input[type="button"], i, button{
             }//.tags
           }//meta-cont
           .action-buttons{
-            display: inline-block;
+            display: none;
             width: 50%;
             text-align: left;
           }//.action-buttons
@@ -734,23 +919,67 @@ a, input[type="button"], i, button{
         }//h2
         ul{
           list-style: none;
+          li {
+            border-top: 1px solid $borderGray;
+            .likes-dislikes-cont {
+              color: $textGray;
+              font-size: 0.8em;
+              font-style: italic;
+              float: right;
+              .answer-likes-count {
+
+              } // answer-likes-count
+              .answer-dislikes-count {
+
+              } // answer-likes-count
+              .answer-likes-count, .answer-dislikes-count {
+                border: $borderGray;
+                margin-right: 0.5em;
+              } //.answer-dislikes-count
+            }// .likes-dislikes-cont
+            .action-buttons {
+              padding: 1em 0 0.3em;
+              .action {
+                display: none;
+              }
+            } // .action-buttons 
+            &:last-child{
+              border-bottom: 1px solid $borderGray;
+            }
+            .com-meta {
+              font-size: 0.65em;
+              font-style: italic;
+              margin: 0 0 0 0.5em;
+              width: auto;
+              a {
+                color: $fireRed;
+                text-decoration: none;
+              } // a
+            }// .com-meta
+          } // li
           p{
-            padding: 3em 0.5em 1em;
+            padding: 3em 0.5em;
           }
           .comment{
-            border-top: 1px solid $borderGray;
+            display: flex;
+            i.fas.fa-check-circle{
+              color: #49ff68;
+              padding: 0 0.5em;
+              &:before{
+                font-size: 3em;
+              }
+            }// check mark
           }//.comment
-          &:last-child{
-            border-bottom: 1px solid $borderGray;
-          }
         }
       }//.comments
 
       .comment-form{
         margin: 2em 0;
         text-align: right;
-        border-top: 1px solid $borderGray;
-        border-bottom: 1px solid $borderGray;
+        border-bottom: 1px solid $borderGray;        
+        #success-answer{
+          text-align: center;
+        }
         h2{
           text-align: left;
           color: $textGray;
@@ -764,7 +993,7 @@ a, input[type="button"], i, button{
           // @include placeholder($maincolor);
           margin: 2em 0 1em;
         }//textarea
-        input[type="button"]{
+        input[type="submit"]{
           background-color: $maincolor;
           color: white;
           border: 1px solid $hoverColor;
@@ -917,7 +1146,7 @@ a, input[type="button"], i, button{
     }//.access-form
 
     .profile{
-      display: none;
+      display: block;
       z-index: 999;
       width: 20%;
       position: fixed;
@@ -1006,15 +1235,15 @@ a, input[type="button"], i, button{
     }//hot-questions
   }//.side-bar
 
-
   /**post -a-quetsion page form */
   .question-form{
-    form{
+    form.postquestionform{
+      display: none;
       label{
         color: $textGray;
         // font-size: 1.3em;
       }//label
-      input[type="button"]{
+      input[type="submit"]{
         display: inline-block;
         width: 100%;
         background-color: $maincolor;
@@ -1093,13 +1322,35 @@ footer{
   background-color: $maincolor;
   color: white;
   text-align: center;
-  clear: both;
+  position: absolute;
+  bottom: 0;
   p{
     padding: 1em 0;
   }
 }
 
 @media screen and ( max-width: 935px ){
+  /** profile page specific css*/
+  body.page-profile{
+    .main{
+      .lsidebar{
+        .profile{
+          .profile-info{
+            ul{
+              li{
+                &:last-child{
+                  display: none;
+                }//last-child
+              }//li
+            }//ul
+          }//profile-info
+        }//.profile
+      }//.lsidebar
+      .site-content{
+        width: 75%;
+      }
+    }//.main
+  }//body.page-profile
   header{
     .main-navigation{
       ul{
@@ -1132,6 +1383,26 @@ footer{
 }//@media screen and ( max-width: 935px )
 
 @media screen and ( max-width: 768px ){
+  body.page-profile{
+    .main{
+      .lsidebar{
+        .profile{
+          .profile-info{
+            ul{
+              li{
+                &:last-child{
+                  display: none;
+                }//last-child
+              }//li
+            }//ul
+          }//profile-info
+        }//.profile
+      }//.lsidebar
+      .site-content{
+        width: 100%;
+      }
+    }//.main
+  }//body.page-profile
 
   body.page-login-signup{
     .main{
@@ -1143,6 +1414,49 @@ footer{
     }//.main
   }//.page-login-signup
 
+  body.logged-in {
+    .main {
+      .single-question-page {
+        .question-cont{
+          .question-body{
+            // background-color: $borderGray;
+          }//.questionBody
+          .action-meta-cont{
+            .meta-cont{
+              width: 100%;
+              .date-posted{
+                span{
+                  a{
+                  }
+                }//span
+              }//.date-posted
+              .tags{
+                li{
+                  a{
+                  }//a
+                }//li
+              }//.tags
+            }//meta-cont
+            .action-buttons{
+              display: inline-block;
+            }//.action-buttons
+          }//.action-meta-cont
+        }//.question-cont
+        .comments{
+          ul {
+            li {
+              .comment {
+                padding: 3em 0.5em 1em;
+              } // .comment
+              .action-buttons {
+                display: block;
+              } // .action-buttons
+            } // li
+          } // ul
+        } // .comments
+      } // .single-question-page
+    }// .main
+  } // body.logged-in
   header{
     .welcome{
       font-size: 1em;
@@ -1218,7 +1532,6 @@ footer{
           }//.question-body
           .action-meta-cont{
             .action-buttons{
-              display: block;
               width: 100%;
               text-align: center;
               padding: 4em 0 1em;
@@ -1228,6 +1541,9 @@ footer{
               padding:  0;
               display: inline-block;
               width: 100%;
+              .tags{
+                text-align: center;                
+              } // .tags
             }//.meta-cont
           }//.action-meta-cont
         }//.quetsion-cont
@@ -1237,14 +1553,41 @@ footer{
             font-size: 1.2em;
           }//h2
           ul{
-            li{
+            li {
+              .likes-dislikes-cont {
+                font-size: 0.7em;
+                float: none;
+                width: 100%;
+                text-align: center;
+              } // .likes-dislikes-cont
               .comment{
-
+                i.fas.fa-check-circle{
+                  &:before{
+                    font-size: 2em;
+                  }
+                }// check mark
               }//.comment
-              .action-buttons{
-                padding: 1em 0;
-              }//.action-buttons
-            }//li
+              .action-buttons {                
+                padding: 1em 0 0.3em;
+                text-align: center;
+                span.action{
+                  font-size: 0.8em;
+                }// span.action
+              } // .action-buttons              
+              .com-meta {
+                font-size: 0.65em;
+                font-style: italic;
+                padding: 0.3em 0 0.7em;
+                width: 100%;
+                display: block;
+                text-align: center;
+                margin: 0;
+                a {
+                  color: $fireRed;
+                  text-decoration: none;
+                } // a
+              }// .com-meta          
+            } // li
           }//ul
         }//.comments
 

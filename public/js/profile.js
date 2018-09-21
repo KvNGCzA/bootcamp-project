@@ -36,6 +36,6 @@ var fetchUserInfo = function () {
     return fetchUserInfo;
 }();
 
-if (document.title === 'Profile') {
+if (document.getElementsByTagName('body')[0].classList.contains('page-profile')) {
     fetchUserInfo();
 }
