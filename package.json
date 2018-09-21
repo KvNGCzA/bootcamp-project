@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "babel-node ./server/server.js",
-    "nodestart": "babel-node ./server/server.js",
+    "nodestart": "nodemon --exec npm run start",
     "mocha": "mocha --compilers js:babel-register",
     "test": "mocha --compilers js:babel-register --recursive ./server/test --exit",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- compiled/test --exit",

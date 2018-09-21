@@ -3,8 +3,6 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
-import hbs from 'hbs';
-
 
 import questionRoutes from './routes/questions';
 import userRoutes from './routes/users';
@@ -29,7 +27,6 @@ app.use((req, res, next) => {
 	next();
 });
 
-
 // questions api route
 app.use('/api/v1/questions', questionRoutes);
 app.use('/api/v2/auth', userRoutes);
@@ -38,46 +35,27 @@ app.use('/api/v2/questions', postgresQuestionRoutes);
 // link to static directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// register hbs partials
-hbs.registerPartials(path.join(__dirname, '..', 'views', 'partials'));
-
-// register hbs helper
-hbs.registerHelper('getCurrentYear', () => new Date().getFullYear());
-
-
-// enable hbs
-app.set('view engine', 'hbs');
-
-app.get('/', (req, res, next) => {
-	res.render('index.hbs', {
-		pageTitle: 'Home',
-	});
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
 });
 
-app.get('/profile', (req, res, next) => {
-	res.render('profile.hbs', {
-		pageTitle: 'Profile',
-	});
+app.get('/profile', (req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'views', 'profile.html'));
 });
 
-app.get('/question', (req, res, next) => {
-	res.render('question.hbs', {
-		pageTitle: 'Question',
-	});
+app.get('/question', (req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'views', 'question.html'));
 });
 
-app.get('/post-question', (req, res, next) => {
-	res.render('post-question.hbs', {
-		pageTitle: 'Post A Question',
-	});
+
+app.get('/post-question', (req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'views', 'post-question.html'));
 });
 
-app.get('/login-signup', (req, res, next) => {
-	res.render('login-signup.hbs', {
-		pageTitle: 'Login-SignUp',
-	});
-});
 
+app.get('/login-signup', (req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'views', 'login-signup.html'));
+});
 
 // error codes
 app.use((req, res, next) => {

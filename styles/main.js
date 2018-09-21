@@ -1,13 +1,13 @@
 /** add page-title as a class to the body tag */
 const bodyTag = document.getElementsByTagName('body')[0];
-const currentPageTitle = document.title;
-const cName = dashTitle(currentPageTitle);
-bodyTag.classList += `page-${cName} `;
+// const currentPageTitle = document.title;
+// const cName = dashTitle(currentPageTitle);
+// bodyTag.classList += `page-${cName} `;
 
 // add logged-in or logged-out class to body
 const status = localStorage.getItem('token');
 if (status !== 'null') {
-	bodyTag.classList += 'logged-in';
+	bodyTag.classList += ' logged-in';
 	const profileLink = document.getElementsByClassName('profile-link');
 	const username = localStorage.getItem('username');
 	const profileimage = localStorage.getItem('profileimage');
@@ -16,7 +16,7 @@ if (status !== 'null') {
 	}
 	document.getElementsByClassName('profile-image')[0].style.backgroundImage = `url('images/${profileimage}')`;
 } else {
-	bodyTag.classList += 'logged-out';
+	bodyTag.classList += ' logged-out';
 }
 
 /** action buttons config */
