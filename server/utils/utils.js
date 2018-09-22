@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { db } from '../db';
 
 const fetchQuestions = () => {
 	try {
@@ -33,3 +34,34 @@ export const validateEmail = (str) => {
 };
 
 export const validateWord = str => typeof str === 'string' && str.length > 1 && (/^[a-zA-Z]+(([' -][a-zA-Z ])?[a-zA-Z]*)*$/g).test(str);
+
+export const removeFromDislikers = (req, res, username, id, x, y) => {
+    db.any(`SELECT dislikes FROM ${x} WHERE id = $1`, [id])
+    .then(dislikes => {
+        const dislikers = dislikes[0].dislikes;
+        if (dislikers !== null && dislikers.indexOf(username) !== -1) {
+            const newDislikers = dislikers.filter(disliker => disliker !== username);
+            db.none(`UPDATE ${x} SET dislikes = $1 WHERE id = $2`, [newDislikers, id])
+            .then(() => res.status(200).json({ status: 200, message: `${y} liked!` }))
+            .catch(error => res.status(500).json({ status: 500, error }));
+        }else{
+            return res.status(200).json({ status: 200, message: `${y} liked!` });
+        }
+    }).catch(error => res.status(500).json({ status: 500, error }));
+};
+
+export const removeFromLikers = (req, res, username, id, x, y) => {
+    db.any(`SELECT likes FROM ${x} WHERE id = $1`, [id])
+    .then(likes => {
+        const likers = likes[0].likes;
+        if (likers !== null && likers.indexOf(username) !== -1) {
+            const newLikers = likers.filter(liker => liker !== username);
+            db.none(`UPDATE ${x} SET likes = $1 WHERE id = $2`, [newLikers, id])
+            .then(() => res.status(200).json({ status: 200, message: `${y} disliked!` }))
+            .catch(error => res.status(500).json({ status: 500, error }));
+        }else{
+            return res.status(200).json({ status: 200, message: `${y} disliked!` });
+        }
+    })
+    .catch(error => res.status(500).json({ status: 500, error }));
+};
