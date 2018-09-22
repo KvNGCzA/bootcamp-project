@@ -10,12 +10,7 @@ var postQuestion = function () {
 	function postQuestion(_e) {
 		_e.preventDefault();
 		var token = localStorage.getItem('token');
-		var newQuestion = {
-			title: questionForms.title.value,
-			content: questionForms.content.value,
-			tags: questionForms.tags.value,
-			token: token
-		};
+		var newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token: token };
 		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
 			method: 'POST',
 			headers: {

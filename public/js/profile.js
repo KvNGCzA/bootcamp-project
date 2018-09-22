@@ -15,7 +15,8 @@ var fetchUserInfo = function () {
                 occupation = _data$user$.occupation,
                 profileimage = _data$user$.profileimage;
             // add users information from database
-            document.title = `Profile - ${fullname}`;
+
+            document.title = 'Profile - @' + String(username);
             document.getElementsByClassName('heading')[0].textContent = String(fullname.split(' ')[0]) + '\'s Questions';
             for (var x = 0; x < document.getElementsByClassName('profile-full-name').length; x++) {
                 document.getElementsByClassName('profile-full-name')[x].textContent = fullname;
