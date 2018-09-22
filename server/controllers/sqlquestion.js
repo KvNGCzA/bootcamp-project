@@ -1,5 +1,4 @@
 import { db } from '../db';
-
 export class Questions {
     
 	// fetch all questions
@@ -17,65 +16,37 @@ export class Questions {
     postQuestion (req, res) {
         const { id, username } = req.userData;
         const { title, content, tags } = req.body;
-        // validate title and content
-        if (!title) {
-            return res.status(400).json({ status: 400, message: 'please enter question title!' });
-        }
-        if (!content) {
-            return res.status(400).json({ status: 400, message: 'please enter question content!' });
-        }
-        if (!tags) {
-            return res.status(400).json({ status: 400, message: 'please enter tags for this question!' });
-        }
-        if (/[a-zA-Z]/g.test(title) === false || /[a-zA-Z]/g.test(content) === false) {
-            return res.status(400).json({ status: 400, message: 'you cannot post this type of title or content!' });
-        }
-        db.any('INSERT INTO questions (title, content, username, userId, tags) VALUES ($1, $2, $3, $4, $5)', [title, content, username, id, tags])
-            .then(() => {
-                db.any('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] )
-                .then(() => {                    
-                    return res.status(201).json({ status: 201, message: 'question posted!' });
-                })
-                .catch(error => res.status(500).json({ status: 500, error }));
-            })
-            .catch(error => {
-                return res.status(500).json({ status: 500, error });
-            });
+        db.tx(t => {
+            const q1 =  t.any('INSERT INTO questions (title, content, username, userId, tags) VALUES ($1, $2, $3, $4, $5)', [title, content, username, id, tags]);
+            const q2 = t.none('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] );
+            return t.batch([q1, q2]);
+        })
+        .then(() => res.status(201).json({ status: 201, message: 'question posted!' }))
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
 
     // get a question by its id
     getQuestionById (req, res) {
         const { questionId } = req.params;
-        if (/[0-9]/g.test(questionId) === false || questionId.length > 9 ) {
-            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
-        }
         // fetch question from database
-        db.any('SELECT * FROM questions WHERE id = $1', [questionId])
-        .then(question => {
-            // if question array is empty
-            if( question.length < 1){
+        db.tx(t => {
+            const q1 = t.any('SELECT * FROM questions WHERE id = $1', [questionId]);
+            const q2 = t.any('SELECT * FROM answers WHERE questionId = $1', [questionId]);
+            return t.batch([q1, q2]);
+        })
+        .then(data => {
+            const question = data[0];
+            const answers = data[1];
+            if (question.length < 1) {
                 return res.status(404).json({ status: 404, message: 'question does not exist'});
             }
-            // return questions answers
-            db.any('SELECT * FROM answers WHERE questionId = $1', [questionId])
-            .then(answers => {
-                return res.status(200).json({ status: 200, question, answers });
-            })
-            .catch(error => {
-                return res.status(500).json({ status: 500, error });
-            });
+            return res.status(200).json({ status: 200, question, answers });
         })
-        .catch(error => {
-            return res.status(500).json({ status: 500, error });
-        }); 
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
 
     getUsersQuestions (req, res) {
         const { username } = req.params;
-        const usernameCheck = (/^[a-zA-Z0-9]+(([_][a-zA-Z0-9])?[a-zA-Z0-9]*)*$/g).test(username);
-        if (usernameCheck !== true) {
-            return res.status(400).json({ status: 400, message: 'username parameter is an invalid format!' });
-        }
         db.any('SELECT * FROM questions WHERE username = $1', [ username ])
         .then(questions => {
             if (questions.length < 1) {
@@ -91,43 +62,30 @@ export class Questions {
         const { id, username } = req.userData;
         const { answer } = req.body;
         const { questionId } = req.params;
-        if (/[0-9]/g.test(questionId) === false || questionId.length > 9) {
-            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
-        }
-        if (!answer || answer.trim() === '') {
-            return res.status(400).json({ status: 400, message: 'invalid or empty answer property!' });
-        }
         // fetch id of question creator
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
         .then(question => {
             const creatorId = question[0].userid;
-            db.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id])
-                .then(() => {
-                    db.any('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1 ,id])
-                    .then(() => {
-                        db.any('UPDATE questions SET answers_count = answers_count + $1 WHERE id = $2', [1, questionId])
-                        .then(() => res.status(201).json({ status: 201, message: 'answer posted!' }))
-                        .catch(error => res.status(500).json({ status: 500, error }));
-                    })
-                    .catch(error => res.status(500).json({ status: 500, error }));
+            if (question.length > 0) {
+                db.tx(t => {
+                    const q1 = t.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id]);
+                    const q2 =  t.none('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1 ,id]);
+                    const q3 = t.none('UPDATE questions SET answers_count = answers_count + $1 WHERE id = $2', [1 ,questionId]);
+                    return;
                 })
+                .then(() => res.status(201).json({ status: 201, message: 'answer posted!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
+            } else {
+                return res.status(404).json({ status: 404, message: 'question does not exist' });
+            }
         })
-        .catch(error => {
-                return res.status(500).json({ status: 500, error });
-        });
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
 
     // mark favorite or update answer
     markFavorite (req, res) {
         const { questionId, answerId } = req.params;
         const { id } = req.userData;
-        if (/[0-9]/g.test(questionId) === false || questionId.length > 9) {
-            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
-        }
-        if (/[0-9]/g.test(answerId) === false) {
-            return res.status(400).json({ status: 400, message: 'answerId must be an integer or less than nine characters!' });
-        }
         
         db.any('SELECT * FROM answers WHERE questionid = $1 AND id = $2', [questionId, answerId])
         .then(answer => {
@@ -138,18 +96,14 @@ export class Questions {
                     // if there is no favorite
                     if (result.length < 1) {
                         // set new favorite
-                        db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
-                        .then(() => {
-                            return res.status(200).json({ status: 200, message: 'answer was favorited!' });
-                         })
+                        db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
+                        .then(() => res.status(200).json({ status: 200, message: 'answer was favorited!' }))
                         .catch(error => res.status(500).json({ status: 500, error }));
                     }
-
-                    // if there is a 
                     
                     // if answer was already favorited
                     else if (result[0].id === Number(answerId)) {
-                        db.any('UPDATE answers SET favorite = $1 WHERE questionId = $2 AND id = $3', [false, questionId, answerId])
+                        db.none('UPDATE answers SET favorite = $1 WHERE questionId = $2 AND id = $3', [false, questionId, answerId])
                         .then(() => {
                             return res.status(200).json({ status: 200, message: 'answer was unfavorited!' });
                         })
@@ -157,13 +111,11 @@ export class Questions {
                     }
                     else {
                         // set old favorite to false
-                        db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true])
+                        db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true])
                         .then(() => {
                             // set the new favorite to true
-                            db.any('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
-                            .then(() => {
-                                return res.status(200).json({ status: 200, message: 'answer was favorited!' });
-                            })
+                            db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
+                            .then(() => res.status(200).json({ status: 200, message: 'answer was favorited!' }))
                             .catch(error => res.status(500).json({ status: 500, error }));
                         })
                         .catch(error => res.status(500).json({ status: 500, error }));
@@ -176,7 +128,7 @@ export class Questions {
             if (answer[0].userid === id) {
                 const { newAnswer } = req.body;
                 // update answer
-                db.any('UPDATE answers SET answer = $1 WHERE questionid = $2 AND id = $3', [newAnswer, questionId, answerId])
+                db.none('UPDATE answers SET answer = $1 WHERE questionid = $2 AND id = $3', [newAnswer, questionId, answerId])
                 .then(() => {
                     return res.status(201).json({ status: 201, message:  'answer updated!' });
                 })
@@ -193,9 +145,6 @@ export class Questions {
     deleteQuestion (req, res) {
         const { questionId } = req.params;
         const { id } = req.userData;
-        if (/[0-9]/g.test(questionId) === false) {
-            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
-        }
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
         .then(question => {
             if (question.length < 1) {
@@ -205,9 +154,7 @@ export class Questions {
             if (question[0].userid === id) {
                 // delete question
                 db.any('DELETE FROM questions WHERE id = $1', [questionId])
-                .then(() => {
-                    return res.status(200).json({ status: 200, message: 'question deleted!' });
-                })
+                .then(() => res.status(200).json({ status: 200, message: 'question deleted!' }))
                 .catch(error => {
                     return res.status(500).json({ status: 500, error });
                 });
@@ -216,74 +163,64 @@ export class Questions {
                 return res.status(400).json({ status: 400, message: 'You do not have the permission to delete this question!' });
             }
         })
-        .catch(error => {
-            return res.status(500).json({ status: 500, error });
-        });
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
 
     // like a question
     likeQuestion (req, res) {
         const { questionId } = req.params;
         const { username } = req.userData;
-        if (/[0-9]/g.test(questionId) === false) {
-            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
-        }
-        const removeFromDislikers = (username, questionId) => {
+        const removeFromQuestionDislikers = (username, questionId) => {
             db.any('SELECT dislikes FROM questions WHERE id = $1', [questionId])
             .then(dislikes => {
+                console.log(dislikes);
                 const dislikers = dislikes[0].dislikes;
                 if (dislikers !== null && dislikers.indexOf(username) !== -1) {
                     const newDislikers = dislikers.filter(disliker => disliker !== username);
-                    db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [newDislikers, questionId])
+                    db.none('UPDATE questions SET dislikes = $1 WHERE id = $2', [newDislikers, questionId])
                     .then(() => res.status(200).json({ status: 200, message: 'question liked!' }))
                     .catch(error => res.status(500).json({ status: 500, error }));
                 }else{
                     return res.status(200).json({ status: 200, message: 'question liked!' });
                 }
-            })
-            .catch(error => res.status(500).json({ status: 500, error }));
+            }).catch(error => res.status(500).json({ status: 500, error }));
         };
         db.any('SELECT likes FROM questions WHERE id = $1', [questionId])
         .then(likes => {
             const likers = likes[0].likes;
             if (likers === null) {
-                db.any('UPDATE questions SET likes = $1 WHERE id = $2', [[username], questionId])
-                .then(() => removeFromDislikers(username, questionId))
+                db.none('UPDATE questions SET likes = $1 WHERE id = $2', [[username], questionId])
+                .then(() => removeFromQuestionDislikers(username, questionId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }else if (likers.indexOf(username) === -1) {
                 const newLikes = [...likers, username];
-                db.any('UPDATE questions SET likes = $1 WHERE id = $2', [newLikes, questionId])
-                .then(() => removeFromDislikers(username, questionId))
+                db.none('UPDATE questions SET likes = $1 WHERE id = $2', [newLikes, questionId])
+                .then(() => removeFromQuestionDislikers(username, questionId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else{
                 const editLikers = likers.filter(liker => liker !== username);
-                db.any('UPDATE questions SET likes = $1 WHERE id = $2', [editLikers, questionId])
+                db.none('UPDATE questions SET likes = $1 WHERE id = $2', [editLikers, questionId])
                 .then(() => res.status(200).json({ status: 200, message: 'question unliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
-        })
-        .catch(error => res.status(500).json({ status: 500, error }));
+        }).catch(error => res.status(500).json({ status: 500, error }));
     }
 
-    // dislike answer
+    // dislike question
     dislikeQuestion (req, res) {
         const { questionId } = req.params;
-        const { username } = req.userData
-        if (/[0-9]/g.test(questionId) === false) {
-            return res.status(400).json({ status: 400, message: 'questionId must be an integer or less than nine characters!' });
-        }
+        const { username } = req.userData;
         db.any('SELECT dislikes FROM questions WHERE id = $1', [questionId])
         .then(dislikes => {
             const dislikers = dislikes[0].dislikes;
-
-            const removeFromLikers = (username, questionId) => {
+            const removeFromQuestionLikers = (username, questionId) => {
                 db.any('SELECT likes FROM questions WHERE id = $1', [questionId])
                 .then(likes => {
                     const likers = likes[0].likes;
                     if (likers !== null && likers.indexOf(username) !== -1) {
                         const newLikers = likers.filter(liker => liker !== username);
-                        db.any('UPDATE questions SET likes = $1 WHERE id = $2', [newLikers, questionId])
+                        db.none('UPDATE questions SET likes = $1 WHERE id = $2', [newLikers, questionId])
                         .then(() => res.status(200).json({ status: 200, message: 'question disliked!' }))
                         .catch(error => res.status(500).json({ status: 500, error }));
                     }else{
@@ -294,19 +231,19 @@ export class Questions {
             };
 
             if (dislikers === null) {
-                db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [[username], questionId])
-                .then(() => removeFromLikers(username, questionId))
+                db.none('UPDATE questions SET dislikes = $1 WHERE id = $2', [[username], questionId])
+                .then(() => removeFromQuestionLikers(username, questionId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else if (dislikers.indexOf(username) === -1) {
                 const newDislikers = [...dislikers, username];
-                db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [newDislikers, questionId])
-                .then(() => removeFromLikers(username, questionId))
+                db.none('UPDATE questions SET dislikes = $1 WHERE id = $2', [newDislikers, questionId])
+                .then(() => removeFromQuestionLikers(username, questionId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else{
                 const editDislikers = dislikers.filter(disliker => disliker !== username);
-                db.any('UPDATE questions SET dislikes = $1 WHERE id = $2', [editDislikers, questionId])
+                db.none('UPDATE questions SET dislikes = $1 WHERE id = $2', [editDislikers, questionId])
                 .then(() => res.status(200).json({ status: 200, message: 'question undisliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
@@ -325,13 +262,13 @@ export class Questions {
         .then(likes => {
             const likers = likes[0].likes;
 
-            const removeFromDislikers = (username, answerId) => {
+            const removeFromAnswerDislikers = (username, answerId) => {
                 db.any('SELECT dislikes FROM answers WHERE id = $1', [answerId])
                 .then(dislikes => {
                     const dislikers = dislikes[0].dislikes;
                     if (dislikers !== null && dislikers.indexOf(username) !== -1) {
                         const newDislikers = dislikers.filter(disliker => disliker !== username);
-                        db.any('UPDATE answers SET dislikes = $1 WHERE id = $2', [newDislikers, answerId])
+                        db.none('UPDATE answers SET dislikes = $1 WHERE id = $2', [newDislikers, answerId])
                         .then(() => res.status(200).json({ status: 200, message: 'answer liked!' }))
                         .catch(error => res.status(500).json({ status: 500, error }));
                     }else{
@@ -342,19 +279,19 @@ export class Questions {
             };
 
             if (likers === null) {
-                db.any('UPDATE answers SET likes = $1 WHERE id = $2', [[username], answerId])
-                .then(() => removeFromDislikers(username, answerId))
+                db.none('UPDATE answers SET likes = $1 WHERE id = $2', [[username], answerId])
+                .then(() => removeFromAnswerDislikers(username, answerId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else if (likers.indexOf(username) === -1) {
                 const newLikes = [...likers, username];
-                db.any('UPDATE answers SET likes = $1 WHERE id = $2', [newLikes, answerId])
-                .then(() => removeFromDislikers(username, answerId))
+                db.none('UPDATE answers SET likes = $1 WHERE id = $2', [newLikes, answerId])
+                .then(() => removeFromAnswerDislikers(username, answerId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else{
                 const editLikers = likers.filter(liker => liker !== username);
-                db.any('UPDATE answers SET likes = $1 WHERE id = $2', [editLikers, answerId])
+                db.none('UPDATE answers SET likes = $1 WHERE id = $2', [editLikers, answerId])
                 .then(() => res.status(200).json({ status: 200, message: 'answer unliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
@@ -373,13 +310,13 @@ export class Questions {
         .then(dislikes => {
             const dislikers = dislikes[0].dislikes;
 
-            const removeFromLikers = (username, answerId) => {
+            const removeFromAnswerLikers = (username, answerId) => {
                 db.any('SELECT likes FROM answers WHERE id = $1', [answerId])
                 .then(likes => {
                     const likers = likes[0].likes;
                     if (likers !== null && likers.indexOf(username) !== -1) {
                         const newLikers = likers.filter(liker => liker !== username);
-                        db.any('UPDATE answers SET likes = $1 WHERE id = $2', [newLikers, answerId])
+                        db.none('UPDATE answers SET likes = $1 WHERE id = $2', [newLikers, answerId])
                         .then(() => res.status(200).json({ status: 200, message: 'answer disliked!' }))
                         .catch(error => res.status(500).json({ status: 500, error }));
                     }else{
@@ -390,19 +327,19 @@ export class Questions {
             };
 
             if (dislikers === null) {
-                db.any('UPDATE answers SET dislikes = $1 WHERE id = $2', [[username], answerId])
-                .then(() => removeFromLikers(username, answerId))
+                db.none('UPDATE answers SET dislikes = $1 WHERE id = $2', [[username], answerId])
+                .then(() => removeFromAnswerLikers(username, answerId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else if (dislikers.indexOf(username) === -1) {
                 const newDislikers = [...dislikers, username];
-                db.any('UPDATE answers SET dislikes = $1 WHERE id = $2', [newDislikers, answerId])
-                .then(() => removeFromLikers(username, answerId))
+                db.none('UPDATE answers SET dislikes = $1 WHERE id = $2', [newDislikers, answerId])
+                .then(() => removeFromAnswerLikers(username, answerId))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
             else{
                 const editDislikers = dislikers.filter(disliker => disliker !== username);
-                db.any('UPDATE answers SET dislikes = $1 WHERE id = $2', [editDislikers, answerId])
+                db.none('UPDATE answers SET dislikes = $1 WHERE id = $2', [editDislikers, answerId])
                 .then(() => res.status(200).json({ status: 200, message: 'answer undisliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }

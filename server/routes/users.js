@@ -1,7 +1,9 @@
 import express from 'express';
 import multer from 'multer';
+
 import { User } from '../controllers/user';
 import checkAuth from '../auth/check-auth';
+import { validateSignUpInfo, validateLoginInfo, validateUsername } from '../utils/validatorUser';
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
@@ -34,11 +36,11 @@ const router = express.Router();
 
 router.get('/users', userClass.fetchUsers);
 
-router.get('/user/:username', userClass.fetchUserByUsername);
+router.get('/user/:username', validateUsername, userClass.fetchUserByUsername);
 
-router.post('/signup', upload.single('profileImage'), userClass.createUser);
+router.post('/signup', validateSignUpInfo, upload.single('profileImage'), userClass.createUser);
 
-router.post('/login', userClass.login);
+router.post('/login', validateLoginInfo, userClass.login);
 
 router.post('/logout', checkAuth, userClass.logout);
 

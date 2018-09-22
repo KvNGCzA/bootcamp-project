@@ -18,6 +18,7 @@ describe('POST/ api/v2/auth/signup', () => {
 				username: 'christest',
 				email: 'testmail@yahoo.com',
 				password: 'testpass',
+				occupation: 'Programmer',
 			})
 			.expect(201)
 			.expect('Content-Type', /json/)
@@ -33,6 +34,7 @@ describe('POST/ api/v2/auth/signup', () => {
 				username: 'babaDee',
 				email: 'babadee@yahoo.com',
 				password: 'testpass',
+				occupation: 'Programmer',
 			})
 			.expect(201)
 			.expect('Content-Type', /json/)
@@ -47,6 +49,7 @@ describe('POST/ api/v2/auth/signup', () => {
 				username: 'fred',
 				email: 'fred@yahoo.com',
 				password: 'testpass',
+				occupation: 'Programmer',
 			})
 			.expect(201)
 			.expect('Content-Type', /json/)
@@ -61,6 +64,7 @@ describe('POST/ api/v2/auth/signup', () => {
 				username: 'christestt',
 				email: 'testmail@yahoo.com',
 				password: 'testpass',
+				occupation: 'Programmer'
 			})
 			.expect('Content-Type', /json/)
 			.expect(409, { status: 409, message: 'a user with this email already exists' })
@@ -75,6 +79,7 @@ describe('POST/ api/v2/auth/signup', () => {
 				username: 'christest',
 				email: 'testmail1@yahoo.com',
 				password: 'testpass',
+				occupation: 'Programmer'
 			})
 			.expect('Content-Type', /json/)
 			.expect(409, { status: 409, message: 'a user with this username already exists' })
@@ -89,6 +94,7 @@ describe('POST/ api/v2/auth/signup', () => {
 			username: 'christest',
 			email: 'testmail@yahoo.com',
 			password: 'testpass',
+			occupation: 'Programmer'
 		})
 		.expect(400, { status: 400, message: 'first name is empty or an invalid format' })
 		.end(done);
@@ -102,6 +108,7 @@ describe('POST/ api/v2/auth/signup', () => {
 			username: 'christest',
 			email: 'testmail@yahoo.com',
 			password: 'testpass',
+			occupation: 'Programmer'
 		})
 		.expect(400, { status: 400, message: 'last name is empty or an invalid format' })
 		.end(done);
@@ -115,8 +122,9 @@ describe('POST/ api/v2/auth/signup', () => {
 			username: 'christest',
 			email: 'testmail@yaho.co',
 			password: 'testpass',
+			occupation: 'Programmer'
 		})
-		.expect(400, { status: 400, message: 'email is empty or an invalid format' })
+		.expect(400, { status: 400, message: 'email address is empty or an invalid format' })
 		.end(done);
 	})
 	it('should not create user if password is an invalid format', done => {
@@ -128,6 +136,7 @@ describe('POST/ api/v2/auth/signup', () => {
 			username: 'christest',
 			email: 'testmail@yahoo.com',
 			password: '',
+			occupation: 'Programmer'
 		})
 		.expect(400, { status: 400, message: 'password is empty or an invalid format' })
 		.end(done);
@@ -210,7 +219,7 @@ describe('POST/ api/v2/auth/login', () => {
 				email: '..@yoo.com',
 				password: 'asdas',
 			})
-			.expect(400, { status: 400, message: 'email address is invalid or in an invalid format' })
+			.expect(400, { status: 400, message: 'email address is empty or an invalid format' })
 			.expect('Content-Type', /json/)
 			.end(done);
 	});
@@ -577,7 +586,7 @@ describe('GET/ /api/v2/questions/:username/questions', () => {
 	it('should return a specific users questions', done => {
 		request
 		.get('/api/v2/questions/christ...est/questions')
-		.expect(400, { status: 400, message: 'username parameter is an invalid format!' })
+		.expect(400, { status: 400, message: 'username is in an invalid format' })
 		.expect('Content-Type', /json/)
 		.end(done);
 	});

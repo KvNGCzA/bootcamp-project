@@ -12,7 +12,6 @@ const port = process.env.PORT || 3000;
 
 // start express server
 const app = express();
-
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
