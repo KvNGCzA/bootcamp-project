@@ -6,6 +6,7 @@
 /public/js/jquery-ui-1.12.1
 /UI/js/
 /views/hbs
+/styles
 .env
 .eslintrc.json
 .coveralls.yml
