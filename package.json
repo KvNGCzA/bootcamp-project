@@ -12,8 +12,7 @@
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "babel --presets airbnb server -d compiled/",
-    "build2": "babel --presets airbnb server -d compiled/",
-    "build3": "babel --presets airbnb styles -d public/js"
+    "build2": "babel --presets airbnb styles -d public/js"
   },
   "author": "Akanmu Christopher",
   "license": "ISC",

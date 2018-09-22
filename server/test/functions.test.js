@@ -1,40 +1,35 @@
-// import chai from 'chai';
-// import { dashTitle, formatDate } from '../../public/js/functions';
+import chai from 'chai';
 
-// const { assert } = chai;
+import { validateEmail, validateWord } from '../utils/utils';
 
-// const dashTitleResult1 = dashTitle('Test');
-// const dashTitleResult2 = dashTitle('Test Test');
-// const formatDateResult1 = formatDate('2018-03-01');
-// const formatDateResult2 = formatDate('2018-10-30YDS32');
+const assert = chai.assert;
 
-// describe('All fucntions test', () => {
-//     describe('dashTitle()', () => {
-//         it('dashTitle("Test") should return "test"', () => {
-//             assert.equal(dashTitleResult1, 'test');
-//         });
-//         it('dashTitle("Test") should return a string', () => {
-//             assert.typeOf(dashTitleResult1, 'string');
-//         });
-//         it('dashTitle("Test Test") should return "test-test"', () => {
-//             assert.equal(dashTitleResult2, 'test-test');
-//         });
-//         it('dashTitle("Test Test") should return a string', () => {
-//             assert.typeOf(dashTitleResult2, 'string');
-//         });     
-//     });
-//     describe('formatDate()', () => {
-//         it('formatDate("2018-03-01") should return "01 Mar 2018"', () => {
-//             assert.equal(formatDateResult1, '01 Mar 2018');
-//         });
-//         it('formatDate("2018-03-01") should return a string', () => {
-//             assert.typeOf(formatDateResult1, 'string');
-//         });
-//         it('formatDate("2018-10-30YDS32") should return "30 Oct 2018"', () => {
-//             assert.equal(formatDateResult2, '30 Oct 2018');
-//         });
-//         it('formatDate("2018-10-30YDS32") should return a string', () => {
-//             assert.typeOf(formatDateResult2, 'string');
-//         });     
-//     });
-// });
+describe('validateEmail()', () => {
+    it('should return true', () => {
+        assert.equal(validateEmail('chris@yahoo.com'), true);
+    });
+    it('should return false', () => {
+        assert.equal(validateEmail('chrisyahoocom'), false);
+    });
+    it('should return false', () => {
+        assert.equal(validateEmail('chris@yahoocom'), false);
+    });
+    it('should return type boolean', () => {
+        assert.typeOf(validateEmail('chris@yahoo.com'), 'boolean');
+    });    
+});
+
+describe('validateWord()', () => {
+    it('should return true', () => {
+        assert.equal(validateWord('chriscom'), true);
+    });
+    it('should return false', () => {
+        assert.equal(validateWord(2), false);
+    });
+    it('should return false', () => {
+        assert.equal(validateWord('chris@yahoocom'), false);
+    });
+    it('should return type boolean', () => {
+        assert.typeOf(validateWord('sdasd'), 'boolean');
+    });    
+});
