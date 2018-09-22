@@ -8,13 +8,11 @@ if (body.classList.contains('page-login-signup')) {
       _e.preventDefault();
       var warning = document.getElementById('warning-message');
       var newUser = new FormData();
-      newUser.append('firstName', signupForm.fname.value);
-      newUser.append('lastName', signupForm.lname.value);
-      newUser.append('occupation', signupForm.occupation.value);
-      newUser.append('password', signupForm.pwd.value);
-      newUser.append('email', signupForm.email.value);
-      newUser.append('username', signupForm.username.value);
-      newUser.append('profileImage', signupForm.profileImage.files[0]);
+      var propArr = ['firstName', 'lastName', 'occupation', 'password', 'email', 'username', 'profileImage'];
+      var valueArr = [signupForm.fname.value, signupForm.lname.value, signupForm.occupation.value, signupForm.pwd.value, signupForm.email.value, signupForm.username.value, signupForm.profileImage.files[0]];
+      for (var x in propArr) {
+        newUser.append(propArr[x], valueArr[x]);
+      }
       fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/signup', {
         method: 'POST',
         body: newUser
@@ -33,8 +31,7 @@ if (body.classList.contains('page-login-signup')) {
           localStorage.setItem('token', token);
           window.location.href = './profile?username=' + String(username);
           return;
-        }
-        return warning.textContent = message;
+        }return warning.textContent = message;
       })['catch'](function (err) {
         return err;
       });
@@ -49,10 +46,7 @@ if (body.classList.contains('page-login-signup')) {
     function loginUser(_e) {
       _e.preventDefault();
       var warning = document.getElementById('warning-message2');
-      var user = {
-        email: loginForm.email.value,
-        password: loginForm.pwd.value
-      };
+      var user = { email: loginForm.email.value, password: loginForm.pwd.value };
       fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/login', {
         method: 'POST',
         headers: {
@@ -75,8 +69,7 @@ if (body.classList.contains('page-login-signup')) {
           localStorage.setItem('token', token);
           window.location.href = './profile?username=' + String(username);
           return;
-        }
-        return warning.textContent = 'username/password do not match';
+        }return warning.textContent = 'username/password do not match';
       })['catch'](function (error) {
         return error;
       });

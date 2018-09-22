@@ -18,7 +18,7 @@ var renderQuestionMeta_singleQuestion = function () {
 			dislikesCount = 0;
 		}
 		document.getElementsByClassName('question-title')[0].textContent = title;
-		document.getElementsByClassName('q-meta')[0].innerHTML = '<ul>\n  <li class="answer-count">\n      <a href="#">Answers</a>\n      <a href="#" class="answer-count-dis">' + String(answersCount) + '</a>\n  </li><!--\n  --><li class="likes-count">\n      <a href="#">UpVotes</a>\n      <a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n  </li><!--\n  --><li class="views-count">\n      <a href="#">DownVotes</a>\n      <a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n  </li>\n  </ul>';
+		document.getElementsByClassName('q-meta')[0].innerHTML = '<ul><li class="answer-count">\n      <a href="#">Answers</a><a href="#" class="answer-count-dis">' + String(answersCount) + '</a>\n  </li><!--\n  --><li class="likes-count">\n      <a href="#">UpVotes</a><a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n  </li><!--\n  --><li class="views-count">\n      <a href="#">DownVotes</a><a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n  </li></ul>';
 	}
 
 	return renderQuestionMeta_singleQuestion;
@@ -27,20 +27,17 @@ var renderQuestionMeta_singleQuestion = function () {
 // render question single question page
 var renderQuestionBody_singleQuestion = function () {
 	function renderQuestionBody_singleQuestion(id, content, username, createdAt, likes, dislikes) {
-		document.getElementsByClassName('question-body')[0].textContent = content;document.getElementsByClassName('action-meta-cont')[0].innerHTML = '<div class="action-buttons"></div><!--action buttons--><!--\n  --><div class="meta-cont">\n  <span class="date-posted">\n  </span>\n  <ul class="tags">\n  </ul>\n  </div><!--meta cont -->';
-
+		document.getElementsByClassName('question-body')[0].textContent = content;document.getElementsByClassName('action-meta-cont')[0].innerHTML = '<div class="action-buttons"></div><!--action buttons--><!--\n  --><div class="meta-cont"><span class="date-posted"></span>\n  <ul class="tags"></ul>\n  </div><!--meta cont -->';
 		if (localStorage.getItem('username') !== username) {
 			document.getElementsByClassName('action-buttons')[0].innerHTML = '\n      <span class="like-question action like-btn" title="Like" onclick="likeQuestion(' + String(id) + ')">\n      <i class="far fa-thumbs-up likebutton"></i>\n      </span><!--\n      --><span class="dislike-question action dislike-btn" title="Dislike" onclick="dislikeQuestion(' + String(id) + ')">\n      <i class="far fa-thumbs-down dislikebutton"></i>\n      </span><!--\n      --><span class="report action report-btn" title="Mark as Inappropriate">\n      <i class="far fa-flag reportbutton"></i>\n      </span>';
 		} else {
 			document.getElementsByClassName('meta-cont')[0].style.width = '100%';
 		}
-
 		document.getElementsByClassName('date-posted')[0].innerHTML = '<span>' + String(formatDate(createdAt)) + '</span> by <span><a href="/profile?username=' + String(username) + '">@' + String(username) + '</a></span>';
 		if (likes !== null && likes.indexOf(localStorage.getItem('username')) !== -1) {
 			var likeBtn = document.getElementsByClassName('far fa-thumbs-up likebutton')[0];
 			likeBtn.classList = 'fas fa-thumbs-up likebutton';
-		}
-		if (dislikes !== null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
+		}if (dislikes !== null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
 			var dislikeBtn = document.getElementsByClassName('far fa-thumbs-down dislikebutton')[0];
 			dislikeBtn.classList = 'fas fa-thumbs-down dislikebutton';
 		}

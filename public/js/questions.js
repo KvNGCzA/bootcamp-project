@@ -32,26 +32,6 @@ var postQuestion = function () {
 				questionForms.title.value = '';
 				questionForms.content.value = '';
 				questionForms.tags.value = '';
-				fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/users').then(function (res) {
-					return res.json();
-				}).then(function (data) {
-					var uname = localStorage.getItem('username');
-					var allUsers = data.users;
-					var getUser = allUsers.filter(function (user) {
-						return user.username === uname;
-					});
-					var _getUser$ = getUser[0],
-					    asked_count = _getUser$.asked_count,
-					    answered_count = _getUser$.answered_count;
-
-					localStorage.setItem('asked_count', asked_count);
-					localStorage.setItem('answered_count', answered_count);
-					if (document.title === 'Profile') {
-						document.location.reload();
-					}
-				})['catch'](function (error) {
-					return error;
-				});
 			} else {
 				successMessage.textContent = data.message;
 			}
@@ -79,7 +59,7 @@ var likeQuestion = function () {
 		}).then(function () {
 			return window.location.reload();
 		})['catch'](function (error) {
-			return console.log(error);
+			return error;
 		});
 	}
 
@@ -101,7 +81,7 @@ var dislikeQuestion = function () {
 		}).then(function () {
 			return window.location.reload();
 		})['catch'](function (error) {
-			return console.log(error);
+			return error;
 		});
 	}
 
@@ -192,7 +172,7 @@ var deleteQuestion = function () {
 			body: JSON.stringify({ token: token })
 		}).then(function (res) {
 			return res.json();
-		}).then(function (data) {
+		}).then(function () {
 			return document.location.reload();
 		})['catch'](function (error) {
 			return error;
