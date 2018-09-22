@@ -72,12 +72,7 @@ const logoutUser = () => {
   .then(res => res.json())
   .then(() => {
     localStorage.clear();
-    if (currentPageTitle === 'Profile') {
-      window.location.href = '/';
-    }
-    else{
-      document.location.reload();
-    }
+    location.reload();
   })
   .catch(error => error);
 };

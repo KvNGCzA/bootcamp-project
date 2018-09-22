@@ -2,7 +2,8 @@
 /compiled
 /coverage
 /node_modules
-/public/js/
+/public/js/jquery-3.2.1
+/public/js/jquery-ui-1.12.1
 /UI/js/
 /views/hbs
 .env

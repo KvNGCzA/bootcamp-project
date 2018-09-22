@@ -4,7 +4,8 @@ const fetchUserInfo = () => {
     .then(res => res.json())
     .then(data => {
         const { username, fullname, created_at, asked_count, answered_count, occupation, profileimage } = data.user[0];
-        // add users information from database        
+        // add users information from database
+        document.title = `Profile - @${username}`;
         document.getElementsByClassName('heading')[0].textContent = `${fullname.split(' ')[0]}'s Questions`;
         for (let x = 0; x < document.getElementsByClassName('profile-full-name').length; x++) {
 			document.getElementsByClassName('profile-full-name')[x].textContent = fullname;

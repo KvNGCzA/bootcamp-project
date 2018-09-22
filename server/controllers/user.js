@@ -49,11 +49,9 @@ export class User {
 					res.header('x-access-token', token);
 					return res.status(201).json({ status: 201, message: 'user created', token, profile });
 				}).catch(error => res.status(500).json({ status: 500, error }));
-			}
-			if (user[0].email === email) {
+			}if (user[0].email === email) {
 				return res.status(409).json({ status: 409, message: 'a user with this email already exists' });
-			}
-			if (user[0].username === username) {
+			}if (user[0].username === username) {
 				return res.status(409).json({ status: 409, message: 'a user with this username already exists' });
 			}
 		}).catch(error => res.status(500).json({ status: 500, error }));
