@@ -7,12 +7,7 @@ const questionForms = document.getElementsByClassName('postquestionform')[formNu
 const postQuestion = (_e) => {
 	_e.preventDefault();
 	const token = localStorage.getItem('token');
-	const newQuestion = {
-		title: questionForms.title.value,
-		content: questionForms.content.value,
-		tags: questionForms.tags.value,
-		token,
-	};
+	const newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token };
 	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
 		method: 'POST',
 		headers: {
@@ -21,19 +16,19 @@ const postQuestion = (_e) => {
 		},
 		body: JSON.stringify(newQuestion),
 	})
-		.then(res => res.json())
-		.then((data) => {
-			const successMessage = document.getElementsByClassName('postQuestion-success-message')[formNum];
-			if (data.message === 'question posted!') {
-				successMessage.style.display = 'block';
-				questionForms.title.value = '';
-				questionForms.content.value = '';
-				questionForms.tags.value = '';
-			} else {
-				successMessage.textContent = data.message;
-			}
-		})
-		.catch(error => error);
+	.then(res => res.json())
+	.then((data) => {
+		const successMessage = document.getElementsByClassName('postQuestion-success-message')[formNum];
+		if (data.message === 'question posted!') {
+			successMessage.style.display = 'block';
+			questionForms.title.value = '';
+			questionForms.content.value = '';
+			questionForms.tags.value = '';
+		} else {
+			successMessage.textContent = data.message;
+		}
+	})
+	.catch(error => error);
 };// post a question function
 questionForms.addEventListener('submit', postQuestion, false);
 

@@ -6,11 +6,6 @@ dotEnv.config();
 
 const connectionString = process.env.DB || process.env.DATABASE_URL;
 
-// DROP TABLE IF EXISTS Users CASCADE;
-// DROP TABLE IF EXISTS Questions CASCADE;
-// DROP TABLE IF EXISTS Answers CASCADE;
-// likesarray VARCHAR(100) [] ELEMENT REFERENCES users(username),
-// dislikesarray VARCHAR(100) [] ELEMENT REFERENCES users(username),
 const createTable = () => {
     const pool = new Pool({ connectionString });
     pool.connect();
