@@ -35,25 +35,25 @@ app.use('/api/v2/questions', postgresQuestionRoutes);
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
+	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'index.html'));
 });
 
 app.get('/profile', (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'views', 'profile.html'));
+	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'profile.html'));
 });
 
 app.get('/question', (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'views', 'question.html'));
+	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'question.html'));
 });
 
 
 app.get('/post-question', (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'views', 'post-question.html'));
+	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'post-question.html'));
 });
 
 
 app.get('/login-signup', (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'views', 'login-signup.html'));
+	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'login-signup.html'));
 });
 
 // error codes

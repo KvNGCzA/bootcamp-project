@@ -323,6 +323,24 @@ describe('POST/ api/v2/questions', () => {
 			.expect(400, { status: 400, message: 'please enter tags for this question!' })
 			.end(done);
 	});
+	it('should fail to post question if body and title are just integers', done => {
+		request
+			.post('/api/v2/questions')
+			.send({
+				title: '342354324',
+				content: '354254353453',
+				tags: 'chris, chris, chris',
+				token,
+			})
+			.expect(400, { status: 400, message: 'you cannot post this type of title or content!' })
+			.end(done);
+	});
+	it('should fail to post question if user is not logged in', done => {
+		request
+			.post('/api/v2/questions')
+			.expect(401, { message: 'User Not logged in!' })
+			.end(done);
+	});
 });
 
 // post answer
@@ -332,6 +350,20 @@ describe('POST/ api/v2/questions/:questionId/answers', () => {
 			.post('/api/v2/questions/1/answers')
 			.send({ answer: 'test answer', token })
 			.expect(201, { status: 201, message: 'answer posted!' })
+			.end(done);
+	});
+	it('should post a second answer to the question', done => {
+		request
+			.post('/api/v2/questions/1/answers')
+			.send({ answer: 'test answer', token: token2 })
+			.expect(201, { status: 201, message: 'answer posted!' })
+			.end(done);
+	});
+	it('should not post an answer if question does not exist', done => {
+		request
+			.post('/api/v2/questions/8/answers')
+			.send({ answer: 'test answer', token })
+			.expect(404, { status: 404, message: 'question does not exist' })
 			.end(done);
 	});
 	it('should not post an answer if answer property is empty', done => {
@@ -393,7 +425,15 @@ describe('PUT/ api/v2/questions/answers/:answerId/like', () => {
 	it('should like an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/1/like')
-		.send({token })
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'answer liked!' })
+		.end(done);
+	});
+	it('should like an answer by another user', (done) => {
+		request
+		.put('/api/v2/questions/answers/1/like')
+		.send({ token: token2 })
 		.expect('Content-Type', /json/)
 		.expect(200, { status: 200, message: 'answer liked!' })
 		.end(done);
@@ -401,7 +441,7 @@ describe('PUT/ api/v2/questions/answers/:answerId/like', () => {
 	it('should unlike an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/1/like')
-		.send({token })
+		.send({ token })
 		.expect('Content-Type', /json/)
 		.expect(200, { status: 200, message: 'answer unliked!' })
 		.end(done);
@@ -409,7 +449,7 @@ describe('PUT/ api/v2/questions/answers/:answerId/like', () => {
 	it('should fail to like an answer an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/sdga/like')
-		.send({token })
+		.send({ token })
 		.expect('Content-Type', /json/)
 		.expect(400, { status: 400, message: 'answerId must be an integer or less than nine characters!' })
 		.end(done);
@@ -421,7 +461,15 @@ describe('PUT/ api/v2/questions/answers/:answerId/dislike', () => {
 	it('should dislike an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/1/dislike')
-		.send({token })
+		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'answer disliked!' })
+		.end(done);
+	});
+	it('should dislike an answer by another user', (done) => {
+		request
+		.put('/api/v2/questions/answers/1/dislike')
+		.send({ token: token2 })
 		.expect('Content-Type', /json/)
 		.expect(200, { status: 200, message: 'answer disliked!' })
 		.end(done);
@@ -429,7 +477,7 @@ describe('PUT/ api/v2/questions/answers/:answerId/dislike', () => {
 	it('should undislike an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/1/dislike')
-		.send({token })
+		.send({ token })
 		.expect('Content-Type', /json/)
 		.expect(200, { status: 200, message: 'answer undisliked!' })
 		.end(done);
@@ -437,7 +485,7 @@ describe('PUT/ api/v2/questions/answers/:answerId/dislike', () => {
 	it('should fail to undislike an answer', (done) => {
 		request
 		.put('/api/v2/questions/answers/sdga/dislike')
-		.send({token })
+		.send({ token })
 		.expect('Content-Type', /json/)
 		.expect(400, { status: 400, message: 'answerId must be an integer or less than nine characters!' })
 		.end(done);
@@ -450,6 +498,14 @@ describe('PUT/ api/v2/questions/:questionId/like', () => {
 		request
 		.put('/api/v2/questions/1/like')
 		.send({ token })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'question liked!' })
+		.end(done);
+	});
+	it('should like an question by another user', (done) => {
+		request
+		.put('/api/v2/questions/1/like')
+		.send({ token: token2 })
 		.expect('Content-Type', /json/)
 		.expect(200, { status: 200, message: 'question liked!' })
 		.end(done);
@@ -482,6 +538,14 @@ describe('PUT/ api/v2/questions/:questionId/dislike', () => {
 		.expect(200, { status: 200, message: 'question disliked!' })
 		.end(done);
 	});
+	it('should dislike an question', (done) => {
+		request
+		.put('/api/v2/questions/1/dislike')
+		.send({ token: token2 })
+		.expect('Content-Type', /json/)
+		.expect(200, { status: 200, message: 'question disliked!' })
+		.end(done);
+	});
 	it('should undislike an question', (done) => {
 		request
 		.put('/api/v2/questions/1/dislike')
@@ -509,9 +573,16 @@ describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
 			.expect(200, { status: 200, message: 'answer was favorited!' })
 			.end(done);
 	});
+	it('should favorite another answer', done => {
+		request
+			.put('/api/v2/questions/1/answers/2')
+			.send({ token })
+			.expect(200, { status: 200, message: 'answer was favorited!' })
+			.end(done);
+	});
 	it('should unfavorite an answer', done => {
 		request
-			.put('/api/v2/questions/1/answers/1')
+			.put('/api/v2/questions/1/answers/2')
 			.send({ token })
 			.expect(200, { status: 200, message: 'answer was unfavorited!' })
 			.end(done);
@@ -550,6 +621,7 @@ describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
 	});
 });
 
+// get question by id
 describe('GET/ api/v2/questions/:questionId', () => {
     it('should fetch a question and its answers by its id',done => {
         request
@@ -583,22 +655,23 @@ describe('GET/ /api/v2/questions/:username/questions', () => {
 		.expect('Content-Type', /json/)
 		.end(done);
 	});
-	it('should return a specific users questions', done => {
+	it('should not return a question if username is an invalid format', done => {
 		request
 		.get('/api/v2/questions/christ...est/questions')
 		.expect(400, { status: 400, message: 'username is in an invalid format' })
 		.expect('Content-Type', /json/)
 		.end(done);
 	});
-	it('should return a specific users questions', done => {
+	it('should not return questions if user does not exist', done => {
 		request
-		.get('/api/v2/questions/christ/questions')
+		.get('/api/v2/questions/christt/questions')
 		.expect(404, { status: 404, message: 'questions not found!' })
 		.expect('Content-Type', /json/)
 		.end(done);
 	});
 });
 
+// fetch all questions
 describe('GET/ api/v2/questions', () => {
 	it('should return all questions in the database', done => {
 		request
@@ -609,11 +682,12 @@ describe('GET/ api/v2/questions', () => {
 	});
 });
 
+// delete a question
 describe('DELETE/ api/v2/questions/:questionId', () => {
     it('it should not delete question if the request is not sent by the question creator', done => {
         request
         .delete('/api/v2/questions/1')
-        .send({token: token2})
+        .send({ token: token2})
         .expect(400, { status: 400, message: 'You do not have the permission to delete this question!' })
         .end(done);
     });
@@ -623,9 +697,17 @@ describe('DELETE/ api/v2/questions/:questionId', () => {
         .send({ token })
         .expect(200, { status: 200, message: 'question deleted!' })
         .end(done);
+	});  
+	it('it should not delete a questioon if question does not exist', done => {
+        request
+        .delete('/api/v2/questions/1')
+        .send({ token })
+        .expect(404, { status: 404, message: 'question does not exist' })
+        .end(done);
     });    
 });
 
+// logout a user
 describe('POST/ api/v2/auth/logout', () => {
 	it('should log a user out', done => {
 		request
