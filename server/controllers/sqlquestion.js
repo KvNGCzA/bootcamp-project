@@ -11,7 +11,7 @@ export class Questions {
             return t.batch([ questions, questions1 ]);
         })
         .then(questions => res.status(200).json({ status: 200, questions }))
-        .catch(error =>  res.status(404).json({ status: 404, error }));
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
     
     // post a question
@@ -43,8 +43,7 @@ export class Questions {
                 return res.status(404).json({ status: 404, message: 'question does not exist'});
             }
             return res.status(200).json({ status: 200, question, answers });
-        })
-        .catch(error => res.status(500).json({ status: 500, error }));
+        }).catch(error => res.status(500).json({ status: 500, error }));
     }
 
     getUsersQuestions (req, res) {
@@ -72,20 +71,15 @@ export class Questions {
         db.any('SELECT * FROM questions WHERE id = $1', [questionId])
         .then(question => {
             const creatorId = question[0].userid;
-            if (question.length > 0) {
                 db.tx(t => {
-                    const q1 = t.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id]);
-                    const q2 =  t.none('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1 ,id]);
-                    const q3 = t.none('UPDATE questions SET answers_count = answers_count + $1 WHERE id = $2', [1 ,questionId]);
+                    t.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id]);
+                     t.none('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1 ,id]);
+                    t.none('UPDATE questions SET answers_count = answers_count + $1 WHERE id = $2', [1 ,questionId]);
                     return;
                 })
-                .then(() => res.status(201).json({ status: 201, message: 'answer posted!' }))
-                .catch(error => res.status(500).json({ status: 500, error }));
-            } else {
-                return res.status(404).json({ status: 404, message: 'question does not exist' });
-            }
+                .then(() => res.status(201).json({ status: 201, message: 'answer posted!' }));
         })
-        .catch(error => res.status(500).json({ status: 500, error }));
+        .catch(() => res.status(404).json({ status: 404, message: 'question does not exist' }));
     }
 
     // mark favorite or update answer
@@ -112,13 +106,12 @@ export class Questions {
                         }).catch(error => res.status(500).json({ status: 500, message: error }));
                     } else {
                         // set old favorite to false
-                        db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true])
-                        .then(() => {
-                            // set the new favorite to true
-                            db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
-                            .then(() => res.status(200).json({ status: 200, message: 'answer was favorited!' }))
-                            .catch(error => res.status(500).json({ status: 500, error }));
-                        }).catch(error => res.status(500).json({ status: 500, error }));
+                        db.tx(t => {
+                            t.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true]);
+                            t.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId]);
+                        })
+                        .then(() => res.status(200).json({ status: 200, message: 'answer was favorited!' }))
+                        .catch(error => res.status(500).json({ status: 500, error }));
                     }
                 }).catch(error => res.status(500).json({ status: 500, error }));
             }// if route is accessed by answer creator
@@ -168,19 +161,19 @@ export class Questions {
             if (likers === null) {
                 db.none('UPDATE questions SET likes = $1 WHERE id = $2', [[username], questionId])
                 .then(() => removeFromDislikers(req, res, username, questionId, 'questions', 'question'))
-                .catch(error => res.status(500).json({ status: 500, error: 'main like 1' }));
+                .catch(error => res.status(500).json({ status: 500, error }));
             } else if (likers.indexOf(username) === -1) {
                 const newLikes = [...likers, username];
                 db.none('UPDATE questions SET likes = $1 WHERE id = $2', [newLikes, questionId])
                 .then(() => removeFromDislikers(req, res, username, questionId, 'questions', 'question'))
-                .catch(error => res.status(500).json({ status: 500, error: 'main like 2' }));
+                .catch(error => res.status(500).json({ status: 500, error }));
             } else {
                 const editLikers = likers.filter(liker => liker !== username);
                 db.none('UPDATE questions SET likes = $1 WHERE id = $2', [editLikers, questionId])
                 .then(() => res.status(200).json({ status: 200, message: 'question unliked!' }))
-                .catch(error => res.status(500).json({ status: 500, error: 'main like 3' }));
+                .catch(error => res.status(500).json({ status: 500, error }));
             }
-        }).catch(error => res.status(500).json({ status: 500, error: 'main like 4' }));
+        }).catch(error => res.status(500).json({ status: 500, error }));
     }
 
     // dislike question
