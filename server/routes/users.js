@@ -7,7 +7,7 @@ import { validateSignUpInfo, validateLoginInfo, validateUsername } from '../util
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, 'public/images/');
+        callback(null, 'UI/images/');
     },
     filename: (req, file, callback) => {
         callback(null, req.body.username + file.originalname);

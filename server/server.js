@@ -32,29 +32,17 @@ app.use('/api/v2/auth', userRoutes);
 app.use('/api/v2/questions', postgresQuestionRoutes);
 
 // link to static directory
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'UI')));
 
-app.get('/', (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'index.html'));
-});
+app.get('/', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', 'index.html')));
 
-app.get('/profile', (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'profile.html'));
-});
+app.get('/profile', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', 'profile.html')));
 
-app.get('/question', (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'question.html'));
-});
+app.get('/question', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', '/question.html')));
 
+app.get('/post-question', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', '/post-question.html')));
 
-app.get('/post-question', (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'post-question.html'));
-});
-
-
-app.get('/login-signup', (req, res) => {
-	res.status(200).sendFile(path.join(__dirname, '..', 'views', 'login-signup.html'));
-});
+app.get('/login-signup', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', '/login-signup.html')));
 
 // error codes
 app.use((req, res, next) => {
@@ -63,18 +51,8 @@ app.use((req, res, next) => {
 	next(error);
 });
 
-app.use((error, req, res, next) => {
-	res.status(error.status || 500);
-	res.json({
-		error: {
-			message: error.message,
-			status: error.status,
-		},
-	});
-});
+app.use((error, req, res, next) => res.status(error.status || 500).json({ message: error.message, status: error.status }));
 
-app.listen(port, () => {
-	console.log(`server is up on port ${port}`);
-});
+app.listen(port, () => console.log(`server is up on port ${port}`));
 
 export default app;

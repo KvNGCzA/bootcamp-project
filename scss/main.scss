@@ -1211,6 +1211,7 @@ a, input[type="button"], input[type="submit"], i, button{
         color: $textGray;
         text-align: center;
         font-size: 1em;
+        margin: 0 0 1em;
       }//h2
       .fa-gripfire{
         color: $fireRed;
@@ -1221,7 +1222,8 @@ a, input[type="button"], input[type="submit"], i, button{
         font-size: 0.8em;
         text-align: left;
         li{
-          padding: 0.5em 0;
+          padding: 1em 0;
+          border-top: 1px solid $borderGray;
           display: flex;
           &:hover, &:active{
               a{
@@ -1229,6 +1231,9 @@ a, input[type="button"], input[type="submit"], i, button{
                   color: #848484;
               }//a
           }//hover
+          &:last-child {
+            border-bottom: 1px solid $borderGray;
+          } // &:last-child
           a{
               text-decoration: none;
               color: $maincolor;
