@@ -11,7 +11,7 @@ var postQuestion = function () {
 		_e.preventDefault();
 		var token = localStorage.getItem('token');
 		var newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token: token };
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
+		fetch('http://localhost:3000/api/v2/questions', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -27,6 +27,9 @@ var postQuestion = function () {
 				questionForms.title.value = '';
 				questionForms.content.value = '';
 				questionForms.tags.value = '';
+				if (document.getElementsByTagName('body')[0].classList.contains('page-profile') || document.getElementsByTagName('body')[0].classList.contains('page-home')) {
+					location.reload();
+				}
 			} else {
 				successMessage.textContent = data.message;
 			}
@@ -42,7 +45,7 @@ questionForms.addEventListener('submit', postQuestion, false);
 var likeQuestion = function () {
 	function likeQuestion(questionId) {
 		var token = localStorage.getItem('token');
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(questionId) + '/like', {
+		fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/like', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -64,7 +67,7 @@ var likeQuestion = function () {
 var dislikeQuestion = function () {
 	function dislikeQuestion(questionId) {
 		var token = localStorage.getItem('token');
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(questionId) + '/dislike', {
+		fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/dislike', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -86,7 +89,7 @@ var dislikeQuestion = function () {
 var getQuestionById = function () {
 	function getQuestionById() {
 		var questionId = window.location.search.split('=')[1];
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(questionId)).then(function (res) {
+		fetch('http://localhost:3000/api/v2/questions/' + String(questionId)).then(function (res) {
 			return res.json();
 		}).then(function (data) {
 			var tagsArr = [];
@@ -121,7 +124,7 @@ var getQuestionById = function () {
 
 var getQuestions = function () {
 	function getQuestions() {
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions').then(function (res) {
+		fetch('http://localhost:3000/api/v2/questions').then(function (res) {
 			return res.json();
 		}).then(function (data) {
 			var questions = data.questions;
@@ -140,7 +143,7 @@ var getQuestions = function () {
 var getUsersQuestions = function () {
 	function getUsersQuestions() {
 		var uname = window.location.search.split('=')[1];
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(uname) + '/questions').then(function (res) {
+		fetch('http://localhost:3000/api/v2/questions/' + String(uname) + '/questions').then(function (res) {
 			return res.json();
 		}).then(function (data) {
 			var questions = data.questions;
@@ -158,7 +161,7 @@ var getUsersQuestions = function () {
 var deleteQuestion = function () {
 	function deleteQuestion(id) {
 		var token = localStorage.getItem('token');
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(id), {
+		fetch('http://localhost:3000/api/v2/questions/' + String(id), {
 			method: 'DELETE',
 			headers: {
 				Accept: 'application/json',

@@ -8,7 +8,7 @@ if (body.classList.contains('page-login-signup')) {
     let propArr = ['firstName', 'lastName', 'occupation', 'password', 'email', 'username', 'profileImage'];
     let valueArr = [signupForm.fname.value, signupForm.lname.value, signupForm.occupation.value, signupForm.pwd.value, signupForm.email.value, signupForm.username.value, signupForm.profileImage.files[0]];
     for (let x in propArr) { newUser.append(propArr[x], valueArr[x]);}
-    fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/signup', {
+    fetch('http://localhost:3000/api/v2/auth/signup', {
       method: 'POST',
       body: newUser,
     }).then(res => {
@@ -33,7 +33,7 @@ if (body.classList.contains('page-login-signup')) {
     _e.preventDefault();
     const warning = document.getElementById('warning-message2');
     const user = { email: loginForm.email.value, password: loginForm.pwd.value };
-    fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/login', {
+    fetch('http://localhost:3000/api/v2/auth/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -61,7 +61,7 @@ if (body.classList.contains('page-login-signup')) {
 const logout = document.getElementsByClassName('logout');
 const logoutUser = () => {
   const token = localStorage.getItem('token');
-  fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/logout', {
+  fetch('http://localhost:3000/api/v2/auth/logout', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

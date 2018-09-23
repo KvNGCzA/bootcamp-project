@@ -3,7 +3,7 @@
 var fetchUserInfo = function () {
     function fetchUserInfo() {
         var uname = window.location.search.split('=')[1];
-        fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/user/' + String(uname)).then(function (res) {
+        fetch('http://localhost:3000/api/v2/auth/user/' + String(uname)).then(function (res) {
             return res.json();
         }).then(function (data) {
             var _data$user$ = data.user[0],
@@ -16,8 +16,9 @@ var fetchUserInfo = function () {
                 profileimage = _data$user$.profileimage;
             // add users information from database
 
-            document.title = 'Profile - @' + String(username);
-            document.getElementsByClassName('heading')[0].textContent = String(fullname.split(' ')[0]) + '\'s Questions';
+            document.title = 'Profile - ' + String(fullname);
+            document.getElementsByClassName('heading')[0].textContent = String(fullname.split(' ')[0]) + '\'s Recent Questions';
+            document.getElementsByClassName('heading')[1].textContent = String(fullname.split(' ')[0]) + '\'s Most Answered Questions';
             for (var x = 0; x < document.getElementsByClassName('profile-full-name').length; x++) {
                 document.getElementsByClassName('profile-full-name')[x].textContent = fullname;
                 document.getElementsByClassName('profile-username')[x].innerHTML = '<i class="fas fa-user" ></i> @' + String(username);

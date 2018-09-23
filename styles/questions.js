@@ -8,7 +8,7 @@ const postQuestion = (_e) => {
 	_e.preventDefault();
 	const token = localStorage.getItem('token');
 	const newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token };
-	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
+	fetch('http://localhost:3000/api/v2/questions', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -24,6 +24,9 @@ const postQuestion = (_e) => {
 			questionForms.title.value = '';
 			questionForms.content.value = '';
 			questionForms.tags.value = '';
+			if (document.getElementsByTagName('body')[0].classList.contains('page-profile') || document.getElementsByTagName('body')[0].classList.contains('page-home')) {
+			location.reload();
+			}
 		} else {
 			successMessage.textContent = data.message;
 		}
@@ -34,7 +37,7 @@ questionForms.addEventListener('submit', postQuestion, false);
 
 const likeQuestion = (questionId) => {
 	const token = localStorage.getItem('token');
-	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/like`, {
+	fetch(`http://localhost:3000/api/v2/questions/${questionId}/like`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
@@ -49,7 +52,7 @@ const likeQuestion = (questionId) => {
 
 const dislikeQuestion = (questionId) => {
 	const token = localStorage.getItem('token');
-	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/dislike`, {
+	fetch(`http://localhost:3000/api/v2/questions/${questionId}/dislike`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
@@ -64,7 +67,7 @@ const dislikeQuestion = (questionId) => {
 
 const getQuestionById = () => {
 	const questionId = window.location.search.split('=')[1];
-	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}`)
+	fetch(`http://localhost:3000/api/v2/questions/${questionId}`)
 		.then(res => res.json())
 		.then((data) => {
 			const tagsArr = [];
@@ -85,10 +88,11 @@ const getQuestionById = () => {
 }; // get question by id
 
 const getQuestions = () => {
-	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions')
+	fetch('http://localhost:3000/api/v2/questions')
 		.then(res => res.json())
 		.then((data) => {
 			const { questions } = data;
+			console.log(questions);
 			renderQuestionTemplates(questions);
 			countClassColours();
 		})
@@ -98,7 +102,7 @@ const getQuestions = () => {
 
 const getUsersQuestions = () => {
 	const uname = window.location.search.split('=')[1];
-	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${uname}/questions`)
+	fetch(`http://localhost:3000/api/v2/questions/${uname}/questions`)
 		.then(res => res.json())
 		.then((data) => {
 			const { questions } = data;
@@ -110,7 +114,7 @@ const getUsersQuestions = () => {
 
 const deleteQuestion = (id) => {
 	const token = localStorage.getItem('token');
-	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${id}`, {
+	fetch(`http://localhost:3000/api/v2/questions/${id}`, {
 		method: 'DELETE',
 		headers: {
 			Accept: 'application/json',

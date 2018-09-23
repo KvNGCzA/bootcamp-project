@@ -5,14 +5,13 @@ export class Questions {
     
 	// fetch all questions
 	fetchQuestions (req, res) {
-		db.any('SELECT * FROM questions ORDER BY created_at ASC')
-		.then(questions => {
-            console.log(questions);
-			return res.status(200).json({ status: 200, questions });
-		})
-		.catch(error => {
-			return res.status(404).json({ status: 404, error });
-		});
+        db.tx(t => {
+            const questions = t.any('SELECT * FROM questions ORDER BY created_at DESC');
+            const questions1 = t.any('SELECT * FROM questions ORDER BY answers_count DESC, ARRAY_LENGTH(likes, 1) DESC NULLS LAST');
+            return t.batch([ questions, questions1 ]);
+        })
+        .then(questions => res.status(200).json({ status: 200, questions }))
+        .catch(error =>  res.status(404).json({ status: 404, error }));
     }
     
     // post a question
@@ -34,7 +33,7 @@ export class Questions {
         // fetch question from database
         db.tx(t => {
             const q1 = t.any('SELECT * FROM questions WHERE id = $1', [questionId]);
-            const q2 = t.any('SELECT * FROM answers WHERE questionId = $1', [questionId]);
+            const q2 = t.any('SELECT * FROM answers WHERE questionId = $1 ORDER BY ARRAY_LENGTH(likes, 1) DESC NULLS LAST, created_at ASC', [questionId]);
             return t.batch([q1, q2]);
         })
         .then(data => {
@@ -50,9 +49,13 @@ export class Questions {
 
     getUsersQuestions (req, res) {
         const { username } = req.params;
-        db.any('SELECT * FROM questions WHERE username = $1 ORDER BY created_at ASC', [ username ])
+        db.tx(t => {
+            const questions = t.any('SELECT * FROM questions WHERE username = $1 ORDER BY created_at DESC', [ username ]);
+            const questions1 = t.any('SELECT * FROM questions WHERE username = $1 ORDER BY answers_count DESC', [ username ]);
+            return t.batch([ questions, questions1 ]);
+        })
         .then(questions => {
-            if (questions.length < 1) {
+            if (questions[0].length < 1) {
                 return res.status(404).json({ status: 404, message: 'questions not found!' });
             }
             return res.status(200).json({ status: 200, questions });

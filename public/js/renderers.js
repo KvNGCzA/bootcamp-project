@@ -6,17 +6,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var renderQuestionMeta_singleQuestion = function () {
 	function renderQuestionMeta_singleQuestion(title, answersCount, likes, dislikes) {
 		var likesCount = void 0;
-		if (likes !== null) {
-			likesCount = likes.length;
-		} else {
-			likesCount = 0;
-		}
 		var dislikesCount = void 0;
-		if (dislikes !== null) {
-			dislikesCount = dislikes.length;
-		} else {
-			dislikesCount = 0;
-		}
+		likes !== null ? likesCount = likes.length : likesCount = 0;
+		dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+		document.title = 'Question - ' + String(title);
 		document.getElementsByClassName('question-title')[0].textContent = title;
 		document.getElementsByClassName('q-meta')[0].innerHTML = '<ul><li class="answer-count">\n      <a href="#">Answers</a><a href="#" class="answer-count-dis">' + String(answersCount) + '</a>\n  </li><!--\n  --><li class="likes-count">\n      <a href="#">UpVotes</a><a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n  </li><!--\n  --><li class="views-count">\n      <a href="#">DownVotes</a><a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n  </li></ul>';
 	}
@@ -69,16 +62,8 @@ var renderComments_singleQuestion = function () {
 
 				var likesCount = void 0;
 				var dislikesCount = void 0;
-				if (likes === null || likes.length < 1) {
-					likesCount = 0;
-				} else {
-					likesCount = likes.length;
-				}
-				if (dislikes === null || dislikes.length < 1) {
-					dislikesCount = 0;
-				} else {
-					dislikesCount = dislikes.length;
-				}
+				likes !== null ? likesCount = likes.length : likesCount = 0;
+				dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
 				commentsList.innerHTML += '\n\t\t\t<li class="comment-cont">\n\t\t\t<p class="comment">' + String(answer) + '</p>\n\t\t\t<p class="action-buttons">\n\t\t\t\t<span class="like-comment action like-btn" title="Like" onclick="likeAnswer(' + String(id) + ')">\n\t\t\t\t<i class="far fa-thumbs-up likebutton"></i>\n\t\t\t\t</span><!--\n\t\t\t\t--><span class="dislike-comment action dislike-btn" title="Dislike" onclick="dislikeAnswer(' + String(id) + ')">\n\t\t\t\t<i class="far fa-thumbs-down dislikebutton"></i>\n\t\t\t\t</span><!--\n\t\t\t\t--><span class="report action report-btn" title="Mark as Inappropriate">\n\t\t\t\t<i class="far fa-flag reportbutton"></i>\n\t\t\t\t</span><!--\n\t\t\t--></p>\n\t\t\t<div class="likes-dislikes-cont"><span class="answer-likes-count">upvotes: ' + String(likesCount) + '</span><span class="answer-dislikes-count">downvotes: ' + String(dislikesCount) + '</span></div>\n\t\t\t<span class="com-meta">answer posted by <a href="/profile?username=' + String(username) + '">@' + String(username) + '</a> on <a href="#">' + String(formatDate(created_at)) + '</a></span>\n\t\t\t</li>';
 
 				// render already liked buttons
@@ -120,33 +105,29 @@ var renderComments_singleQuestion = function () {
 var renderQuestionTemplates = function () {
 	function renderQuestionTemplates(questions) {
 		var tagsArr = [];
-		for (var x = questions.length - 1; x >= 0; x--) {
-			var tab = document.getElementById('tab1');
-			var _questions$x = questions[x],
-			    answers_count = _questions$x.answers_count,
-			    likes = _questions$x.likes,
-			    dislikes = _questions$x.dislikes,
-			    title = _questions$x.title,
-			    created_at = _questions$x.created_at,
-			    id = _questions$x.id,
-			    username = _questions$x.username,
-			    tags = _questions$x.tags;
+		var tab1 = document.getElementById('tab1');
+		var tab2 = document.getElementById('tab2');
+		var tabArr = [tab1, tab2];
+		for (var i in questions) {
+			for (var x in questions[i]) {
+				var _questions$i$x = questions[i][x],
+				    answers_count = _questions$i$x.answers_count,
+				    likes = _questions$i$x.likes,
+				    dislikes = _questions$i$x.dislikes,
+				    title = _questions$i$x.title,
+				    created_at = _questions$i$x.created_at,
+				    id = _questions$i$x.id,
+				    username = _questions$i$x.username,
+				    tags = _questions$i$x.tags;
 
-			var likesCount = void 0;
-			var dislikesCount = void 0;
-			if (likes !== null) {
-				likesCount = likes.length;
-			} else {
-				likesCount = 0;
+				var likesCount = void 0;
+				var dislikesCount = void 0;
+				likes !== null ? likesCount = likes.length : likesCount = 0;
+				dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+				var newDate = formatDate(created_at);
+				tagsArr.push([tags.split(',')]);
+				tabArr[i].innerHTML += '<div class="single-question">\n\t\t\t  <div class="q-meta">\n\t\t\t  <ul>\n\t\t\t\t  <li class="answer-count">\n\t\t\t\t  <a href="#">Answers</a>\n\t\t\t\t  <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n\t\t\t\t  </li><!--\n\t\t\t\t  --><li class="likes-count">\n\t\t\t\t  <a href="#">UpVotes</a>\n\t\t\t\t  <a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n\t\t\t\t  </li><!--\n\t\t\t\t  --><li class="views-count">\n\t\t\t\t  <a href="#">DownVotes</a>\n\t\t\t\t  <a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n\t\t\t\t  </li>\n\t\t\t  </ul>\n\t\t\t  </div>\n\t\n\t\t\t  <div class="q-details">\n\t\t\t  <div class="edit-option-container">\n\t\t\t  </div>\n\t\t\t  <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n\t\t\t  <ul class="tags">                    \n\t\t\t  </ul>\n\t\t\t  <span class="posted-on">Posted on <a href="#">' + String(newDate) + '\n\t\t\t\t  </a> by <a href="/profile?username=' + String(username) + '">@' + String(username) + '</a>\n\t\t\t  </span>\n\t\t\t  </div>\n\t\t  </div><!-- single-question -->';
 			}
-			if (dislikes !== null) {
-				dislikesCount = dislikes.length;
-			} else {
-				dislikesCount = 0;
-			}
-			var newDate = formatDate(created_at);
-			tagsArr.push([tags.split(',')]);
-			tab.innerHTML += '<div class="single-question">\n          <div class="q-meta">\n          <ul>\n              <li class="answer-count">\n              <a href="#">Answers</a>\n              <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n              </li><!--\n              --><li class="likes-count">\n              <a href="#">UpVotes</a>\n              <a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n              </li><!--\n              --><li class="views-count">\n              <a href="#">DownVotes</a>\n              <a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n              </li>\n          </ul>\n          </div>\n\n          <div class="q-details">\n          <div class="edit-option-container">\n          </div>\n          <p class="question-title"><a href="/question?id=' + String(id) + '" class="gotoQ">' + String(title) + '</a></p>\n          <ul class="tags">                    \n          </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '\n              </a> by <a href="/profile?username=' + String(username) + '">@' + String(username) + '</a>\n          </span>\n          </div>\n      </div><!-- single-question -->';
 		}
 		addTags(tagsArr);
 	}
@@ -159,36 +140,31 @@ var renderUsersQuestions = function () {
 	function renderUsersQuestions(questions, uname) {
 		var tagsArr = [];
 		var idArr = [];
+		var mostRecent = document.getElementById('most-recent');
+		var mostAnswered = document.getElementById('most-answered');
+		var contArr = [mostRecent, mostAnswered];
+		for (var i in questions) {
+			for (var x in questions[i]) {
+				var _questions$i$x2 = questions[i][x],
+				    answers_count = _questions$i$x2.answers_count,
+				    likes = _questions$i$x2.likes,
+				    dislikes = _questions$i$x2.dislikes,
+				    title = _questions$i$x2.title,
+				    created_at = _questions$i$x2.created_at,
+				    username = _questions$i$x2.username,
+				    tags = _questions$i$x2.tags,
+				    id = _questions$i$x2.id;
 
-		for (var x = questions.length - 1; x >= 0; x--) {
-			var profilePage = document.getElementsByClassName('profile-page-cont')[0];
-			var _questions$x2 = questions[x],
-			    answers_count = _questions$x2.answers_count,
-			    likes = _questions$x2.likes,
-			    dislikes = _questions$x2.dislikes,
-			    title = _questions$x2.title,
-			    created_at = _questions$x2.created_at,
-			    username = _questions$x2.username,
-			    tags = _questions$x2.tags,
-			    id = _questions$x2.id;
-
-			tagsArr.push([tags.split(',')]);
-			idArr.push(id);
-			var newDate = formatDate(created_at);
-			var likesCount = void 0;
-			var dislikesCount = void 0;
-			if (likes !== null) {
-				likesCount = likes.length;
-			} else {
-				likesCount = 0;
+				tagsArr.push([tags.split(',')]);
+				idArr.push(id);
+				var newDate = formatDate(created_at);
+				var likesCount = void 0;
+				var dislikesCount = void 0;
+				likes !== null ? likesCount = likes.length : likesCount = 0;
+				dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+				contArr[i].innerHTML += '<div class="single-question">\n\t\t  <div class="q-meta">\n\t\t  <ul>\n\t\t\t  <li class="answer-count">\n\t\t\t  <a href="#">Answers</a>\n\t\t\t  <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n\t\t\t  </li><!--\n\t\t\t  --><li class="likes-count">\n\t\t\t  <a href="#">UpVotes</a>\n\t\t\t  <a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n\t\t\t  </li><!--\n\t\t\t  --><li class="views-count">\n\t\t\t  <a href="#">DownVotes</a>\n\t\t\t  <a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n\t\t\t  </li>\n\t\t  </ul>\n\t\t  </div>\n\t\n\t\t  <div class="q-details">\n\t\t  <div class="edit-option-container">\n\t\t  </div>\n\t\t  <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n\t\t  <ul class="tags">\n\t\t  </ul>\n\t\t\t  <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by @' + String(username) + ' </span>\n\t\t  </div>\n\t\n\t   </div><!-- single-question -->';
 			}
-			if (dislikes !== null) {
-				dislikesCount = dislikes.length;
-			} else {
-				dislikesCount = 0;
-			}
-			profilePage.innerHTML += '<div class="single-question">\n      <div class="q-meta">\n      <ul>\n          <li class="answer-count">\n          <a href="#">Answers</a>\n          <a href="#" class="answer-count-dis">' + String(answers_count) + '</a>\n          </li><!--\n          --><li class="likes-count">\n          <a href="#">UpVotes</a>\n          <a href="#" class="likes-count-dis">' + String(likesCount) + '</a>\n          </li><!--\n          --><li class="views-count">\n          <a href="#">DownVotes</a>\n          <a href="#" class="views-count-dis">' + String(dislikesCount) + '</a>\n          </li>\n      </ul>\n      </div>\n\n      <div class="q-details">\n      <div class="edit-option-container">\n      </div>\n      <p class="question-title"><a href="/question?id=' + String(id) + '">' + String(title) + '</a></p>\n      <ul class="tags">\n      </ul>\n          <span class="posted-on">Posted on <a href="#">' + String(newDate) + '</a> by @' + String(username) + ' </span>\n      </div>\n\n   </div><!-- single-question -->';
-		}
+		} // for i
 		if (uname === localStorage.getItem('username')) {
 			var edit = document.getElementsByClassName('edit-option-container');
 			for (var _x = 0; _x < edit.length; _x++) {

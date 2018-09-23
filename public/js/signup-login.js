@@ -13,7 +13,7 @@ if (body.classList.contains('page-login-signup')) {
       for (var x in propArr) {
         newUser.append(propArr[x], valueArr[x]);
       }
-      fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/signup', {
+      fetch('http://localhost:3000/api/v2/auth/signup', {
         method: 'POST',
         body: newUser
       }).then(function (res) {
@@ -47,7 +47,7 @@ if (body.classList.contains('page-login-signup')) {
       _e.preventDefault();
       var warning = document.getElementById('warning-message2');
       var user = { email: loginForm.email.value, password: loginForm.pwd.value };
-      fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/login', {
+      fetch('http://localhost:3000/api/v2/auth/login', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -84,7 +84,7 @@ var logout = document.getElementsByClassName('logout');
 var logoutUser = function () {
   function logoutUser() {
     var token = localStorage.getItem('token');
-    fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/logout', {
+    fetch('http://localhost:3000/api/v2/auth/logout', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

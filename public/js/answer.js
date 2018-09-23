@@ -12,7 +12,7 @@ var postAnswer = function () {
 			token: token
 		};
 		var questionId = window.location.search.split('=')[1];
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(questionId) + '/answers', {
+		fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/answers', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -45,7 +45,7 @@ var postAnswer = function () {
 var questionId = window.location.search.split('=')[1];
 var favoriteAnAnswer = function () {
 	function favoriteAnAnswer(id) {
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/' + String(questionId) + '/answers/' + String(id), {
+		fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/answers/' + String(id), {
 			method: 'PUT',
 			headers: {
 				Accept: 'application/json',
@@ -66,7 +66,7 @@ var favoriteAnAnswer = function () {
 
 var likeAnswer = function () {
 	function likeAnswer(id) {
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/answers/' + String(id) + '/like', {
+		fetch('http://localhost:3000/api/v2/questions/answers/' + String(id) + '/like', {
 			method: 'PUT',
 			headers: {
 				Accept: 'application/json',
@@ -87,7 +87,7 @@ var likeAnswer = function () {
 
 var dislikeAnswer = function () {
 	function dislikeAnswer(id) {
-		fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions/answers/' + String(id) + '/dislike', {
+		fetch('http://localhost:3000/api/v2/questions/answers/' + String(id) + '/dislike', {
 			method: 'PUT',
 			headers: {
 				Accept: 'application/json',
