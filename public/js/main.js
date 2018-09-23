@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 const bodyTag = document.getElementsByTagName('body')[0];
 
 // add logged-in or logged-out class to body
-if (token !== 'null') {
+if (token != null) {
 	bodyTag.classList += ' logged-in';
 	const profileLink = document.getElementsByClassName('profile-link');
 	const username = localStorage.getItem('username');

@@ -2,8 +2,8 @@
 const renderQuestionMeta_singleQuestion = (title, answersCount, likes, dislikes) => {
 	let likesCount;
 	let dislikesCount;
-	likes !== null ? likesCount = likes.length : likesCount = 0;
-	dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+	likes != null ? likesCount = likes.length : likesCount = 0;
+	dislikes != null ? dislikesCount = dislikes.length : dislikesCount = 0;
 	document.title = `Question - ${title}`;
 	document.getElementsByClassName('question-title')[0].textContent = title;
 	document.getElementsByClassName('q-meta')[0].innerHTML =   `<ul><li class="answer-count">
@@ -36,10 +36,10 @@ const renderQuestionBody_singleQuestion = (id, content, username, createdAt, lik
       </span>`;
 	} else { document.getElementsByClassName('meta-cont')[0].style.width = '100%'; }
 	document.getElementsByClassName('date-posted')[0].innerHTML = `<span>${formatDate(createdAt)}</span> by <span><a href="/profile?username=${username}">@${username}</a></span>`;
-	if (likes !== null && likes.indexOf(localStorage.getItem('username')) !== -1) {
+	if (likes != null && likes.indexOf(localStorage.getItem('username')) !== -1) {
 		const likeBtn = document.getElementsByClassName('far fa-thumbs-up likebutton')[0];
 		likeBtn.classList = 'fas fa-thumbs-up likebutton';
-	} if (dislikes !== null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
+	} if (dislikes != null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
 		const dislikeBtn = document.getElementsByClassName('far fa-thumbs-down dislikebutton')[0];
 		dislikeBtn.classList = 'fas fa-thumbs-down dislikebutton';
 	}
@@ -56,8 +56,8 @@ const renderComments_singleQuestion = (answers, uname) => {
 			const { answer, id, username, created_at, likes, dislikes } = sortedAnswer[x];
 			let likesCount;
 			let dislikesCount;
-			likes !== null ? likesCount = likes.length : likesCount = 0;
-			dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+			likes != null ? likesCount = likes.length : likesCount = 0;
+			dislikes != null ? dislikesCount = dislikes.length : dislikesCount = 0;
 			commentsList.innerHTML += `
 			<li class="comment-cont">
 			<p class="comment">${answer}</p>
@@ -77,12 +77,12 @@ const renderComments_singleQuestion = (answers, uname) => {
 			</li>`;
 
 			// render already liked buttons
-			if (likes !== null && likes.indexOf(localStorage.getItem('username')) !== -1) {
+			if (likes != null && likes.indexOf(localStorage.getItem('username')) !== -1) {
 				document.getElementsByClassName('like-comment')[x].innerHTML = '<i class="fas fa-thumbs-up likebutton"></i>';
 			}
 
 			// render already disliked buttons
-			if (dislikes !== null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
+			if (dislikes != null && dislikes.indexOf(localStorage.getItem('username')) !== -1) {
 				document.getElementsByClassName('dislike-comment')[x].innerHTML = '<i class="fas fa-thumbs-down dislikebutton"></i>';
 			}
 
@@ -122,8 +122,8 @@ const renderQuestionTemplates = (questions) => {
 			const { answers_count, likes, dislikes, title, created_at, id, username, tags } = questions[i][x];
 			let likesCount;
 			let dislikesCount;
-			likes !== null ? likesCount = likes.length : likesCount = 0;
-			dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+			likes != null ? likesCount = likes.length : likesCount = 0;
+			dislikes != null ? dislikesCount = dislikes.length : dislikesCount = 0;
 			const newDate = formatDate(created_at);
 			tagsArr.push([tags.split(',')]);
 			tabArr[i].innerHTML
@@ -176,8 +176,8 @@ const renderUsersQuestions = (questions, uname) => {
 			const newDate = formatDate(created_at);
 			let likesCount;
 			let dislikesCount;
-			likes !== null ? likesCount = likes.length : likesCount = 0;
-			dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+			likes != null ? likesCount = likes.length : likesCount = 0;
+			dislikes != null ? dislikesCount = dislikes.length : dislikesCount = 0;
 			contArr[i].innerHTML += `<div class="single-question">
 		  <div class="q-meta">
 		  <ul>
