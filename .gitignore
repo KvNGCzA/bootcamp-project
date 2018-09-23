@@ -2,7 +2,8 @@
 /compiled
 /coverage
 /node_modules
-/views/hbs
+/UI/js/jquery-3.2.1
+/UI/js/jquery-ui-1.12.1
 .env
 .eslintrc.json
 .coveralls.yml
