@@ -1,12 +1,9 @@
 /** add page-title as a class to the body tag */
+const token = localStorage.getItem('token');
 const bodyTag = document.getElementsByTagName('body')[0];
-// const currentPageTitle = document.title;
-// const cName = dashTitle(currentPageTitle);
-// bodyTag.classList += `page-${cName} `;
 
 // add logged-in or logged-out class to body
-const status = localStorage.getItem('token');
-if (status !== 'null') {
+if (token !== 'null') {
 	bodyTag.classList += ' logged-in';
 	const profileLink = document.getElementsByClassName('profile-link');
 	const username = localStorage.getItem('username');
@@ -18,50 +15,6 @@ if (status !== 'null') {
 } else {
 	bodyTag.classList += ' logged-out';
 }
-
-/** action buttons config */
-const actionBtnArr = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
-const thinClass = ['far fa-thumbs-up likebutton', 'far fa-thumbs-down dislikebutton', 'far fa-flag reportbutton', 'far fa-star favoritebutton'];
-const thickClass = ['fas fa-thumbs-up likebutton', 'fas fa-thumbs-down dislikebutton', 'fas fa-flag reportbutton', 'fas fa-star favoritebutton'];
-for (const x in actionBtnArr) {
-	const current = document.getElementsByClassName(actionBtnArr[x]);
-	for (let y = 0; y < current.length; y++) {
-		current[y].addEventListener('click', function () {
-			const currentClass = this.getAttribute('class');
-			if (currentClass === thinClass[x]) {
-				this.setAttribute('class', thickClass[x]);
-			} else {
-				this.setAttribute('class', thinClass[x]);
-			}
-		}, false);
-	}
-}
-
-
-/** comments list background color */
-const comments = document.getElementsByClassName('comment-cont');
-for (const x in comments) {
-	if (x % 2 === 0) {
-		comments[x].style.backgroundColor = '#f4f4f4';
-	}
-}
-
-/** colour for question meta - views, likes and answered if count is greater than 0 */
-const homeAnswered = document.getElementsByClassName('answer-count-dis');
-const homeLiked = document.getElementsByClassName('likes-count-dis');
-const homeViews = document.getElementsByClassName('views-count-dis');
-
-const countArr = [homeAnswered, homeLiked, homeViews];
-const classCountArr = ['answered', 'liked', 'viewed'];
-for (const y in countArr) {
-	for (const x in countArr[y]) {
-		const current = Number(countArr[y][x].textContent);
-		if (current > 0) {
-			countArr[y][x].classList += ` ${classCountArr[y]}`;
-		}// if
-	}// for x
-}// for y
-
 
 // mobile search configuration
 const mobSearchIcon = document.getElementById('fa-search');

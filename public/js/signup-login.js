@@ -60,7 +60,6 @@ if (body.classList.contains('page-login-signup')) {
 
 const logout = document.getElementsByClassName('logout');
 const logoutUser = () => {
-  const token = localStorage.getItem('token');
   fetch('https://safe-inlet-99347.herokuapp.com/api/v2/auth/logout', {
     method: 'POST',
     headers: {

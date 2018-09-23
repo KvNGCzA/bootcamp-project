@@ -1,9 +1,6 @@
-const token = localStorage.getItem('token');
-
 const commentForm = document.getElementsByClassName('comment-form')[0];
 const postAnswer = (_e) => {
 	_e.preventDefault();
-	const token = localStorage.getItem('token');
 	const newAnswer = {
 		answer: commentForm.answer.value,
 		token,

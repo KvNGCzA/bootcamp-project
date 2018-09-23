@@ -4,7 +4,6 @@ if (allQuestionForms.length > 1) {
 	formNum = 1;
 }
 const questionForms = document.getElementsByClassName('postquestionform')[formNum];
-const token = localStorage.getItem('token');
 const postQuestion = (_e) => {
 	_e.preventDefault();
 	const newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token };
