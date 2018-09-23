@@ -1,17 +1,10 @@
 // render question metadata single question page
 const renderQuestionMeta_singleQuestion = (title, answersCount, likes, dislikes) => {
 	let likesCount;
-	if (likes !== null) {
-		likesCount = likes.length;
-	}else {
-		likesCount = 0;
-	}
 	let dislikesCount;
-	if (dislikes !== null) {
-		dislikesCount = dislikes.length;
-	}else {
-		dislikesCount = 0;
-	}
+	likes !== null ? likesCount = likes.length : likesCount = 0;
+	dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+	document.title = `Question - ${title}`;
 	document.getElementsByClassName('question-title')[0].textContent = title;
 	document.getElementsByClassName('q-meta')[0].innerHTML =   `<ul><li class="answer-count">
       <a href="#">Answers</a><a href="#" class="answer-count-dis">${answersCount}</a>
@@ -63,16 +56,8 @@ const renderComments_singleQuestion = (answers, uname) => {
 			const { answer, id, username, created_at, likes, dislikes } = sortedAnswer[x];
 			let likesCount;
 			let dislikesCount;
-			if (likes === null || likes.length < 1) {
-				likesCount = 0;
-			} else {
-				likesCount = likes.length;
-			}
-			if (dislikes === null || dislikes.length < 1) {
-				dislikesCount = 0;
-			} else {
-				dislikesCount = dislikes.length;
-			}
+			likes !== null ? likesCount = likes.length : likesCount = 0;
+			dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
 			commentsList.innerHTML += `
 			<li class="comment-cont">
 			<p class="comment">${answer}</p>
@@ -128,110 +113,101 @@ const renderComments_singleQuestion = (answers, uname) => {
 
 // render question cards
 const renderQuestionTemplates = (questions) => {
-	const tagsArr = [];
-	for (let x = questions.length - 1; x >= 0; x--) {
-		const tab = document.getElementById('tab1');
-		const { answers_count, likes, dislikes, title, created_at, id, username, tags } = questions[x];
-		let likesCount;
-		let dislikesCount;
-		if (likes !== null) {
-			likesCount = likes.length;
-		} else {
-			likesCount = 0;
+	const tagsArr = [];	
+	const tab1 = document.getElementById('tab1');
+	const tab2 = document.getElementById('tab2');
+	const tabArr = [tab1, tab2];
+	for (let i in questions) {
+		for (let x in questions[i]) {
+			const { answers_count, likes, dislikes, title, created_at, id, username, tags } = questions[i][x];
+			let likesCount;
+			let dislikesCount;
+			likes !== null ? likesCount = likes.length : likesCount = 0;
+			dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+			const newDate = formatDate(created_at);
+			tagsArr.push([tags.split(',')]);
+			tabArr[i].innerHTML
+		  += `<div class="single-question">
+			  <div class="q-meta">
+			  <ul>
+				  <li class="answer-count">
+				  <a href="#">Answers</a>
+				  <a href="#" class="answer-count-dis">${answers_count}</a>
+				  </li><!--
+				  --><li class="likes-count">
+				  <a href="#">UpVotes</a>
+				  <a href="#" class="likes-count-dis">${likesCount}</a>
+				  </li><!--
+				  --><li class="views-count">
+				  <a href="#">DownVotes</a>
+				  <a href="#" class="views-count-dis">${dislikesCount}</a>
+				  </li>
+			  </ul>
+			  </div>
+	
+			  <div class="q-details">
+			  <div class="edit-option-container">
+			  </div>
+			  <p class="question-title"><a href="/question?id=${id}" class="gotoQ">${title}</a></p>
+			  <ul class="tags">                    
+			  </ul>
+			  <span class="posted-on">Posted on <a href="#">${newDate}
+				  </a> by <a href="/profile?username=${username}">@${username}</a>
+			  </span>
+			  </div>
+		  </div><!-- single-question -->`;
 		}
-		if (dislikes !== null) {
-			dislikesCount = dislikes.length;
-		} else {
-			dislikesCount = 0;
-		}
-		const newDate = formatDate(created_at);
-		tagsArr.push([tags.split(',')]);
-		tab.innerHTML
-      += `<div class="single-question">
-          <div class="q-meta">
-          <ul>
-              <li class="answer-count">
-              <a href="#">Answers</a>
-              <a href="#" class="answer-count-dis">${answers_count}</a>
-              </li><!--
-              --><li class="likes-count">
-              <a href="#">UpVotes</a>
-              <a href="#" class="likes-count-dis">${likesCount}</a>
-              </li><!--
-              --><li class="views-count">
-              <a href="#">DownVotes</a>
-              <a href="#" class="views-count-dis">${dislikesCount}</a>
-              </li>
-          </ul>
-          </div>
-
-          <div class="q-details">
-          <div class="edit-option-container">
-          </div>
-          <p class="question-title"><a href="/question?id=${id}" class="gotoQ">${title}</a></p>
-          <ul class="tags">                    
-          </ul>
-          <span class="posted-on">Posted on <a href="#">${newDate}
-              </a> by <a href="/profile?username=${username}">@${username}</a>
-          </span>
-          </div>
-      </div><!-- single-question -->`;
 	}
 	addTags(tagsArr);
 };
 
 // render a users question cards
 const renderUsersQuestions = (questions, uname) => {
-	const tagsArr = [];
-	const idArr = [];
-
-	for (let x = questions.length - 1; x >= 0; x--) {
-		const profilePage = document.getElementsByClassName('profile-page-cont')[0];
-		const { answers_count, likes, dislikes, title, created_at, username, tags, id } = questions[x];
-		tagsArr.push([tags.split(',')]);
-		idArr.push(id);
-		const newDate = formatDate(created_at);
-		let likesCount;
-		let dislikesCount;
-		if (likes !== null) {
-			likesCount = likes.length;
-		} else {
-			likesCount = 0;
+	let tagsArr = [];
+	let idArr = [];	
+	const mostRecent = document.getElementById('most-recent');
+	const mostAnswered = document.getElementById('most-answered');
+	let contArr = [mostRecent, mostAnswered];
+	for (let i in questions) {
+		for (let x in questions[i]) {
+			const { answers_count, likes, dislikes, title, created_at, username, tags, id } = questions[i][x];
+			tagsArr.push([tags.split(',')]);
+			idArr.push(id);
+			const newDate = formatDate(created_at);
+			let likesCount;
+			let dislikesCount;
+			likes !== null ? likesCount = likes.length : likesCount = 0;
+			dislikes !== null ? dislikesCount = dislikes.length : dislikesCount = 0;
+			contArr[i].innerHTML += `<div class="single-question">
+		  <div class="q-meta">
+		  <ul>
+			  <li class="answer-count">
+			  <a href="#">Answers</a>
+			  <a href="#" class="answer-count-dis">${answers_count}</a>
+			  </li><!--
+			  --><li class="likes-count">
+			  <a href="#">UpVotes</a>
+			  <a href="#" class="likes-count-dis">${likesCount}</a>
+			  </li><!--
+			  --><li class="views-count">
+			  <a href="#">DownVotes</a>
+			  <a href="#" class="views-count-dis">${dislikesCount}</a>
+			  </li>
+		  </ul>
+		  </div>
+	
+		  <div class="q-details">
+		  <div class="edit-option-container">
+		  </div>
+		  <p class="question-title"><a href="/question?id=${id}">${title}</a></p>
+		  <ul class="tags">
+		  </ul>
+			  <span class="posted-on">Posted on <a href="#">${newDate}</a> by @${username} </span>
+		  </div>
+	
+	   </div><!-- single-question -->`;
 		}
-		if (dislikes !== null) {
-			dislikesCount = dislikes.length;
-		} else {
-			dislikesCount = 0;
-		}
-		profilePage.innerHTML += `<div class="single-question">
-      <div class="q-meta">
-      <ul>
-          <li class="answer-count">
-          <a href="#">Answers</a>
-          <a href="#" class="answer-count-dis">${answers_count}</a>
-          </li><!--
-          --><li class="likes-count">
-          <a href="#">UpVotes</a>
-          <a href="#" class="likes-count-dis">${likesCount}</a>
-          </li><!--
-          --><li class="views-count">
-          <a href="#">DownVotes</a>
-          <a href="#" class="views-count-dis">${dislikesCount}</a>
-          </li>
-      </ul>
-      </div>
-
-      <div class="q-details">
-      <div class="edit-option-container">
-      </div>
-      <p class="question-title"><a href="/question?id=${id}">${title}</a></p>
-      <ul class="tags">
-      </ul>
-          <span class="posted-on">Posted on <a href="#">${newDate}</a> by @${username} </span>
-      </div>
-
-   </div><!-- single-question -->`;
-	}
+	} // for i
 	if (uname === localStorage.getItem('username')) {
 		const edit = document.getElementsByClassName('edit-option-container');
 		for (let x = 0; x < edit.length; x++) {
@@ -245,4 +221,12 @@ const renderUsersQuestions = (questions, uname) => {
 		deleteButtonFunction(idArr);
 	}
 	addTags(tagsArr);
+};
+
+const renderHotQuestions = (questions) => {
+	const hotQuestionsCont = document.getElementById('hot-questions');
+	for ( let x in questions) {
+		const { title, id } = questions[x];
+		hotQuestionsCont.innerHTML += `<li> <i class="fab fa-gripfire"></i><a href="/question?id=${id}"> ${title}</a> </li>`;
+	}
 };

@@ -1,7 +1,9 @@
 $(document).ready(function(){
 /** home questions tabs JQueryUI*/
 let homeQuestions = $('#hQuestions');
+let proTab = $('#profile-tab');
 homeQuestions.tabs();
+proTab.tabs();
 
 /** quick options configurations */
 //show and hide quick options

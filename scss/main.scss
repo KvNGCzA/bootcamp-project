@@ -1200,6 +1200,7 @@ a, input[type="button"], input[type="submit"], i, button{
   /**right side bar */
   .side-bar{
     width: 25%;
+    height: 100vh;
     float: right;
     border-left: 1px solid #e2e2e2;
     margin: 0.3% 0;
@@ -1213,6 +1214,7 @@ a, input[type="button"], input[type="submit"], i, button{
       }//h2
       .fa-gripfire{
         color: $fireRed;
+        margin: 0 0.8em 0 0;
       }//fa-gripfire
       ul{
         list-style: none;
@@ -1220,6 +1222,7 @@ a, input[type="button"], input[type="submit"], i, button{
         text-align: left;
         li{
           padding: 0.5em 0;
+          display: flex;
           &:hover, &:active{
               a{
                   text-decoration: underline;
@@ -1306,12 +1309,47 @@ a, input[type="button"], input[type="submit"], i, button{
         }//ul
       }//.profile-info
     }//.profile
-    h2{
-      text-align: center;
-      color: $textGray;
-      border-top: 1px solid $borderGray;
-      padding: 0.25em 0 0;
-    }
+    #profile-tab {      
+      h2{
+        text-align: center;
+        color: $textGray;
+        padding: 0.7em 0 0.3em;
+      }
+      #head1 {      
+      }
+      #head2 {
+      }
+      ul.tab-cont {
+        width: 100%;
+        border-bottom: 1px solid $borderGray;
+        li {
+          width: 49.5%;
+          display: inline-block;
+          text-align: center;
+          border-top: 1px solid $borderGray;
+          border-left: 1px solid $borderGray;
+          border-right: 1px solid $borderGray;
+          border-top-left-radius: 0.5em;
+          border-top-right-radius: 0.5em;
+          a {
+            text-decoration: none;
+            color: $textGray;
+            padding: 0.5em 0;
+            display: block;
+            font-size: 0.8em;
+          } //a
+          &:first-child {
+            margin: 0 1% 0 0;
+          }
+          &:hover {
+            background-color: $borderGray;            
+          } // &:hover
+        } // li
+        li.ui-tabs-active {
+          background-color: $borderGray;
+        } // li.ui-tabs-active
+      } // ul.tab-cont 
+    } // #profile-tab
   }//.profile-page-cont
 
 }//.main

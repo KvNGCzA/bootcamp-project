@@ -13,15 +13,13 @@ const storage = multer.diskStorage({
         callback(null, req.body.username + file.originalname);
     },
 });
-
 const filter = (req, file, callback) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {        
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
         callback(null, true);
     } else {
         callback(null, false);
     }    
 };
-
 const upload = multer({
     storage,
     limits: {
@@ -38,7 +36,7 @@ router.get('/users', userClass.fetchUsers);
 
 router.get('/user/:username', validateUsername, userClass.fetchUserByUsername);
 
-router.post('/signup', validateSignUpInfo, upload.single('profileImage'), userClass.createUser);
+router.post('/signup', upload.single('profileImage'), validateSignUpInfo, userClass.createUser);
 
 router.post('/login', validateLoginInfo, userClass.login);
 
