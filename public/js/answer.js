@@ -1,5 +1,3 @@
-const token = localStorage.getItem('token');
-
 const commentForm = document.getElementsByClassName('comment-form')[0];
 const postAnswer = (_e) => {
 	_e.preventDefault();
@@ -17,26 +15,27 @@ const postAnswer = (_e) => {
 		},
 		body: JSON.stringify(newAnswer),
 	})
-		.then(res => res.json())
-		.then((data) => {
-			const successAnswer = document.getElementById('success-answer');
-			const { message } = data;
-			successAnswer.textContent = message;
-			commentForm.answer.value = '';
-			if (message === 'answer posted!') {
-				successAnswer.style.color = 'green';
-				return setTimeout(() => {
-					document.location.reload();
-				}, 1000);
-			} 
-				successAnswer.style.color = '#f24d4d';
-			
-		})
-		.catch(error => error);
+	.then(res => res.json())
+	.then((data) => {
+		const successAnswer = document.getElementById('success-answer');
+		const { message } = data;
+		successAnswer.textContent = message;
+		commentForm.answer.value = '';
+		if (message === 'answer posted!') {
+			successAnswer.style.color = 'green';
+			return setTimeout(() => {
+				document.location.reload();
+			}, 1000);
+		} 
+			successAnswer.style.color = '#f24d4d';
+		
+	})
+	.catch(error => error);
 };
 
 const questionId = window.location.search.split('=')[1];
 const favoriteAnAnswer = (id) => {
+const token = localStorage.getItem('token');
 fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/answers/${id}`, {
     method: 'PUT',
     headers: {
@@ -67,6 +66,7 @@ const likeAnswer = (id) => {
 };
 
 const dislikeAnswer = (id) => {
+	const token = localStorage.getItem('token');
     fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/answers/${id}/dislike`, {
         method: 'PUT',
         headers: {

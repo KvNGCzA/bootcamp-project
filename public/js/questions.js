@@ -4,9 +4,9 @@ if (allQuestionForms.length > 1) {
 	formNum = 1;
 }
 const questionForms = document.getElementsByClassName('postquestionform')[formNum];
-const token = localStorage.getItem('token');
 const postQuestion = (_e) => {
 	_e.preventDefault();
+	const token = localStorage.getItem('token');
 	const newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token };
 	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
 		method: 'POST',
@@ -34,6 +34,7 @@ const postQuestion = (_e) => {
 questionForms.addEventListener('submit', postQuestion, false);
 
 const likeQuestion = (questionId) => {
+	const token = localStorage.getItem('token');
 	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/like`, {
 		method: 'PUT',
 		headers: {
@@ -48,6 +49,7 @@ const likeQuestion = (questionId) => {
 };
 
 const dislikeQuestion = (questionId) => {
+	const token = localStorage.getItem('token');
 	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/dislike`, {
 		method: 'PUT',
 		headers: {
@@ -117,6 +119,7 @@ const getUsersQuestions = () => {
 }; // get questions for profile page
 
 const deleteQuestion = (id) => {
+	const token = localStorage.getItem('token');
 	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${id}`, {
 		method: 'DELETE',
 		headers: {
