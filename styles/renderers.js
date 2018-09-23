@@ -222,3 +222,11 @@ const renderUsersQuestions = (questions, uname) => {
 	}
 	addTags(tagsArr);
 };
+
+const renderHotQuestions = (questions) => {
+	const hotQuestionsCont = document.getElementById('hot-questions');
+	for ( let x in questions) {
+		const { title, id } = questions[x];
+		hotQuestionsCont.innerHTML += `<li> <i class="fab fa-gripfire"></i><a href="/question?id=${id}"> ${title}</a> </li>`;
+	}
+};

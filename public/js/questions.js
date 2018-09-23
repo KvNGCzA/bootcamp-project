@@ -6,10 +6,10 @@ if (allQuestionForms.length > 1) {
 	formNum = 1;
 }
 var questionForms = document.getElementsByClassName('postquestionform')[formNum];
+var token = localStorage.getItem('token');
 var postQuestion = function () {
 	function postQuestion(_e) {
 		_e.preventDefault();
-		var token = localStorage.getItem('token');
 		var newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token: token };
 		fetch('http://localhost:3000/api/v2/questions', {
 			method: 'POST',
@@ -44,7 +44,6 @@ questionForms.addEventListener('submit', postQuestion, false);
 
 var likeQuestion = function () {
 	function likeQuestion(questionId) {
-		var token = localStorage.getItem('token');
 		fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/like', {
 			method: 'PUT',
 			headers: {
@@ -66,7 +65,6 @@ var likeQuestion = function () {
 
 var dislikeQuestion = function () {
 	function dislikeQuestion(questionId) {
-		var token = localStorage.getItem('token');
 		fetch('http://localhost:3000/api/v2/questions/' + String(questionId) + '/dislike', {
 			method: 'PUT',
 			headers: {
@@ -139,6 +137,21 @@ var getQuestions = function () {
 	return getQuestions;
 }(); // get all quetsions for homepage
 
+var getHotQuestions = function () {
+	function getHotQuestions() {
+		fetch('http://localhost:3000/api/v2/questions').then(function (res) {
+			return res.json();
+		}).then(function (data) {
+			var questions = data.questions;
+
+			renderHotQuestions(questions[1]);
+		})['catch'](function (error) {
+			return error;
+		});
+	}
+
+	return getHotQuestions;
+}(); // get all quetsions for homepage
 
 var getUsersQuestions = function () {
 	function getUsersQuestions() {
@@ -160,7 +173,6 @@ var getUsersQuestions = function () {
 
 var deleteQuestion = function () {
 	function deleteQuestion(id) {
-		var token = localStorage.getItem('token');
 		fetch('http://localhost:3000/api/v2/questions/' + String(id), {
 			method: 'DELETE',
 			headers: {
@@ -191,3 +203,5 @@ if (document.getElementsByTagName('body')[0].classList.contains('page-profile'))
 if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	getQuestionById();
 }
+
+getHotQuestions();

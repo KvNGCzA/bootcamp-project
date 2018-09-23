@@ -178,3 +178,18 @@ var renderUsersQuestions = function () {
 
 	return renderUsersQuestions;
 }();
+
+var renderHotQuestions = function () {
+	function renderHotQuestions(questions) {
+		var hotQuestionsCont = document.getElementById('hot-questions');
+		for (var x in questions) {
+			var _questions$x = questions[x],
+			    title = _questions$x.title,
+			    id = _questions$x.id;
+
+			hotQuestionsCont.innerHTML += '<li> <i class="fab fa-gripfire"></i><a href="/question?id=' + String(id) + '"> ' + String(title) + '</a> </li>';
+		}
+	}
+
+	return renderHotQuestions;
+}();

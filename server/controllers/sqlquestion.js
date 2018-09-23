@@ -7,7 +7,7 @@ export class Questions {
 	fetchQuestions (req, res) {
         db.tx(t => {
             const questions = t.any('SELECT * FROM questions ORDER BY created_at DESC');
-            const questions1 = t.any('SELECT * FROM questions ORDER BY answers_count DESC, ARRAY_LENGTH(likes, 1) DESC NULLS LAST');
+            const questions1 = t.any('SELECT * FROM questions WHERE answers_count > 0 ORDER BY ARRAY_LENGTH(likes, 1) DESC NULLS LAST, answers_count DESC');
             return t.batch([ questions, questions1 ]);
         })
         .then(questions => res.status(200).json({ status: 200, questions }))
@@ -51,7 +51,7 @@ export class Questions {
         const { username } = req.params;
         db.tx(t => {
             const questions = t.any('SELECT * FROM questions WHERE username = $1 ORDER BY created_at DESC', [ username ]);
-            const questions1 = t.any('SELECT * FROM questions WHERE username = $1 ORDER BY answers_count DESC', [ username ]);
+            const questions1 = t.any('SELECT * FROM questions WHERE username = $1 AND answers_count > 0 ORDER BY answers_count DESC', [ username ]);
             return t.batch([ questions, questions1 ]);
         })
         .then(questions => {

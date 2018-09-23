@@ -1200,6 +1200,7 @@ a, input[type="button"], input[type="submit"], i, button{
   /**right side bar */
   .side-bar{
     width: 25%;
+    height: 100vh;
     float: right;
     border-left: 1px solid #e2e2e2;
     margin: 0.3% 0;
@@ -1213,6 +1214,7 @@ a, input[type="button"], input[type="submit"], i, button{
       }//h2
       .fa-gripfire{
         color: $fireRed;
+        margin: 0 0.8em 0 0;
       }//fa-gripfire
       ul{
         list-style: none;
@@ -1220,6 +1222,7 @@ a, input[type="button"], input[type="submit"], i, button{
         text-align: left;
         li{
           padding: 0.5em 0;
+          display: flex;
           &:hover, &:active{
               a{
                   text-decoration: underline;
@@ -1338,6 +1341,9 @@ a, input[type="button"], input[type="submit"], i, button{
           &:first-child {
             margin: 0 1% 0 0;
           }
+          &:hover {
+            background-color: $borderGray;            
+          } // &:hover
         } // li
         li.ui-tabs-active {
           background-color: $borderGray;
