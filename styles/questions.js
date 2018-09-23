@@ -8,7 +8,7 @@ const token = localStorage.getItem('token');
 const postQuestion = (_e) => {
 	_e.preventDefault();
 	const newQuestion = { title: questionForms.title.value, content: questionForms.content.value, tags: questionForms.tags.value, token };
-	fetch('http://localhost:3000/api/v2/questions', {
+	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -34,7 +34,7 @@ const postQuestion = (_e) => {
 questionForms.addEventListener('submit', postQuestion, false);
 
 const likeQuestion = (questionId) => {
-	fetch(`http://localhost:3000/api/v2/questions/${questionId}/like`, {
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/like`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const likeQuestion = (questionId) => {
 };
 
 const dislikeQuestion = (questionId) => {
-	fetch(`http://localhost:3000/api/v2/questions/${questionId}/dislike`, {
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}/dislike`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const dislikeQuestion = (questionId) => {
 
 const getQuestionById = () => {
 	const questionId = window.location.search.split('=')[1];
-	fetch(`http://localhost:3000/api/v2/questions/${questionId}`)
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}`)
 	.then(res => res.json())
 	.then((data) => {
 		const tagsArr = [];
@@ -84,7 +84,7 @@ const getQuestionById = () => {
 }; // get question by id
 
 const getQuestions = () => {
-	fetch('http://localhost:3000/api/v2/questions')
+	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions')
 	.then(res => res.json())
 	.then((data) => {
 		const { questions } = data;
@@ -95,7 +95,7 @@ const getQuestions = () => {
 }; // get all quetsions for homepage
 
 const getHotQuestions = () => {
-	fetch('http://localhost:3000/api/v2/questions')
+	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions')
 	.then(res => res.json())
 	.then((data) => {
 		const { questions } = data;
@@ -106,7 +106,7 @@ const getHotQuestions = () => {
 
 const getUsersQuestions = () => {
 	const uname = window.location.search.split('=')[1];
-	fetch(`http://localhost:3000/api/v2/questions/${uname}/questions`)
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${uname}/questions`)
 	.then(res => res.json())
 	.then((data) => {
 		const { questions } = data;
@@ -117,7 +117,7 @@ const getUsersQuestions = () => {
 }; // get questions for profile page
 
 const deleteQuestion = (id) => {
-	fetch(`http://localhost:3000/api/v2/questions/${id}`, {
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${id}`, {
 		method: 'DELETE',
 		headers: {
 			Accept: 'application/json',
