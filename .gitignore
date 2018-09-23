@@ -4,7 +4,8 @@
 /node_modules
 /public/js/jquery-3.2.1
 /public/js/jquery-ui-1.12.1
-/UI/js/
+/styles
+/UI
 /views/hbs
 .env
 .eslintrc.json
