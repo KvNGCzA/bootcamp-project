@@ -8,6 +8,6 @@ export default (req, res, next) => {
         next();
     }
     catch (error) {
-        return res.status(401).json({ message: 'User Not logged in!' });
+        return res.status(401).json({ message: 'Please login to perform this action!' });
     }
 }

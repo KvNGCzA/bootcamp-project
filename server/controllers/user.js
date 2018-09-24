@@ -86,9 +86,7 @@ export class User {
 	logout (req,res) {
 		const { id } = req.userData;
 		db.any('UPDATE users SET logged_in = $1 WHERE id = $2', [false, id])
-		.then(() => {
-			res.status(200).json({ status: 200, message: 'user logged out!' });
-		})
+		.then(() => res.status(200).json({ status: 200, message: 'user logged out!' }))
 		.catch(error => res.status(500).json({ status: 500, error }));
 	}
 	

@@ -611,9 +611,9 @@ a, input[type="button"], input[type="submit"], i, button{
           @include outerBoxShadow(0, 0, 5px, $maincolor);
         }//&:hover, &:active
          &:active{
-             background-color: white;
-             color: $maincolor;
-             @include innerBoxShadow(0, 0, 4px, $maincolor);
+            background-color: white;
+            color: $maincolor;
+            @include innerBoxShadow(0, 0, 4px, $maincolor);
          }
       }//a
     }//.hPostQues

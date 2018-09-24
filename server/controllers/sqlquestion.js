@@ -73,8 +73,8 @@ export class Questions {
             const creatorId = question[0].userid;
                 db.tx(t => {
                     t.any('INSERT INTO answers (answer, questionid, username, creator_id, userid) VALUES ($1, $2, $3, $4, $5)', [answer, questionId, username, creatorId, id]);
-                     t.none('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1 ,id]);
-                    t.none('UPDATE questions SET answers_count = answers_count + $1 WHERE id = $2', [1 ,questionId]);
+                    t.none('UPDATE users SET answered_count = answered_count + $1 WHERE id = $2', [1, id]);
+                    t.none('UPDATE questions SET answers_count = answers_count + $1 WHERE id = $2', [1, questionId]);
                     return;
                 })
                 .then(() => res.status(201).json({ status: 201, message: 'answer posted!' }));
@@ -85,7 +85,7 @@ export class Questions {
     // mark favorite or update answer
     markFavorite (req, res) {
         const { questionId, answerId } = req.params;
-        const { id } = req.userData;        
+        const { id } = req.userData;
         db.any('SELECT * FROM answers WHERE questionid = $1 AND id = $2', [questionId, answerId])
         .then(answer => {
             // if route is accessed by question creator
@@ -123,7 +123,7 @@ export class Questions {
                     return res.status(201).json({ status: 201, message:  'answer updated!' });
                 })
                 .catch(error => error);
-            } if (answer[0].userid !== id && answer[0].creator_id !== id) {                
+            } if (answer[0].userid !== id && answer[0].creator_id !== id) {
                 return res.status(400).json({ status: 400, message: 'You do no have access to this' });
             }
         }).catch(error => res.status(500).json({ status: 500, error }));
