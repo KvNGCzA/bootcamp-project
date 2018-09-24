@@ -591,6 +591,7 @@ a, input[type="button"], input[type="submit"], i, button{
   margin: 4em 0 0;
   .site-content{
     width: 75%;
+    height: 100vh;
     float: left;
     padding: 2em 1em;
 
@@ -1070,6 +1071,13 @@ a, input[type="button"], input[type="submit"], i, button{
       }//input[type=button]
     }
 
+    // 404 page
+    .notfound-cont {
+      text-align: center;
+      h1 {
+        text-align: center;
+      }
+    } // .notfound-cont
 
   }//.site-content
 

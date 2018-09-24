@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 	next(error);
 });
 
-app.use((error, req, res, next) => res.status(error.status || 500).json({ message: error.message, status: error.status }));
+app.use((error, req, res, next) => res.status(error.status || 500).sendFile(path.join(__dirname, '..', 'UI', '/404-page.html')));
 
 app.listen(port, () => console.log(`server is up on port ${port}`));
 

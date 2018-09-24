@@ -57,7 +57,7 @@ describe('GET /nopage', () => {
     it('should return error page', (done) => {
         request
         .get('/nopage')
-        .expect('Content-Type', /json/)
+        .expect('Content-Type', /html/)
         .expect(404)
         .end(done);
     });
