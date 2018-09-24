@@ -452,6 +452,14 @@ describe('PUT/ api/v2/questions/answers/:answerId/like', () => {
 			.expect(200, { status: 200, message: 'answer liked!' })
 			.end(done);
 	});
+	it('should fail to like an answer that doesn\'t exist', (done) => {
+		request
+			.put('/api/v2/questions/answers/6/like')
+			.send({ token: token2 })
+			.expect('Content-Type', /json/)
+			.expect(400, { status: 400, message: 'answer does not exist!' })
+			.end(done);
+	});
 	it('should unlike an answer', (done) => {
 		request
 			.put('/api/v2/questions/answers/1/like')
@@ -486,6 +494,14 @@ describe('PUT/ api/v2/questions/answers/:answerId/dislike', () => {
 			.send({ token: token2 })
 			.expect('Content-Type', /json/)
 			.expect(200, { status: 200, message: 'answer disliked!' })
+			.end(done);
+	});
+	it('should fail to dislike an answer that doesn\'t exist', (done) => {
+		request
+			.put('/api/v2/questions/answers/6/dislike')
+			.send({ token: token2 })
+			.expect('Content-Type', /json/)
+			.expect(400, { status: 400, message: 'answer does not exist!' })
 			.end(done);
 	});
 	it('should undislike an answer', (done) => {
@@ -524,6 +540,14 @@ describe('PUT/ api/v2/questions/:questionId/like', () => {
 			.expect(200, { status: 200, message: 'question liked!' })
 			.end(done);
 	});
+	it('should fail to like a question that doesn\'t exist', (done) => {
+		request
+			.put('/api/v2/questions/4/like')
+			.send({ token: token2 })
+			.expect('Content-Type', /json/)
+			.expect(400, { status: 400, message: 'question does not exist!' })
+			.end(done);
+	});
 	it('should like an question by another user', (done) => {
 		request
 			.put('/api/v2/questions/1/like')
@@ -560,12 +584,20 @@ describe('PUT/ api/v2/questions/:questionId/dislike', () => {
 			.expect(200, { status: 200, message: 'question liked!' })
 			.end(done);
 	});
-	it('should dislike an question', (done) => {
+	it('should dislike a question', (done) => {
 		request
 			.put('/api/v2/questions/1/dislike')
 			.send({ token })
 			.expect('Content-Type', /json/)
 			.expect(200, { status: 200, message: 'question disliked!' })
+			.end(done);
+	});
+	it('should fail to dislike a question that doesn\'t exist', (done) => {
+		request
+			.put('/api/v2/questions/4/dislike')
+			.send({ token: token2 })
+			.expect('Content-Type', /json/)
+			.expect(400, { status: 400, message: 'question does not exist!' })
 			.end(done);
 	});
 	it('should dislike an question', (done) => {

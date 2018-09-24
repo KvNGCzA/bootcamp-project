@@ -173,7 +173,7 @@ export class Questions {
                 .then(() => res.status(200).json({ status: 200, message: 'question unliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
-        }).catch(error => res.status(500).json({ status: 500, error }));
+        }).catch(error => res.status(400).json({ status: 400, message: 'question does not exist!' }));
     }
 
     // dislike question
@@ -198,7 +198,7 @@ export class Questions {
                 .then(() => res.status(200).json({ status: 200, message: 'question undisliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
-        }).catch(error => res.status(500).json({ status: 500, error }));
+        }).catch(error => res.status(400).json({ status: 400, message: 'question does not exist!' }));
     }
 
     // like an answer
@@ -223,7 +223,7 @@ export class Questions {
                 .then(() => res.status(200).json({ status: 200, message: 'answer unliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
-        }).catch(error => res.status(500).json({ status: 500, error }));
+        }).catch(error => res.status(400).json({ status: 400, message: 'answer does not exist!' }));
     }
 
     // dislike answer
@@ -248,7 +248,7 @@ export class Questions {
                 .then(() => res.status(200).json({ status: 200, message: 'answer undisliked!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
-        }).catch(error => res.status(500).json({ status: 500, error }));
+        }).catch(error => res.status(400).json({ status: 400, message: 'answer does not exist!' }));
     }
     
 }
