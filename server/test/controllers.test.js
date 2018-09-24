@@ -663,6 +663,13 @@ describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
 			.expect(400, { status: 400, message: 'answerId must be an integer or less than nine characters!' })
 			.end(done);
 	});
+	it('should not favorite an answer if answer does not exist', (done) => {
+		request
+			.put('/api/v2/questions/1/answers/123')
+			.send({ token })
+			.expect(404, { status: 404, message: 'answer does not exist!' })
+			.end(done);
+	});
 });
 
 describe('PUT/ api/v2/questions/:questionId/answers/:answerId', () => {
