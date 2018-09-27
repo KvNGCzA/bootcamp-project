@@ -45,10 +45,9 @@ npm start
 You can now test the api endpoints via postman
 
 
-Sign up for a user account via a POST/ localhost:3000/api/auth/signup
-provide firstName, lastName, username, email and password.
+Read Documentation below
 ```
-a link to the documentation will be pasted here
+https://app.swaggerhub.com/apis/stackoverflowlite/stack-overflow_lite_api/2.0.0
 ```
 
 

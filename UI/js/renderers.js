@@ -230,3 +230,28 @@ const renderHotQuestions = (questions) => {
 		hotQuestionsCont.innerHTML += `<li> <i class="fab fa-gripfire"></i><a href="/question?id=${id}"> ${title}</a> </li>`;
 	}
 };
+
+const renderSearchResults = (res) => {
+	let tagsArr = [];
+	const searchCount = document.getElementsByClassName('search-count')[0];
+	searchCount.textContent = `${res.length} Search Result(s):`;
+	const resultList = document.getElementsByClassName('result-list')[0];
+	if (res.length <  1) {
+		resultList.innerHTML = `<li><p>There are no results for this search</p></li>`;
+	} else {
+		for (let x in res) {
+			const {id, title, tags } = res[x];
+			console.log(id, title, tags);
+			tagsArr.push([tags.split(',')]);
+			resultList.innerHTML += 
+			`<li class="result">
+				<p>
+					<a href="/question?id=${id}">${title}</a>
+				</p>
+				<ul class="tags">
+				</ul>
+			</li>`;
+		}
+		addTags(tagsArr);
+	}
+};

@@ -357,6 +357,17 @@ describe('POST/ api/v2/questions', () => {
 	});
 });
 
+// search for question
+describe('GET/ api/v2/questions/search/:search', () => {
+	it('should search for a question', (done) => {
+		request
+		.get('/api/v2/questions/search/test')
+		.expect(200)
+		.expect('Content-Type', /json/)
+		.end(done);
+	});
+});
+
 // post answer
 describe('POST/ api/v2/questions/:questionId/answers', () => {
 	it('should post an answer to your own question', (done) => {

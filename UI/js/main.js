@@ -63,3 +63,16 @@ for (const x in loginCheckArr) {
 		}, false);
 	}
 }
+
+
+const searchForms = document.getElementsByClassName('search');
+for (let x = 0; x < searchForms.length; x++) {
+	console.log(searchForms[x]);
+	const redirectSearchFrom = (_e) => {
+		console.log('submitted');
+		_e.preventDefault();
+		const searchTerm = searchForms[x].search.value;
+		window.location = `/search?search=${searchTerm}`;
+	};
+	searchForms[x].addEventListener('submit', redirectSearchFrom, false);
+}
