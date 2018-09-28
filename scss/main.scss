@@ -377,7 +377,7 @@ header{
       @include outerBoxShadow(0, 0, 10px,$maincolor);
       @include placeholder($maincolor);
     }
-    input[type="button"]{
+    input[type="submit"]{
       display:none;
     }//input
   }//form
@@ -591,7 +591,7 @@ a, input[type="button"], input[type="submit"], i, button{
   margin: 4em 0 0;
   .site-content{
     width: 75%;
-    height: 100vh;
+    height: 100%;
     float: left;
     padding: 2em 1em;
 
@@ -1078,6 +1078,41 @@ a, input[type="button"], input[type="submit"], i, button{
         text-align: center;
       }
     } // .notfound-cont
+
+    // search page
+    .search-cont {
+      h1 {
+        margin: 0 0 1em;
+      }
+      .search-results {
+        ul.result-list {
+          list-style: none;
+          .result {
+            border-top: 1px solid $borderGray;
+            p {
+              margin: 1em 0 0;
+              a {
+                color: $maincolor;
+                text-decoration: none;
+              }// a
+            }// p
+            ul.tags{
+              float: none;
+              li {
+                a {
+                  color: white;
+                  background-color: $hoverColor;
+                  margin-left: .2em;
+                }// a
+              }// li
+            } // ul.tags
+            &:last-child {
+              border-bottom: 1px solid $borderGray;
+            } // &:last-child
+          }// .result
+        }// .result-list
+      } // .search-results
+    }// search-cont
 
   }//.site-content
 

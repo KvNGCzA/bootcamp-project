@@ -30,14 +30,15 @@ const createTable = () => {
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             content TEXT NOT NULL,
+            tags TEXT NOT NULL,
             username VARCHAR(100) NOT NULL REFERENCES users(username) ON UPDATE CASCADE,
             userid INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             likes VARCHAR(100) [],
             dislikes VARCHAR(100) [],
             answers_count INT NOT NULL DEFAULT 0,
-            tags TEXT NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            fts tsvector
         );
         CREATE TABLE IF NOT EXISTS answers(
             id SERIAL PRIMARY KEY,
@@ -51,11 +52,13 @@ const createTable = () => {
             favorite BOOLEAN DEFAULT false,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-        )`;
-
+        );
+        CREATE INDEX textsearch_idx ON questions USING GIN (fts);
+        `;
 	pool.query(query)
-		.then(() => pool.end())
-		.catch(() => pool.end());
+    .then(() => pool.end())
+    .catch(() => pool.end());
+    
 };
 createTable();
 

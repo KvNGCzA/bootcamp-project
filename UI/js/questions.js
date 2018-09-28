@@ -16,20 +16,20 @@ const postQuestion = (_e) => {
 		},
 		body: JSON.stringify(newQuestion),
 	}).then(res => res.json())
-	.then((data) => {
-		const successMessage = document.getElementsByClassName('postQuestion-success-message')[formNum];
-		if (data.message === 'question posted!') {
-			successMessage.style.display = 'block';
-			questionForms.title.value = '';
-			questionForms.content.value = '';
-			questionForms.tags.value = '';
-			if (document.getElementsByTagName('body')[0].classList.contains('page-profile') || document.getElementsByTagName('body')[0].classList.contains('page-home')) {
-			location.reload();
+		.then((data) => {
+			const successMessage = document.getElementsByClassName('postQuestion-success-message')[formNum];
+			if (data.message === 'question posted!') {
+				successMessage.style.display = 'block';
+				questionForms.title.value = '';
+				questionForms.content.value = '';
+				questionForms.tags.value = '';
+				if (document.getElementsByTagName('body')[0].classList.contains('page-profile') || document.getElementsByTagName('body')[0].classList.contains('page-home')) {
+					location.reload();
+				}
+			} else {
+				successMessage.textContent = data.message;
 			}
-		} else {
-			successMessage.textContent = data.message;
-		}
-	}).catch(error => error);
+		}).catch(error => error);
 };// post a question function
 questionForms.addEventListener('submit', postQuestion, false);
 
@@ -43,9 +43,9 @@ const likeQuestion = (questionId) => {
 		},
 		body: JSON.stringify({ token }),
 	})
-	.then(res => res.json())
-	.then(() => window.location.reload())
-	.catch(error => error);
+		.then(res => res.json())
+		.then(() => window.location.reload())
+		.catch(error => error);
 };
 
 const dislikeQuestion = (questionId) => {
@@ -58,64 +58,64 @@ const dislikeQuestion = (questionId) => {
 		},
 		body: JSON.stringify({ token })
 	})
-	.then(res => res.json())
-	.then(() => window.location.reload())
-	.catch(error => error);
+		.then(res => res.json())
+		.then(() => window.location.reload())
+		.catch(error => error);
 };
 
 const getQuestionById = () => {
 	const questionId = window.location.search.split('=')[1];
 	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${questionId}`)
-	.then(res => res.json())
-	.then((data) => {
-		const tagsArr = [];
-		const { question, answers } = data;
-		const {
-			id, title, content, tags, created_at, likes, dislikes, username, answers_count,
-		} = question[0];
-		tagsArr.push([tags.split(',')]);
-		renderQuestionMeta_singleQuestion(title, answers_count, likes, dislikes);
-		renderQuestionBody_singleQuestion(questionId, content, username, created_at, likes, dislikes);
-		addTags(tagsArr);
-		countClassColours();
-		renderComments_singleQuestion(answers, username);
-		actionButtons();
-		colorComments();
-	})
-	.catch(error => error);
+		.then(res => res.json())
+		.then((data) => {
+			const tagsArr = [];
+			const { question, answers } = data;
+			const {
+				id, title, content, tags, created_at, likes, dislikes, username, answers_count,
+			} = question[0];
+			tagsArr.push([tags.split(',')]);
+			renderQuestionMeta_singleQuestion(title, answers_count, likes, dislikes);
+			renderQuestionBody_singleQuestion(questionId, content, username, created_at, likes, dislikes);
+			addTags(tagsArr);
+			countClassColours();
+			renderComments_singleQuestion(answers, username);
+			actionButtons();
+			colorComments();
+		})
+		.catch(error => error);
 }; // get question by id
 
 const getQuestions = () => {
 	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions')
-	.then(res => res.json())
-	.then((data) => {
-		const { questions } = data;
-		renderQuestionTemplates(questions);
-		countClassColours();
-	})
-	.catch(error => error);
+		.then(res => res.json())
+		.then((data) => {
+			const { questions } = data;
+			renderQuestionTemplates(questions);
+			countClassColours();
+		})
+		.catch(error => error);
 }; // get all quetsions for homepage
 
 const getHotQuestions = () => {
 	fetch('https://safe-inlet-99347.herokuapp.com/api/v2/questions')
-	.then(res => res.json())
-	.then((data) => {
-		const { questions } = data;
-		renderHotQuestions(questions[1]);
-	})
-	.catch(error => error);
+		.then(res => res.json())
+		.then((data) => {
+			const { questions } = data;
+			renderHotQuestions(questions[1]);
+		})
+		.catch(error => error);
 }; // get all quetsions for homepage
 
 const getUsersQuestions = () => {
 	const uname = window.location.search.split('=')[1];
 	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/${uname}/questions`)
-	.then(res => res.json())
-	.then((data) => {
-		const { questions } = data;
-		renderUsersQuestions(questions, uname);
-		countClassColours();
-	})
-	.catch(error => error);
+		.then(res => res.json())
+		.then((data) => {
+			const { questions } = data;
+			renderUsersQuestions(questions, uname);
+			countClassColours();
+		})
+		.catch(error => error);
 }; // get questions for profile page
 
 const deleteQuestion = (id) => {
@@ -128,10 +128,21 @@ const deleteQuestion = (id) => {
 		},
 		body: JSON.stringify({ token }),
 	})
-	.then(res => res.json())
-	.then(() => document.location.reload())
-	.catch(error => error);
+		.then(res => res.json())
+		.then(() => document.location.reload())
+		.catch(error => error);
 }; // delete a question
+
+const getSearchResults = () => {
+	const searchTerm = window.location.search.split('=')[1];
+	fetch(`https://safe-inlet-99347.herokuapp.com/api/v2/questions/search/${searchTerm}`)
+		.then(res => res.json())
+		.then(res => {
+			const { results } = res;
+			renderSearchResults(results);
+		})
+		.catch(error => console.log(error));
+};
 
 if (document.getElementsByTagName('body')[0].classList.contains('page-home')) {
 	getQuestions();
@@ -143,6 +154,10 @@ if (document.getElementsByTagName('body')[0].classList.contains('page-profile'))
 
 if (document.getElementsByTagName('body')[0].classList.contains('page-question')) {
 	getQuestionById();
+}
+
+if (document.getElementsByTagName('body')[0].classList.contains('page-search')) {
+	getSearchResults();
 }
 
 getHotQuestions();

@@ -22,6 +22,7 @@ export const validateSignUpInfo = (req, res, next) => {
 
 export const validateLoginInfo = (req, res, next) => {
 	const { email, password } = req.body;
+	console.log(email, password);
 	if (!email || validateEmail(email) === false) {
 		return res.status(400).json({ status: 400, message: 'email address is empty or an invalid format' });
 	}

@@ -26,7 +26,7 @@ paths:
       produces:
         - application/json
       consumes:
-        - application/json
+        - multipart/form-data
       responses:
         201:
           description: signs user up
@@ -66,7 +66,7 @@ paths:
       produces:
         - application/json
       consumes:
-        - application/json
+        - multipart/form-data
       responses:
         200:
           description: logs user in
@@ -93,7 +93,7 @@ paths:
           description: logs user out
       parameters:
         - name: token
-          in: formData
+          in: query
           description: user token
           type: string
           required: true
@@ -132,22 +132,22 @@ paths:
           description: posts a question
       parameters:
         - name: title
-          in: formData
+          in: query
           description: question title
           type: string
           required: true
         - name: content
-          in: formData
+          in: query
           description: question body
           type: string
           required: true
         - name: tags
-          in: formData
+          in: query
           description: question tags
           type: string
           required: true
         - name: token
-          in: formData
+          in: query
           description: users token
           type: string
           required: true
@@ -178,7 +178,7 @@ paths:
           type: integer
           required: true
         - name: token
-          in: formData
+          in: query
           description: users token
           type: string
           required: true
@@ -215,7 +215,7 @@ paths:
           type: integer
           required: true
         - name: token
-          in: formData
+          in: query
           description: user token
           type: string
           required: true
@@ -241,7 +241,7 @@ paths:
           type: integer
           required: true
         - name: token
-          in: formData
+          in: query
           description: user token
           type: string
           required: true
@@ -262,7 +262,7 @@ paths:
           type: integer
           required: true
         - name: token
-          in: formData
+          in: query
           description: user token
           type: string
           required: true
@@ -283,8 +283,7 @@ paths:
           type: integer
           required: true
         - name: token
-          in: formData
+          in: query
           description: user token
           type: string
           required: true
-          

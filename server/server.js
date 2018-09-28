@@ -44,6 +44,8 @@ app.get('/post-question', (req, res) => res.status(200).sendFile(path.join(__dir
 
 app.get('/login-signup', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', '/login-signup.html')));
 
+app.get('/search', (req, res) => res.status(200).sendFile(path.join(__dirname, '..', 'UI', '/search.html')));
+
 // error codes
 app.use((req, res, next) => {
 	const error = new Error('Not found');

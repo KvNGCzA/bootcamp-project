@@ -19,9 +19,8 @@ export class Questions {
         const { id, username } = req.userData;
         const { title, content, tags } = req.body;
         db.tx(t => {
-            const q1 =  t.any('INSERT INTO questions (title, content, username, userId, tags) VALUES ($1, $2, $3, $4, $5)', [title, content, username, id, tags]);
-            const q2 = t.none('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] );
-            return t.batch([q1, q2]);
+            t.any('INSERT INTO questions (title, content, username, userId, tags, fts) VALUES ($1, $2, $3, $4, $5, to_tsvector(\'english\', coalesce($1,\'\') || \' \' || coalesce($2,\'\')))', [title, content, username, id, tags]);
+            t.none('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] );
         })
         .then(() => res.status(201).json({ status: 201, message: 'question posted!' }))
         .catch(error => res.status(500).json({ status: 500, error }));
@@ -247,6 +246,16 @@ export class Questions {
                 .catch(error => res.status(500).json({ status: 500, error }));
             }
         }).catch(error => res.status(400).json({ status: 400, message: 'answer does not exist!' }));
+    }
+
+    //search questions
+    search (req, res) {
+        const { search } = req.params;
+        db.any('SELECT * FROM questions WHERE fts @@ plainto_tsquery(\'english\', $1)', [search])
+        .then(results => {
+            console.log(results);
+            res.status(200).json({ status: 200, results })})
+        .catch(error => res.status(500).json({ status: 500, error }));
     }
     
 }

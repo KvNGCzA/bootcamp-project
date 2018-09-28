@@ -17,6 +17,9 @@ router.get('/:questionId', validateQuestionId, questionsClass.getQuestionById);
 // get a users questions
 router.get('/:username/questions', validateUsername, questionsClass.getUsersQuestions);
 
+// search for a question
+router.get('/search/:search', questionsClass.search);
+
 // post question
 router.post('/', checkAuth, validatePostQuestion, questionsClass.postQuestion);
 
