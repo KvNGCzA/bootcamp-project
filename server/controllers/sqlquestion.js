@@ -19,10 +19,11 @@ export class Questions {
         const { id, username } = req.userData;
         const { title, content, tags } = req.body;
         db.tx(t => {
-            t.any('INSERT INTO questions (title, content, username, userId, tags, fts) VALUES ($1, $2, $3, $4, $5, to_tsvector(\'english\', coalesce($1,\'\') || \' \' || coalesce($2,\'\')))', [title, content, username, id, tags]);
-            t.none('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1 ,id] );
+          const q1 = t.any('INSERT INTO questions (title, content, username, userId, tags, fts) VALUES ($1, $2, $3, $4, $5, to_tsvector(\'english\', coalesce($1,\'\') || \' \' || coalesce($2,\'\'))) RETURNING *', [title, content, username, id, tags]);
+          t.none('UPDATE users SET asked_count = asked_count + $1 WHERE id = $2', [1, id]);
+          return q1;
         })
-        .then(() => res.status(201).json({ status: 201, message: 'question posted!' }))
+        .then((question) => res.status(201).json({ status: 201, message: 'question posted!', question: question[0] }))
         .catch(error => res.status(500).json({ status: 500, error }));
     }
 
@@ -88,24 +89,24 @@ export class Questions {
         db.any('SELECT * FROM answers WHERE questionid = $1 AND id = $2', [questionId, answerId])
         .then(answer => {
             // if route is accessed by question creator
-            if (answer[0].creator_id === id) {
+            if (answer[0].creator_id == id) {
                 db.any('SELECT * FROM answers WHERE questionid = $1 AND favorite = $2', [questionId, true])
                 .then(result => {
                     // if there is no favorite
                     if (result.length < 1) {
                         // set new favorite
-                        db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
+                        return db.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId])
                         .then(() => res.status(200).json({ status: 200, message: 'answer was favorited!' }))
                         .catch(error => res.status(500).json({ status: 500, error }));
                     }// if answer was already favorited
-                    else if (result[0].id === Number(answerId)) {
-                        db.none('UPDATE answers SET favorite = $1 WHERE questionId = $2 AND id = $3', [false, questionId, answerId])
+                    else if (result[0].id == answerId) {
+                        return db.none('UPDATE answers SET favorite = $1 WHERE questionId = $2 AND id = $3', [false, questionId, answerId])
                         .then(() => {
                             return res.status(200).json({ status: 200, message: 'answer was unfavorited!' });
                         }).catch(error => res.status(500).json({ status: 500, message: error }));
                     } else {
                         // set old favorite to false
-                        db.tx(t => {
+                        return db.tx(t => {
                             t.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND favorite = $3', [false, questionId, true]);
                             t.none('UPDATE answers SET favorite = $1 WHERE questionid = $2 AND id = $3', [true, questionId, answerId]);
                         })
@@ -114,13 +115,13 @@ export class Questions {
                     }
                 }).catch(error => res.status(500).json({ status: 500, error }));
             }// if route is accessed by answer creator
-            if (answer[0].userid === id) {
+            else if (answer[0].userid == id) {
                 const { newAnswer } = req.body;
                 // update answer
-                db.none('UPDATE answers SET answer = $1 WHERE questionid = $2 AND id = $3', [newAnswer, questionId, answerId])
+                return db.none('UPDATE answers SET answer = $1 WHERE questionid = $2 AND id = $3', [newAnswer, questionId, answerId])
                 .then(() => res.status(201).json({ status: 201, message:  'answer updated!' }))
                 .catch(error => res.status(500).json({ status: 500, error }));
-            } if (answer[0].userid !== id && answer[0].creator_id !== id) {
+            } else {
                 return res.status(400).json({ status: 400, message: 'You do no have access to this' });
             }
         }).catch(error => res.status(404).json({ status: 404, message: 'answer does not exist!' }));
@@ -252,9 +253,7 @@ export class Questions {
     search (req, res) {
         const { search } = req.params;
         db.any('SELECT * FROM questions WHERE fts @@ plainto_tsquery(\'english\', $1)', [search])
-        .then(results => {
-            console.log(results);
-            res.status(200).json({ status: 200, results })})
+        .then(results => res.status(200).json({ status: 200, results }))
         .catch(error => res.status(500).json({ status: 500, error }));
     }
     

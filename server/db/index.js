@@ -10,9 +10,9 @@ const createTable = () => {
     const pool = new Pool({ connectionString });
     pool.connect();
     const query = `    
-        DROP TABLE IF EXISTS Users CASCADE;
-        DROP TABLE IF EXISTS Questions CASCADE;
-        DROP TABLE IF EXISTS Answers CASCADE;
+        // DROP TABLE IF EXISTS Users CASCADE;
+        // DROP TABLE IF EXISTS Questions CASCADE;
+        // DROP TABLE IF EXISTS Answers CASCADE;
         CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             fullname VARCHAR(150) NOT NULL,

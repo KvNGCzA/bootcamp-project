@@ -1,7 +1,9 @@
 import express from 'express';
 import checkAuth from '../auth/check-auth';
 import { Questions } from '../controllers/sqlquestion';
-import { validatePostQuestion, validateQuestionId, validatePostAnswer, validateAnswerId } from '../utils/validatorQuestion';
+import {
+  validatePostQuestion, validateQuestionId, validatePostAnswer, validateAnswerId,
+} from '../utils/validatorQuestion';
 import { validateUsername } from '../utils/validatorUser';
 
 const router = express.Router();
